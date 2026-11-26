@@ -375,6 +375,92 @@ details.test>summary .t-badge+.t-badge{margin-left:0}
 .hc-b.on{background:var(--brand);border-color:var(--brand);color:#fff}
 [data-theme="dark"] .hc-b.on{color:#06201c}
 .hc-hint{margin:8px 0 0;font-size:11.4px;color:var(--brand-2);line-height:1.45;word-break:keep-all}
+
+/* ---------- 2단계 가설 우선순위(1·2·3순위) ---------- */
+.hylist-h{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin:12px 0 6px}
+.hylist-h b{font-size:11.8px}
+.hylist-h span{font-size:10.2px;color:var(--muted);line-height:1.4;word-break:keep-all}
+.hyrow{display:flex;align-items:center;gap:6px;margin:0 0 6px}
+.hyrank{flex:none;width:46px;text-align:center;font-size:10.6px;font-weight:800;color:var(--muted);background:var(--chip);border:1px solid var(--line);border-radius:7px;padding:4px 0;line-height:1.3}
+.hyrank.on{color:#fff;background:var(--brand);border-color:var(--brand)}
+[data-theme="dark"] .hyrank.on{color:#06201c}
+.hyin{flex:1 1 auto;min-width:0;border:1px solid var(--line);background:var(--chip);border-radius:10px;padding:9px 10px;font:inherit;font-size:13.6px;color:var(--ink);outline:0}
+.hyin:focus{border-color:var(--brand);background:var(--card)}
+.hyarw{display:flex;gap:3px;flex:none}
+.hyarw button{width:30px;height:34px;border:1px solid var(--line);background:var(--card);color:var(--brand-2);border-radius:9px;font:inherit;font-size:14px;font-weight:800;line-height:1;cursor:pointer;padding:0}
+.hyarw button:disabled{color:var(--line);background:var(--chip);cursor:default}
+.hyarw button:active:not(:disabled){transform:scale(.96)}
+
+/* ---------- 4단계 가설별 해결 상태 ---------- */
+.hc-items{margin:9px 0 0;display:grid;gap:7px}
+.hc-item{background:var(--chip);border-radius:10px;padding:8px 9px}
+.hc-t{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.hc-t i{flex:none;font-style:normal;font-size:9.8px;font-weight:800;color:#fff;background:var(--brand);border-radius:5px;width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;line-height:1}
+[data-theme="dark"] .hc-t i{color:#06201c}
+.hc-rank{flex:none;font-size:10.4px;font-weight:800;color:var(--brand-2)}
+.hc-text{flex:1 1 140px;font-size:12.2px;line-height:1.45;word-break:keep-all;color:var(--ink)}
+.hc-stat{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:6px 0 0}
+.hc-s{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:8px;padding:6px 4px;font:inherit;font-size:11.4px;font-weight:700;cursor:pointer}
+.hc-s.on.open{background:color-mix(in srgb,var(--warn) 15%,var(--card));border-color:var(--warn);color:var(--warn)}
+.hc-s.on.prog{background:color-mix(in srgb,var(--brand) 14%,var(--card));border-color:var(--brand);color:var(--brand-2)}
+.hc-s.on.done{background:var(--brand);border-color:var(--brand);color:#fff}
+[data-theme="dark"] .hc-s.on.done{color:#06201c}
+.hc-sum{margin:7px 0 0;font-size:11px;color:var(--muted);font-weight:600;line-height:1.4;word-break:keep-all}
+
+/* ---------- 3단계: 전 관절 공통 증상 수정 (치료사용 · 기본 접힘) ---------- */
+.sym{margin:0 0 12px;border:1px solid var(--line);border-radius:14px;background:var(--card);overflow:hidden}
+.sym>summary{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:11px 13px;cursor:pointer;list-style:none;background:var(--chip)}
+.sym>summary::-webkit-details-marker{display:none}
+.sym>summary b{font-size:13px;flex:none;letter-spacing:-.01em}
+.sym-tag{font-size:10.4px;color:var(--muted);flex:none}
+.sym-sum{flex:1 1 90px;min-width:0;margin:0 2px 0 auto;text-align:right;font-style:normal;font-size:11.2px;font-weight:600;color:var(--brand-2);line-height:1.35;word-break:keep-all}
+.sym-body{padding:11px 13px 13px;border-top:1px solid var(--line)}
+.sym-help{margin:0 0 10px;font-size:11.8px;line-height:1.55;color:var(--muted);word-break:keep-all}
+.sym-help b{color:var(--brand-2)}
+.symrow{border:1px dashed color-mix(in srgb,var(--brand) 26%,var(--line));border-radius:12px;padding:9px 10px 10px;background:var(--soft)}
+.symrow+.symrow{margin-top:8px}
+.symrow-h{display:flex;align-items:center;gap:6px;margin:0 0 6px}
+.symrow-h b{width:17px;height:17px;border-radius:50%;background:var(--brand);color:#fff;font-size:10.5px;display:inline-flex;align-items:center;justify-content:center;flex:none}
+[data-theme="dark"] .symrow-h b{color:#06201c}
+.symrow-h span{font-size:10.8px;font-weight:700;color:var(--brand-2)}
+.symdel{margin-left:auto;border:0;background:transparent;color:var(--muted);font:inherit;font-size:10.6px;font-weight:700;cursor:pointer;padding:2px 0}
+.symin{width:100%;border:1px solid var(--line);background:var(--card);border-radius:9px;padding:8px 10px;font:inherit;font-size:13px;color:var(--ink);outline:0}
+.symin:focus{border-color:var(--brand)}
+.symstrat{display:flex;flex-wrap:wrap;gap:4px;margin:7px 0 0}
+.symchip{border:1px solid color-mix(in srgb,var(--brand) 26%,var(--line));background:var(--card);color:var(--brand-2);border-radius:999px;padding:4px 9px;font:inherit;font-size:11px;font-weight:600;cursor:pointer}
+.symchip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+[data-theme="dark"] .symchip.on{color:#06201c}
+.symmwm{display:block;margin:8px 0 0}
+.symmwm>span{display:block;font-size:10.6px;font-weight:700;color:var(--muted);margin:0 0 3px}
+.sympair{display:flex;align-items:flex-end;gap:7px;flex-wrap:wrap;margin:8px 0 0}
+.symf{flex:0 0 72px}
+.symf>span{display:block;font-size:10.6px;font-weight:700;color:var(--muted);margin:0 0 3px}
+.symnum{width:100%;border:1px solid var(--line);background:var(--card);border-radius:9px;padding:7px 8px;font:inherit;font-size:15px;font-weight:700;text-align:center;color:var(--ink);outline:0}
+.symnum:focus{border-color:var(--brand)}
+.symres{flex:1 1 120px;font-size:11.6px;font-weight:700;color:var(--muted);line-height:1.4;word-break:keep-all}
+.symres.good{color:var(--good)}
+.symres.bad{color:var(--warn)}
+.symres.flat{color:var(--low)}
+.symadd{margin-top:9px;width:100%}
+.sym-link{margin:10px 0 0;font-size:11px;color:var(--muted);line-height:1.5;word-break:keep-all}
+.sym-link b{color:var(--brand-2)}
+.linkbtn{border:0;background:transparent;color:var(--brand-2);font:inherit;font-size:11px;font-weight:800;text-decoration:underline;cursor:pointer;padding:0}
+
+/* ---------- 4단계: 동작 조절 반응 ---------- */
+.symresbox{margin:0 0 12px;padding:11px 13px;border:1px solid color-mix(in srgb,var(--brand) 30%,var(--line));border-left:3px solid var(--brand);border-radius:13px;background:var(--card)}
+.srb-head{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
+.srb-head b{font-size:13px;letter-spacing:-.01em}
+.srb-head span{font-size:10.5px;color:var(--muted)}
+.srb-row{display:flex;align-items:baseline;gap:5px 8px;flex-wrap:wrap;margin:8px 0 0;padding:8px 9px;background:var(--chip);border-radius:10px}
+.srb-m{flex:1 1 100%;font-size:12.4px;font-weight:700;color:var(--ink);word-break:keep-all}
+.srb-v{font-size:12.4px;font-weight:800;color:var(--brand-2)}
+.srb-b{font-size:11.4px;font-weight:700;color:var(--good)}
+.srb-b.bad{color:var(--warn)}
+.srb-b.flat{color:var(--low)}
+.srb-s{flex:1 1 100%;font-size:10.8px;color:var(--muted);line-height:1.45;word-break:keep-all}
+/* 글자로 적는 측정항목(SSMP 통증 유발 동작 등) */
+.irow.trow .lbl{min-width:64px}
+.irow input.v.txt{flex:1 1 100%;font-size:14px;font-weight:500}
 .pc-proto h5{color:var(--brand-2)}
 .pc-proto .pc-list li b{color:var(--brand-2)}
 .calcwrap{display:inline-flex;align-items:baseline;gap:4px;flex:0 0 auto}
@@ -726,6 +812,7 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
         <div class="phc-row" id="phcPartsRow"><b>불편 부위</b><span id="phcParts"></span></div>
         <div class="phc-row" id="phcPainRow" data-on="0"><b>통증 느낌</b><span id="phcPain"></span></div>
         <div class="phc-row" id="phcIrrRow" data-on="0"><b>현재 예민도</b><span id="phcIrr"></span></div>
+        <div class="phc-row" id="phcSymRow" data-on="0"><b>동작 조절 반응</b><span id="phcSym"></span></div>
         <div class="phc-row" id="phcPlanRow" data-on="0"><b>앞으로의 관리 방향</b><span id="phcPlan"></span></div>
       </div>
       <div class="ph-memo" id="phMemo" data-on="0"><b>담당자 한마디</b><span id="phMemoText"></span></div>
@@ -751,6 +838,15 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
 const PARTS = ['목', '어깨', '팔꿈치', '손목', '흉추', '허리', '고관절', '무릎', '발목', '전신'];
 const MOVES = ['앉기', '걷기', '달리기', '한발 서기', '밀기', '당기기', '점프'];
 const CATS = ['근력·지구력', '균형·안정', '유연성', '심폐·민첩'];
+
+/* ===== 힘줄(건병증) 부하 진행 순서 =====
+   건병증은 다른 관절로 부하를 나눠 주면 아픈 힘줄에 걸리는 부하가 줄어 증상이 일시적으로 가라앉는다
+   (증상 수정이 된다). 하지만 그것은 평가·중재의 출발점일 뿐이고, 힘줄이 그 부하를 견디도록 만드는 것은
+   아래 순서의 점진적 부하이다. 화면 문구는 이 순서를 그대로 쓴다(문구마다 순서가 달라지지 않게 한 곳에 둔다).
+     Isometric(등척성) → Concentric(구심성) → Eccentric(원심성) → HSR(헤비 슬로우 레지스턴스) → Plyo(플라이오메트릭) */
+const TEND_LOAD_TEXT = '등척성 → 구심성 → 원심성 → HSR → 플라이오메트릭';
+const TEND_LOAD_NOTE = '건병증은 다른 관절로 부하를 분산하면 통증이 일시적으로 줄 수 있지만, 힘줄 적응을 위해서는 ' +
+  TEND_LOAD_TEXT + ' 순서로 부하를 점진적으로 올려야 해요(각 단계는 통증 3점 이하·다음 날 기준선 복귀를 확인하며).';
 
 /* ===== 부하 등급(load) =====
    과민성(Irritability)이 높은 회원에게 어떤 검사부터 권할지 정하는 값이다.
@@ -1132,7 +1228,7 @@ const TESTS = [
    모든 수치는 research/norms-tendinopathy.md 의 1차 문헌에서 확인한 값만 쓴다. */
 {
   id: 'slds', name: '25° 경사판 한발 스쿼트', parts: ['무릎'], moves: [], equip: '경사판·스톱워치', cat: '근력·지구력', refOnly: true, tend: true, load: 'high',
-  guide: { watch: '무릎이 안쪽으로 모이지 않는지, 2초에 걸쳐 내려가는지 보세요. 통증이 먼저 오면 그 각도에서 멈추고 3회 평균을 쓰세요.', say: '경사판에서 한 발로 내려가며 무릎 앞쪽에 부담을 준 거예요. 통증이 3점 이하로 유지되면 다음 단계로 갈 수 있어요.' },
+  guide: { watch: '무릎이 안쪽으로 모이지 않는지, 2초에 걸쳐 내려가는지 보세요. 통증이 먼저 오면 그 각도에서 멈추고 3회 평균을 쓰세요. 증상이 이 자세에서 줄면 그 감각을 중재 단서로 쓰고, 통증이 3점 이하로 유지되면 ' + TEND_LOAD_TEXT + ' 순서로 부하를 올려요.', say: '경사판에서 한 발로 내려가며 무릎 앞쪽에 부담을 준 거예요. 통증이 3점 이하로 유지되면 다음 단계로 갈 수 있어요.' },
   protocol: [
     '25° 경사판 위에 통증이 있는 다리로 서고, 팔은 가슴에 교차합니다.',
     '몸통을 세운 채 2초에 걸쳐 무릎을 60°까지 굽혔다가(통증이 먼저 오면 그 각도에서 멈춤) 양발로 올라옵니다.',
@@ -1200,18 +1296,19 @@ const TESTS = [
 },
 {
   id: 'ssmp', name: '어깨 증상 조절 검사(SSMP)', parts: ['어깨'], moves: ['밀기', '당기기'], equip: '테이프·가벼운 밴드(선택)', cat: '균형·안정', refOnly: true, tend: true, load: 'low',
-  guide: { watch: '통증을 가장 잘 재현하는 동작을 먼저 정하고, 단계마다 같은 동작으로 다시 재세요. 어떤 단계에서 얼마나 줄었는지 남기세요.', say: '자세를 바꾸거나 힘을 주는 방법에 따라 통증이 얼마나 줄어드는지 본 거예요. 잘 줄어드는 방법을 운동에 그대로 쓰면 돼요.' },
+  guide: { watch: '통증을 가장 잘 재현하는 동작을 먼저 한 줄로 적고(예: 외전 90° 거상, 손 등 뒤로), 단계마다 같은 동작으로 다시 재세요. 통증은 0~10 점수만 적고, 어떤 단계에서 얼마나 줄었는지 남기세요. 회전근개 건병증이 의심되면 증상이 줄어든 것과 힘줄이 적응한 것은 다르므로, ' + TEND_LOAD_TEXT + ' 순서로 부하를 올려요.', say: '자세를 바꾸거나 힘을 주는 방법에 따라 통증이 얼마나 줄어드는지 본 거예요. 잘 줄어드는 방법을 운동에 그대로 쓰면 돼요.' },
   protocol: [
-    '통증을 가장 잘 재현하는 동작(예: 팔 들어올리기, 손 등 뒤로)을 하나 정하고 그때의 통증을 0~10으로 적습니다.',
+    '통증을 가장 잘 재현하는 동작(예: 팔 들어올리기, 손 등 뒤로)을 하나 정해 아래 `통증 유발 동작` 칸에 적고, 그때의 통증을 0~10 점수로 적습니다.',
     '① 흉추·경추 자세를 바꾼 뒤(가슴 펴기·흉추 신전 등) 같은 동작의 통증을 다시 적습니다.',
     '② 견갑골 위치를 바꾼 뒤(수동 정렬·테이프), ③ 상완골두에 앞·뒤 방향 압박을 준 뒤, ④ 외회전근·하강근에 힘을 준 채 같은 동작을 반복해 통증을 각각 적습니다.'
   ],
   tip: '순서는 바꿔도 됩니다. 통증이 완전히 사라지면 거기서 멈추고, 어떤 방법이 얼마나 줄였는지 남기세요.',
   note: '어떤 자세·힘 조절이 증상을 줄이는지는 회원마다 달라요. 가장 많이 줄인 방법을 운동에 그대로 쓰면 됩니다. 진단명을 정하는 검사는 아닙니다.',
   measures: [
-    { k: 'base', inputOnly: true, noPrev: true, rng: [0, 10], unit: '점', fmt: 'int', label: '기본 통증', ph: '5' },
-    { k: 's1', inputOnly: true, noPrev: true, rng: [0, 10], unit: '점', fmt: 'int', label: '① 흉추·경추', ph: '—' },
-    { k: 's2', inputOnly: true, noPrev: true, rng: [0, 10], unit: '점', fmt: 'int', label: '② 견갑골', ph: '—' },
+    { k: 'mv', inputOnly: true, txt: true, noPrev: true, unit: '', label: '통증 유발 동작', ph: '예: 외전 90° 거상, 손 등 뒤로' },
+    { k: 'base', inputOnly: true, noPrev: true, rng: [0, 10], unit: '점', fmt: 'int', label: '수정 전 통증', ph: '5' },
+    { k: 's1', inputOnly: true, noPrev: true, rng: [0, 10], unit: '점', fmt: 'int', label: '① 흉추·경추 자세', ph: '—' },
+    { k: 's2', inputOnly: true, noPrev: true, rng: [0, 10], unit: '점', fmt: 'int', label: '② 견갑골 위치', ph: '—' },
     { k: 's3', inputOnly: true, noPrev: true, rng: [0, 10], unit: '점', fmt: 'int', label: '③ 상완골두', ph: '—' },
     { k: 's4', inputOnly: true, noPrev: true, rng: [0, 10], unit: '점', fmt: 'int', label: '④ 근수축', ph: '—' },
     { k: 'resp', calc: 'ssmp', unit: '점', fmt: 'dec1', label: '최대 통증 감소' }
@@ -1588,23 +1685,7 @@ const TEND_SOURCES = {
   }
 };
 
-/* ===== 부위별 대표 가설 칩 (치료사 훈련용) =====
-   2단계 임상 문진의 `가설 1~3` 입력칸 위에, 고른 부위의 대표 가설을 3~5개 칩으로 띄운다.
-   칩을 누르면 빈 가설 칸에 차례로 들어가고, 다시 누르면 빠진다(직접 타이핑도 그대로 가능).
-   키는 2단계 빠른 선택·몸 그림이 쓰는 부위 이름(PARTS)과 같다 — 발목·손목·목·허리는
-   각각 발·손·경추·요추까지 함께 보는 부위다. 화면·기록에는 남지만 회원용 레포트·인쇄에는 나가지 않는다. */
-const HYPO_CHIPS = {
-  '어깨': ['회전근개/RCRSP', '견관절 불안정성', '충돌·견갑대 조절 저하', '동결견/관절가동 제한'],
-  '무릎': ['슬개대퇴 통증(PFPS)', '슬개건 병증', '반월판/인대 스트레스', '고관절·발목 연동 약화'],
-  '고관절': ['내전근/치골부', '장요근/전방 충돌(FAI)', '둔근건 병증', '근위 햄스트링'],
-  '발목': ['만성 발목 불안정(CAI)', '아킬레스 건병증', '족저근막', '배측굴곡 제한'],
-  '팔꿈치': ['외측 상과염(LET)', '내측 상과염(MET)', '이두근/인대 스트레스'],
-  '손목': ['손목 터널(CTS)', '드퀘르벵 건초염', 'TFCC/척측 부하'],
-  '목': ['경추성 두통/상부 경추', '신경근병증/방사통', '심부굴곡근 약화·자세성'],
-  '흉추': ['흉추 가동성 제한', '흉곽출구(TOS) 연관', '늑골·견갑 안정화 저하'],
-  '허리': ['굴곡/신전 방향성(McKenzie)', '요추 분절 조절 저하', '천장관절(SIJ) 연관'],
-  '전신': ['전반적 근지구력 저하', '유산소 회복력 저하', '좌우 비대칭·밸런스 저하']
-};
+/* ===== 부위별 대표 가설 칩은 아래 PART_CLIN(부위별 임상 분류)에서 만든다 — HYPO_CHIPS 정의는 PART_CLIN 뒤에 있다 ===== */
 
 /* ===== 부위별 임상 분류 · 주의신호 · 재활 가이드 (치료사용) =====
    성재님이 정리해 준 9개 부위 내용을 그대로 담았다. 화면에서는 고른 부위만, 접힌 채(기본)로 나오고
@@ -1614,13 +1695,13 @@ const PART_CLIN = {
   '고관절': {
     tag: 'Doha 합의 5분류 + 관절내',
     cls: [
-      ['Adductor-related', '사타구니 안쪽 통증. 내전 저항·스쿼즈에서 재현되는 가장 흔한 분류(Doha)'],
-      ['Iliopsoas-related', '앞쪽 사타구니 통증. 고관절 굴곡 저항에서 재현, 토마스 검사로 장력 확인'],
-      ['Inguinal-related', '서혜부(탈장 부위) 통증. 기침·복압 상승에 민감'],
-      ['Gluteus insertional tendinopathy', '대전자 부위 통증. FADER-R·Add-R로 재현 확인'],
-      ['Hamstring proximal insertional tendinopathy', '좌석결절 부착부 통증. 힙 힌지·브릿지 부하로 확인'],
-      ['Intra-articular — OA', '고관절 통증 + 내회전 15° 이하 + 내회전 시 통증 + 조조강직 60분 이하 + 50세 이상이면 OA 가능성'],
-      ['Intra-articular — FAI', 'CAM·Pincer·Mixed. C-sign(엉덩이 바깥을 손으로 감싸는 통증), 기계적 걸림·휘청, 내회전 통증. X-ray가 필요해 운동센터에서는 확진 불가']
+      ['Adductor-related', '사타구니 안쪽 통증. 내전 저항·스쿼즈에서 재현되는 가장 흔한 분류(Doha)', '내전근 관련'],
+      ['Iliopsoas-related', '앞쪽 사타구니 통증. 고관절 굴곡 저항에서 재현, 토마스 검사로 장력 확인', '장요근 관련'],
+      ['Inguinal-related', '서혜부(탈장 부위) 통증. 기침·복압 상승에 민감', '서혜부 관련'],
+      ['Gluteus insertional tendinopathy', '대전자 부위 통증. FADER-R·Add-R로 재현 확인', '둔근 부착부 건병증'],
+      ['Hamstring proximal insertional tendinopathy', '좌석결절 부착부 통증. 힙 힌지·브릿지 부하로 확인', '근위 햄스트링 부착부 건병증'],
+      ['Intra-articular — OA', '고관절 통증 + 내회전 15° 이하 + 내회전 시 통증 + 조조강직 60분 이하 + 50세 이상이면 OA 가능성', '관절내 — 고관절 OA'],
+      ['Intra-articular — FAI', 'CAM·Pincer·Mixed. C-sign(엉덩이 바깥을 손으로 감싸는 통증), 기계적 걸림·휘청, 내회전 통증. X-ray가 필요해 운동센터에서는 확진 불가', '관절내 — FAI']
     ],
     red: [
       '체중부하가 안 되는 통증·외상 후 변형',
@@ -1630,7 +1711,7 @@ const PART_CLIN = {
     guide: [
       'Doha처럼 내전근·장요근·서혜부·둔근·햄스트링을 나눠 부위별로 부하를 정해요.',
       '관절내(OA·FAI)가 의심되면 X-ray·전문의 확인을 먼저 안내하고 그 뒤 운동 강도를 정해요.',
-      '내전근은 Hölmich처럼 등척성 → Copenhagen으로, 둔근 건은 등척성 → 등장성 순서로 올려요.',
+      '내전근은 Hölmich처럼 등척성 → Copenhagen으로 올리고, 둔근 건·근위 햄스트링 같은 건병증은 ' + TEND_LOAD_TEXT + ' 순서로 올려요(증상이 줄어든 것과 힘줄이 적응한 것은 달라요).',
       '근위 햄스트링은 급성기부터 Askling L-protocol로 신장성 부하를 넣고, 복귀 전 H-test로 확인해요.'
     ],
     /* 단계별 부하·복귀 프로토콜 — 치료사용 패널에만 나가고 회원 레포트에는 들어가지 않는다 */
@@ -1646,12 +1727,14 @@ const PART_CLIN = {
   '무릎': {
     tag: 'ICD 분류',
     cls: [
-      ['Meniscus', '가동성 제한·잠김. ACL 손상이 동반되면 보존 치료 3~6주 뒤 수술을 고려. 의사 가이드가 우선이고 체중지지·대퇴사두근 운동부터'],
-      ['Articular cartilage · OA', '연골·OA. 대사·체중 요인을 함께 보고, 신체활동이 관절에 좋다는 긍정적 인식을 교육'],
-      ['Ligament', 'ACL·PCL·MCL·LCL 손상. 불안정성·부종을 확인하고 단계적 부하'],
-      ['Patellofemoral pain', '무릎 앞 통증. knee-targeted 운동을 우선하고, 굴곡 시 통증이 심하면 hip-dominant 프로그램을 함께'],
-      ['Patellar tendinopathy', '슬개건. 종아리 근육 재활을 병행하고 등척성 → 등장성 → 플라이오메트릭 → 복귀 순서로']
+      ['Meniscus', '가동성 제한·잠김. ACL 손상이 동반되면 보존 치료 3~6주 뒤 수술을 고려. 의사 가이드가 우선이고 체중지지·대퇴사두근 운동부터', '반월상연골'],
+      ['Articular cartilage · OA', '연골·OA. 대사·체중 요인을 함께 보고, 신체활동이 관절에 좋다는 긍정적 인식을 교육', '연골·무릎 OA'],
+      ['Ligament', 'ACL·PCL·MCL·LCL 손상. 불안정성·부종을 확인하고 단계적 부하', '인대 손상(ACL/MCL)'],
+      ['Patellofemoral pain', '무릎 앞 통증. knee-targeted 운동을 우선하고, 굴곡 시 통증이 심하면 hip-dominant 프로그램을 함께', '슬개대퇴 통증(PFP)'],
+      ['Patellar tendinopathy', '슬개건. 종아리 근육 재활을 병행하고 ' + TEND_LOAD_TEXT + ' 순서로 부하를 올린 뒤 복귀', '슬개건 병증']
     ],
+    /* 분류에 없는 움직임·기여 요인 가설 */
+    extra: ['고관절·발목 연동 약화'],
     red: [
       '잠김·펴지 않음, 급성 외상 후 부종',
       '체중부하 불가, 열감·발적'
@@ -1659,25 +1742,26 @@ const PART_CLIN = {
     guide: [
       '무릎 통증은 부위(앞·안·밖)보다 부하 반응으로 나누고, 24시간 회복 기준으로 양을 정해요.',
       'PFP는 knee-targeted, 힙 약화가 뚜렷하면 hip-dominant를 함께 넣어요.',
-      '슬개건은 등척성부터 시작해 통증 3점 이하를 유지하며 올려요.'
+      '슬개건은 등척성부터 시작해 통증 3점 이하를 유지하며 ' + TEND_LOAD_TEXT + ' 순서로 올려요.',
     ],
     tests: ['slds', 'hop', 'sls', 'chair30', 'sts1', 'heelraise', 'sitreach']
   },
   '발목': {
     tag: '안정성·힘줄·발바닥',
     cls: [
-      ['Stability & Movement Coordination', '발목 조절·균형 문제. 반복 염좌 뒤 고유수용 감각 저하'],
-      ['Ligament sprains', '내번·외번·회전 손상으로 나눠 봄(전거버·종버·삼각인대)'],
-      ['Achilles tendinopathy', '아킬레스건·전·후경골근 힘줄. 아침 첫 걸음 통증, 부하 후 증상'],
-      ['Heel pain', '족저근막병증. 아침 첫발 통증, 발뒤꿈치 안쪽 압통']
+      ['Stability & Movement Coordination', '발목 조절·균형 문제. 반복 염좌 뒤 고유수용 감각 저하', '만성 발목 불안정·조절(CAI)'],
+      ['Ligament sprains', '내번·외번·회전 손상으로 나눠 봄(전거버·종버·삼각인대)', '발목 인대 염좌'],
+      ['Achilles tendinopathy', '아킬레스건·전·후경골근 힘줄. 아침 첫 걸음 통증, 부하 후 증상', '아킬레스 건병증'],
+      ['Heel pain', '족저근막병증. 아침 첫발 통증, 발뒤꿈치 안쪽 압통', '족저근막·뒤꿈치 통증']
     ],
+    extra: ['배측굴곡 제한'],
     red: [
       '체중부하 불가·뼈 압통(골절 의심)',
       '발목이 붓고 열감·발적, 발가락 감각 저하'
     ],
     guide: [
       '정적 균형(한발 서기) → 동적 균형(SEBT) → 홉 순서로 올려요.',
-      '아킬레스는 한발 힐라이즈로 용량을 정하고, 통증 3점 이하·다음 날 아침 기준선 복귀를 확인해요.',
+      '아킬레스는 한발 힐라이즈로 용량을 정하고, 통증 3점 이하·다음 날 아침 기준선 복귀를 확인하며 ' + TEND_LOAD_TEXT + ' 순서로 올려요.',,
       '발목 배굴 제한이 있으면 러닝 전에 무릎-벽 거리를 확보해요.'
     ],
     tests: ['sls', 'ybalance', 'hop', 'heelraise', 'wblt']
@@ -1685,12 +1769,12 @@ const PART_CLIN = {
   '어깨': {
     tag: 'ICD + Jeremy Lewis',
     cls: [
-      ['1. Mobility deficits — 1-1 Adhesive capsulitis', '유착성 관절낭염(동결견). 모든 방향 제한, 야간통'],
-      ['1. Mobility deficits — 1-2 Calcific tendinosis', '석회성 건병증. 극심한 통증기와 흡수기 양상이 달라요'],
-      ['2. Unstable · poor coordination — 2-1 Dislocation', '탈구 후 단계별: 견갑 조절 → 뒤쪽 관절낭·옆으로 누워 외회전 → 시상면 거상 조절 → 90°+ 견갑 조절 → 90° 굴곡+내회전 → 삼각근 강화'],
-      ['2. Unstable · poor coordination — 2-2 SLAP', 'SLAP 병변. 팔을 앞으로 뻗거나 던질 때 통증·걸림'],
-      ['3. Muscle power deficit', '힘 부족형. 통증 없이 약한 경우 — 신경·회전근개 힘을 비교'],
-      ['4. RCRSP', '회전근개 관련 어깨 통증. SSMP로 과민성을 낮춘 뒤 부하를 올려요']
+      ['1. Mobility deficits — 1-1 Adhesive capsulitis', '유착성 관절낭염(동결견). 모든 방향 제한, 야간통', '유착성 관절낭염(동결견)'],
+      ['1. Mobility deficits — 1-2 Calcific tendinosis', '석회성 건병증. 극심한 통증기와 흡수기 양상이 달라요', '석회성 건병증'],
+      ['2. Unstable · poor coordination — 2-1 Dislocation', '탈구 후 단계별: 견갑 조절 → 뒤쪽 관절낭·옆으로 누워 외회전 → 시상면 거상 조절 → 90°+ 견갑 조절 → 90° 굴곡+내회전 → 삼각근 강화', '탈구 후 불안정·조절 저하'],
+      ['2. Unstable · poor coordination — 2-2 SLAP', 'SLAP 병변. 팔을 앞으로 뻗거나 던질 때 통증·걸림', 'SLAP 병변'],
+      ['3. Muscle power deficit', '힘 부족형. 통증 없이 약한 경우 — 신경·회전근개 힘을 비교', '힘 부족(근력 저하)'],
+      ['4. RCRSP', '회전근개 관련 어깨 통증. SSMP로 과민성을 낮춘 뒤 부하를 올려요', 'RCRSP(회전근개 관련 통증)']
     ],
     red: [
       '외상 후 팔을 못 듦(탈구·골절 의심)',
@@ -1699,6 +1783,7 @@ const PART_CLIN = {
     ],
     guide: [
       'Lewis의 RCRSP: 통증을 키우지 않는 범위에서 견갑·회전근개 조절을 먼저 만들고, SSMP에서 반응이 좋은 방법을 운동에 그대로 써요.',
+      '회전근개·이두근 건병증이면 증상이 줄어든 뒤 ' + TEND_LOAD_TEXT + ' 순서로 부하를 올려요.',
       '탈구 후에는 단계별 프로토콜을 지키고, 단계마다 통증·불안정성을 확인해요.',
       '석회성·유착성은 급성 통증기에는 저부하 가동 범위부터.'
     ],
@@ -1707,16 +1792,17 @@ const PART_CLIN = {
   '팔꿈치': {
     tag: '인대·힘줄·부착부',
     cls: [
-      ['MCL / LCL strain', '안쪽·가쪽 인대 손상. 던지기·손 짚기 동작에서 재현'],
-      ['Biceps insertion tendon rupture', '이두근 원위부 파열. 팔꿈치 앞쪽 통증, 힘 저하, 근육 뭉침'],
-      ['LET / MET', '가쪽·안쪽 상과 힘줄병증. 어깨·견갑 움직임을 꼭 함께 확인']
+      ['MCL / LCL strain', '안쪽·가쪽 인대 손상. 던지기·손 짚기 동작에서 재현', '인대 손상(MCL/LCL)'],
+      ['Biceps insertion tendon rupture', '이두근 원위부 파열. 팔꿈치 앞쪽 통증, 힘 저하, 근육 뭉침', '이두근 원위부 건 파열'],
+      ['LET / MET', '가쪽·안쪽 상과 힘줄병증. 어깨·견갑 움직임을 꼭 함께 확인', 'LET·MET(상과 힘줄병증)']
     ],
+    extra: ['어깨·견갑 조절 약화'],
     red: [
       '외상 후 팔꿈치 변형·관절 잠김',
       '손가락 저림·힘 빠짐(신경 포착)'
     ],
     guide: [
-      '상과 힘줄병증은 통증 없는 악력으로 부하를 정하고, 어깨·견갑 운동을 반드시 함께 넣어요.',
+      '상과 힘줄병증은 통증 없는 악력으로 부하를 정하고, 어깨·견갑 운동을 반드시 함께 넣은 뒤 ' + TEND_LOAD_TEXT + ' 순서로 올려요.',
       '인대 손상은 스트레스 검사로 불안정성을 확인하고, 필요하면 전문의 확인을 먼저.'
     ],
     tests: ['pfgs', 'grip']
@@ -1724,17 +1810,17 @@ const PART_CLIN = {
   '손목': {
     tag: '인대·신경·힘줄',
     cls: [
-      ['Ligament injury', '손목 인대 손상. 손 짚기·비틀기에서 통증, 불안정성'],
-      ['Carpal tunnel syndrome', '손목터널증후군. 밤에 저림, 엄지~약지 감각 저하'],
-      ['De Quervain tenosynovitis', '드퀘르벵. 엄지 쪽 힘줄 통증, 엄지를 벌리며 돌릴 때 심함'],
-      ['TFCC', '삼각섬유연골 복합체 손상. 새끼손가락 쪽 통증, 손목 돌리기·체중 지지 시']
+      ['Ligament injury', '손목 인대 손상. 손 짚기·비틀기에서 통증, 불안정성', '손목 인대 손상'],
+      ['Carpal tunnel syndrome', '손목터널증후군. 밤에 저림, 엄지~약지 감각 저하', '손목터널(CTS)'],
+      ['De Quervain tenosynovitis', '드퀘르벵. 엄지 쪽 힘줄 통증, 엄지를 벌리며 돌릴 때 심함', '드퀘르벵 건초염'],
+      ['TFCC', '삼각섬유연골 복합체 손상. 새끼손가락 쪽 통증, 손목 돌리기·체중 지지 시', 'TFCC·척측 부하']
     ],
     red: [
       '손 저림이 지속되고 힘이 빠짐',
       '외상 후 변형·심한 부종'
     ],
     guide: [
-      '통증을 재현하는 자세(손 짚기·비틀기)를 먼저 찾고, 그 자세를 피하면서 등척성부터 올려요.',
+      '통증을 재현하는 자세(손 짚기·비틀기)를 먼저 찾고, 그 자세를 피하면서 ' + TEND_LOAD_TEXT + ' 순서로 부하를 올려요.',,
       '신경 증상이 있으면 손목 중립 야간 보조기와 신경 활주를 함께 고려해요.'
     ],
     tests: ['wristrom', 'pfgs', 'grip']
@@ -1742,11 +1828,12 @@ const PART_CLIN = {
   '목': {
     tag: 'ICD 분류 · 5Ds & 3Ns',
     cls: [
-      ['Mobility deficits', '담 걸림·가동 제한. C3-C7 facet의 upslope/downslope 방향, 민감하면 흉추부터'],
-      ['Movement coordination', 'WAD(교통사고 후)·움직임 조절 문제. 통증보다 조절·두려움 회피가 큼'],
-      ['Headache', 'C0-C2. 경추성 두통과 긴장성 두통을 구분(목 움직임으로 재현되면 경추성)'],
-      ['Radiating pain', '팔로 퍼지는 통증·저림. 신경학적 선별(감각·근력·반사·신경장력)을 먼저']
+      ['Mobility deficits', '담 걸림·가동 제한. C3-C7 facet의 upslope/downslope 방향, 민감하면 흉추부터', '가동 제한(담 걸림)'],
+      ['Movement coordination', 'WAD(교통사고 후)·움직임 조절 문제. 통증보다 조절·두려움 회피가 큼', '움직임 조절 문제(WAD)'],
+      ['Headache', 'C0-C2. 경추성 두통과 긴장성 두통을 구분(목 움직임으로 재현되면 경추성)', '경추성 두통'],
+      ['Radiating pain', '팔로 퍼지는 통증·저림. 신경학적 선별(감각·근력·반사·신경장력)을 먼저', '신경근병증·방사통']
     ],
+    extra: ['심부굴곡근 약화·자세성'],
     red: [
       '5Ds & 3Ns — Dizziness·Diplopia·Dysarthria·Dysphagia·Drop attack·Nystagmus·Nausea/Vomiting·Numbness',
       '양손·양발 저림, 보행 변화',
@@ -1762,14 +1849,15 @@ const PART_CLIN = {
   '흉추': {
     tag: '관절·디스크·TOS',
     cls: [
-      ['Costovertebral / apophyseal sprain · dysfunction', '늑추·늑횡 관절 염좌·기능장애. 숨 쉴 때·돌아볼 때 통증'],
-      ['SC joint sprain', '흉쇄관절 염좌. 쇄골 안쪽 통증'],
-      ['T4 syndrome', 'T4 부근 기능장애. 양팔 저림·손 감각 이상이 함께'],
+      ['Costovertebral / apophyseal sprain · dysfunction', '늑추·늑횡 관절 염좌·기능장애. 숨 쉴 때·돌아볼 때 통증', '늑추·늑횡 관절 기능장애'],
+      ['SC joint sprain', '흉쇄관절 염좌. 쇄골 안쪽 통증', '흉쇄관절(SC) 염좌'],
+      ['T4 syndrome', 'T4 부근 기능장애. 양팔 저림·손 감각 이상이 함께', 'T4 증후군'],
       ['Scheuermann disease', '척추체 염증·후만. HVT(고속 저각도 교정)·도수 조작 금기'],
-      ['Thoracic disc protrusion', '흉추 디스크. 띠 모양 통증, 다리 증상 동반 가능'],
-      ['Thoracic outlet syndrome (TOS)', '경추성과 달리 팔을 들어 올릴 때 증상이 나타나요. 혈관성(청색증·창백)이면 즉시 병원'],
-      ['Trapezius / rhomboid myalgia', '승모근·능형근 근육통. 어깨-팔 운동과 함께 봐요']
+      ['Thoracic disc protrusion', '흉추 디스크. 띠 모양 통증, 다리 증상 동반 가능', '흉추 디스크'],
+      ['Thoracic outlet syndrome (TOS)', '경추성과 달리 팔을 들어 올릴 때 증상이 나타나요. 혈관성(청색증·창백)이면 즉시 병원', '흉곽출구 증후군(TOS)'],
+      ['Trapezius / rhomboid myalgia', '승모근·능형근 근육통. 어깨-팔 운동과 함께 봐요', '승모근·능형근 통증']
     ],
+    extra: ['흉추 가동성 제한'],
     red: [
       'HVT·도수 조작 금기: Scheuermann, 골다공증 의심, 신경 증상 진행',
       '팔 창백·청색증·붓기(혈관성 TOS) → 즉시 병원',
@@ -1785,10 +1873,10 @@ const PART_CLIN = {
   '허리': {
     tag: 'McKenzie · 조절 · SIJ',
     cls: [
-      ['Derangement syndrome', '디레인지먼트. 한쪽으로 치우진 통증, 반복 동작으로 중심화되면 이 분류'],
-      ['Dysfunction syndrome', '기능장애. 짧아진 조직이 끝 범위에서 통증'],
-      ['LBP with maladaptive movement · motor control impairment', '부적응 움직임·조절 장애. 굴곡·신전·회전 중 어느 방향으로 증상이 몰리는지'],
-      ['SIJ (천장관절)', '천장관절 통증. 한쪽 엉덩이·사타구니 뒤, 한 발 서기에서 심함']
+      ['Derangement syndrome', '디레인지먼트. 한쪽으로 치우진 통증, 반복 동작으로 중심화되면 이 분류', '디레인지먼트(방향 선호)'],
+      ['Dysfunction syndrome', '기능장애. 짧아진 조직이 끝 범위에서 통증', '기능장애(짧은 조직)'],
+      ['LBP with maladaptive movement · motor control impairment', '부적응 움직임·조절 장애. 굴곡·신전·회전 중 어느 방향으로 증상이 몰리는지', '움직임 조절 장애'],
+      ['SIJ (천장관절)', '천장관절 통증. 한쪽 엉덩이·사타구니 뒤, 한 발 서기에서 심함', '천장관절(SIJ) 연관']
     ],
     red: [
       '대소변 조절 장애·회음부 감각 저하·양쪽 다리 힘 빠짐(마미증후군 의심) → 즉시 응급',
@@ -1802,6 +1890,37 @@ const PART_CLIN = {
     ],
     tests: ['sts1', 'sitreach', 'plank', 'sidebridge', 'slgh', 'slhb']
   }
+};
+
+/* ===== 부위별 대표 가설 칩 (치료사 훈련용) =====
+   가설은 국제 표준 분류 안에서 고른다 — 부위별 임상 분류(PART_CLIN)의 각 분류가 곧 가설 후보이고,
+   분류에 없는 움직임·기여 요인은 PART_CLIN[부위].extra 에 따로 적어 두었다.
+   그래서 HYPO_CHIPS는 손으로 적지 않고 PART_CLIN에서 만든다(분류와 가설 칩이 어긋날 수 없게).
+   칩을 누르면 빈 가설 칸에 1순위부터 차례로 들어가고, 다시 누르면 빠진다(직접 타이핑도 그대로 가능).
+   우선순위(1→2→3순위)는 치료사가 회원의 불편감과 견줘 정하고 ↑↓로 바꾼다.
+   화면·기록에는 남지만 회원용 레포트·인쇄에는 나가지 않는다. */
+const HYPO_CHIPS = (function () {
+  var out = { '전신': ['전반적 근지구력 저하', '유산소 회복력 저하', '좌우 비대칭·밸런스 저하'] };
+  Object.keys(PART_CLIN).forEach(function (p) {
+    var chips = [];
+    (PART_CLIN[p].cls || []).forEach(function (x) { if (x[2] && chips.indexOf(x[2]) < 0) chips.push(x[2]); });
+    (PART_CLIN[p].extra || []).forEach(function (x) { if (chips.indexOf(x) < 0) chips.push(x); });
+    if (chips.length) out[p] = chips;
+  });
+  return out;
+})();
+
+/* ===== 전 관절 공통 증상 수정(Symptom Modification) =====
+   건병증 검사(tend)가 아닌 일반 관절·근골격계 평가에서도 "어떤 동작에서 아픈데, 무엇을 바꾸니 얼마나 줄었나"를
+   모든 부위에서 같은 형식으로 남기기 위한 공통 기록이다. 어깨는 단계별로 더 자세히 보는 SSMP가 따로 있다.
+   ・관절의 증상 수정은 정해진 방향이 아니라, 그 회원이 통증을 느끼지 않는 **맞춤형 방향의 MWM(움직임 동반 도수)**
+     을 탐색해 적용하는 것이 핵심이다 — 그래서 전략 칩 첫 자리에 MWM을 두고, 실제로 찾은 방향을 자유 입력으로 남긴다.
+   ・건병증이라면 통증이 줄었다고 끝난 것이 아니라 TEND_LOAD_TEXT 순서로 힘줄에 부하를 올려 적응을 만들어야 한다(SYM_GUIDE.watch). */
+const SYM_STRATS = ['MWM(통증 없는 활주)', '정렬 교정', '견갑 안정화', '골반·코어 안정화', '발목·고관절 보조', '부하 조절', '속도 조절', '가동 범위 조절', '호흡 조절', '테이프·보조기'];
+const SYM_MWM_CHIP = 'MWM(통증 없는 활주)';
+const SYM_GUIDE = {
+  watch: '관절 증상 수정의 핵심은 정해진 방향이 아니라, 그 회원이 통증을 느끼지 않는 맞춤형 방향의 MWM(움직임 동반 도수)을 탐색·적용해 같은 동작에서 즉각적인 통증 감소(0~2점 이하)를 확인하는 것입니다 — 내측·후방·전방 활주, 외회전·내회전 보조, 견갑·골반 보조처럼 회원마다 다르므로 찾은 방향을 그대로 적어 두세요. 보조 없이 정렬·안정화·부하·속도 조절로 줄면 그것도 증상 수정입니다. ' + TEND_LOAD_NOTE + ' 관절·디스크 문제는 통증이 줄어든 범위에서 부하를 점진히 늘리세요.',
+  say: '아픈 동작을 그대로 두고 자세나 힘 주는 방법, 손으로 살짝 도와주는 방향만 바꿔 봤어요. 어떻게 바꿀 때 통증이 줄어드는지 알면 그 방법을 운동에 그대로 쓸 수 있어요.'
 };
 
 /* 부위별 임상 분류·검사 근거 (치료사용 패널) */
@@ -2074,6 +2193,9 @@ var S = {
   pqrst: { p: '', q: '', r: '', s: '', t: '' },
   hypo: { h1: '', h2: '', h3: '' }, plan: { p1: '', p2: '', p3: '' },
   hv: '', /* 가설 검증 결과(일치·부분 일치·가설 수정) — 치료사용, 회원 레포트에 나가지 않음 */
+  hyStatus: { h1: '', h2: '', h3: '' }, /* 가설별 해결 상태(미해결·진행중·해결) — 치료사용 */
+  /* 전 관절 공통 증상 수정(Symptom Modification) — 최대 3개 동작 */
+  sym: [], symOpen: false, symGuide: false,
   guide: {}, /* 검사 카드 `?` 가이드를 펼친 검사 id */
   bcView: 'front', clinicOpen: false, pclin: {},
   recNotice: '', rtNotice: '', rtSaving: false, recManage: false, /* 화면 안내용 임시 값(저장 안 함) */
@@ -2085,6 +2207,13 @@ var HV_HINT = {
   match: '검사 결과가 처음 가설을 뒷받침해요. 세운 방향 그대로 중재를 이어 가세요.',
   partial: '일부만 맞았어요. 남은 소견으로 가설을 좁혀 다음 검사·중재를 정하세요.',
   revise: '결과가 가설과 달라요. 다른 부위·다른 원인을 다시 살펴보세요.'
+};
+/* 가설별 해결 상태 — 가설 1·2·3마다 하나씩 골라 세션 사이의 진행을 남긴다 */
+var HYSTAT_LABEL = { open: '미해결', prog: '진행중', done: '해결' };
+var HYSTAT_HINT = {
+  open: '아직 확인하지 못됐어요. 다음 세션에서 먼저 볼 가설이에요.',
+  prog: '검사·중재 반응이 방향과 맞아 보여요. 부하를 키우며 반응을 보고 있어요.',
+  done: '검사·중재 반응으로 확인됐어요. 다음에는 유지와 부하 진행을 봐요.'
 };
 function testById(id) {
   for (var i = 0; i < TESTS.length; i++) if (TESTS[i].id === id) return TESTS[i];
@@ -2430,7 +2559,7 @@ function fracMin(sec) { /* 원문 지시: 초를 0.1분 단위로 반올림 */
   return Math.round(sec / 60 * 10) / 10;
 }
 /* SSMP 단계 — 라벨은 meta.js 의 측정항목 순서와 같다 */
-var SSMP_STAGES = [['s1', '① 흉추·경추'], ['s2', '② 견갑골'], ['s3', '③ 상완골두'], ['s4', '④ 근수축']];
+var SSMP_STAGES = [['s1', '① 흉추·경추 자세'], ['s2', '② 견갑골 위치'], ['s3', '③ 상완골두'], ['s4', '④ 근수축']];
 function ssmpBase(src) { var st = src || S; return parseNum(st.values[vkey('ssmp', 'base', '')]); }
 function ssmpDrop(src) { /* 가장 많이 줄인 폭(점). 기본 통증이나 단계 값이 없으면 null */
   var st = src || S;
@@ -2495,8 +2624,8 @@ function calcHint(t, m) {
   }
   if (m.calc === 'ybal') return '다리 길이와 세 방향 거리를 넣으면 %LL이 자동 계산돼요';
   if (m.calc === 'ssmp') {
-    if (ssmpBase() === null) return '기본 통증(0~10)을 먼저 넣어 주세요';
-    return '단계별 통증(0~10)을 넣으면 가장 많이 줄인 폭이 계산돼요';
+    if (ssmpBase() === null) return '수정 전 통증(0~10)을 먼저 넣어 주세요';
+    return '단계별 통증(0~10)을 넣으면 가장 많이 줄인 폭을 계산해요';
   }
   return '값을 넣으면 자동 계산돼요';
 }
@@ -2504,14 +2633,25 @@ function calcExtra(t, m) {
   if (m.calc === 'ssmp') {
     var base = ssmpBase();
     if (base === null) return '';
-    var bits = [];
+    var best = null, bestLabel = '';
+    SSMP_STAGES.forEach(function (x) {
+      var v = parseNum(S.values[vkey('ssmp', x[0], '')]);
+      if (v === null) return;
+      if (best === null || v < best) { best = v; bestLabel = x[1]; }
+    });
+    if (best === null) return '수정 전 ' + fmtAuto(base) + '점 — 단계별 통증을 넣으면 줄어든 폭을 계산해요';
+    var drop = Math.round((base - best) * 10) / 10;
+    var pct = base > 0 ? Math.round(drop / base * 100) : null;
+    var head = '수정 전 ' + fmtAuto(base) + '점 → ' + bestLabel + ' ' + fmtAuto(best) + '점' +
+      (drop > 0 ? ' (' + fmtAuto(drop) + '점' + (pct !== null ? ' · ' + pct + '% 완화' : '') + ')' : ' — 줄어든 단계가 없었음');
+    var others = [];
     SSMP_STAGES.forEach(function (x) {
       var v = parseNum(S.values[vkey('ssmp', x[0], '')]);
       if (v === null) return;
       var d = base - v;
-      if (d > 0) bits.push(x[1] + ' -' + fmtAuto(d) + '점');
+      if (d > 0 && x[1] !== bestLabel) others.push(x[1] + ' -' + fmtAuto(d) + '점');
     });
-    return '기본 ' + fmtAuto(base) + '점 — ' + (bits.length ? bits.join(' · ') : '줄어든 단계가 없었음');
+    return head + (others.length ? ' · ' + others.join(' · ') : '');
   }
   if (m.calc === 'ybal') {
     var parts = [];
@@ -2688,10 +2828,13 @@ function clinicHasData() {
   if (!S) return false;
   if ((S.body || []).length || S.pain || S.irrit) return true;
   if (neuroHasData()) return true;
+  if (cleanSymList(S.sym).length) return true;
   var i, keys = ['p', 'q', 'r', 's', 't'];
   for (i = 0; i < keys.length; i++) if (cleanStr((S.pqrst || {})[keys[i]])) return true;
   keys = ['h1', 'h2', 'h3'];
   for (i = 0; i < keys.length; i++) if (cleanStr((S.hypo || {})[keys[i]])) return true;
+  keys = ['h1', 'h2', 'h3'];
+  for (i = 0; i < keys.length; i++) if (hyStatusOf(keys[i])) return true;
   keys = ['p1', 'p2', 'p3'];
   for (i = 0; i < keys.length; i++) if (cleanStr((S.plan || {})[keys[i]])) return true;
   return false;
@@ -2718,9 +2861,11 @@ function clinicState() {
       tension: !!neuroOf().tension, memo: neuroOf().memo || ''
     },
     hv: HV_LABEL[S.hv] ? S.hv : '', /* 가설 검증(일치·부분 일치·가설 수정) — 기록에 함께 저장 */
+    hyStatus: hyStatusState(), /* 가설별 해결 상태(미해결·진행중·해결) */
     pqrst: { p: S.pqrst.p || '', q: S.pqrst.q || '', r: S.pqrst.r || '', s: S.pqrst.s || '', t: S.pqrst.t || '' },
     hypo: { h1: S.hypo.h1 || '', h2: S.hypo.h2 || '', h3: S.hypo.h3 || '' },
-    plan: { p1: S.plan.p1 || '', p2: S.plan.p2 || '', p3: S.plan.p3 || '' }
+    plan: { p1: S.plan.p1 || '', p2: S.plan.p2 || '', p3: S.plan.p3 || '' },
+    sym: symState() /* 전 관절 공통 증상 수정 기록(값이 있는 줄만) */
   };
 }
 function cleanField(v, max) {
@@ -2742,28 +2887,37 @@ function cleanClinic(o) {
   var irrit = (o.irrit === 'low' || o.irrit === 'moderate' || o.irrit === 'high') ? o.irrit : '';
   var pq = o.pqrst || {}, hy = o.hypo || {}, pl = o.plan || {}, ne = (o.neuro && typeof o.neuro === 'object') ? o.neuro : {};
   var hv = HV_LABEL[o.hv] ? o.hv : '';
+  var hs = (o.hyStatus && typeof o.hyStatus === 'object') ? o.hyStatus : {};
+  var hst = {};
+  ['h1', 'h2', 'h3'].forEach(function (k) { hst[k] = HYSTAT_LABEL[hs[k]] ? hs[k] : ''; });
   var out = {
     body: body, pain: pain, irrit: irrit, hv: hv,
+    hyStatus: hst,
     neuro: {
       sens: !!ne.sens, motor: !!ne.motor, reflex: !!ne.reflex, tension: !!ne.tension,
       memo: cleanField(ne.memo, 160)
     },
     pqrst: { p: cleanField(pq.p, 200), q: cleanField(pq.q, 150), r: cleanField(pq.r, 150), s: cleanField(pq.s, 40), t: cleanField(pq.t, 150) },
     hypo: { h1: cleanField(hy.h1, 200), h2: cleanField(hy.h2, 200), h3: cleanField(hy.h3, 200) },
-    plan: { p1: cleanField(pl.p1, 200), p2: cleanField(pl.p2, 200), p3: cleanField(pl.p3, 200) }
+    plan: { p1: cleanField(pl.p1, 200), p2: cleanField(pl.p2, 200), p3: cleanField(pl.p3, 200) },
+    sym: cleanSymList(o.sym)
   };
   var any = out.body.length || out.pain || out.irrit || out.hv;
   if (neuroHasData(out)) any = true;
   ['pqrst', 'hypo', 'plan'].forEach(function (k) {
     Object.keys(out[k]).forEach(function (x) { if (out[k][x]) any = true; });
   });
+  ['h1', 'h2', 'h3'].forEach(function (k) { if (out.hyStatus[k]) any = true; });
+  if (out.sym.length) any = true;
   return any ? out : null;
 }
 function emptyClinic() {
   return {
     body: [], pain: '', irrit: '', hv: '',
+    hyStatus: { h1: '', h2: '', h3: '' },
     neuro: { sens: false, motor: false, reflex: false, tension: false, memo: '' },
-    pqrst: { p: '', q: '', r: '', s: '', t: '' }, hypo: { h1: '', h2: '', h3: '' }, plan: { p1: '', p2: '', p3: '' }
+    pqrst: { p: '', q: '', r: '', s: '', t: '' }, hypo: { h1: '', h2: '', h3: '' }, plan: { p1: '', p2: '', p3: '' },
+    sym: []
   };
 }
 /* 기록의 임상 문진을 화면 상태로 (없으면 비운다) */
@@ -2772,6 +2926,9 @@ function applyClinic(cl) {
   S.body = e.body.slice();
   S.pain = e.pain; S.irrit = e.irrit;
   S.hv = e.hv || '';
+  S.hyStatus = { h1: e.hyStatus.h1 || '', h2: e.hyStatus.h2 || '', h3: e.hyStatus.h3 || '' };
+  S.sym = (e.sym || []).map(function (r) { return { move: r.move, strat: r.strat.slice(), mwm: r.mwm, pre: r.pre, post: r.post }; });
+  S.symGuide = false;
   S.hyNote = '';
   S.neuro = { sens: !!e.neuro.sens, motor: !!e.neuro.motor, reflex: !!e.neuro.reflex, tension: !!e.neuro.tension, memo: e.neuro.memo || '' };
   S.pqrst = { p: e.pqrst.p, q: e.pqrst.q, r: e.pqrst.r, s: e.pqrst.s, t: e.pqrst.t };
@@ -2781,19 +2938,138 @@ function applyClinic(cl) {
 function clinicPlans() {
   return [S.plan.p1, S.plan.p2, S.plan.p3].map(function (x) { return cleanStr(x); }).filter(Boolean);
 }
+
+/* ---------- 가설 우선순위(1·2·3순위) · 해결 상태 ----------
+   가설 칸은 h1·h2·h3이 그대로 1·2·3순위다(기존 저장 기록과도 호환). ↑↓로 줄을 바꾸면
+   같은 줄의 중재(중재 1·2·3)와 해결 상태도 함께 움직여 짝이 어긋나지 않게 한다. */
+var HYPO_KEYS = ['h1', 'h2', 'h3'];
+function hypoRows() {
+  return HYPO_KEYS.map(function (k, i) { return { k: k, rank: i + 1, text: cleanStr((S.hypo || {})[k]) }; });
+}
+function hyStatusOf(k) { return HYSTAT_LABEL[(S.hyStatus || {})[k]] ? S.hyStatus[k] : ''; }
+function hyStatusState() {
+  var o = {};
+  HYPO_KEYS.forEach(function (k) { o[k] = hyStatusOf(k); });
+  return o;
+}
+function setHyStatus(k, st) {
+  if (HYPO_KEYS.indexOf(k) < 0) return false;
+  S.hyStatus = S.hyStatus || {};
+  S.hyStatus[k] = (hyStatusOf(k) === st || !HYSTAT_LABEL[st]) ? '' : st;
+  return true;
+}
+function hyStatusCounts() {
+  var c = { open: 0, prog: 0, done: 0 };
+  HYPO_KEYS.forEach(function (k) { var st = hyStatusOf(k); if (st) c[st]++; });
+  return c;
+}
+function moveHypo(k, dir) {
+  var i = HYPO_KEYS.indexOf(k);
+  if (i < 0) return false;
+  var j = i + dir;
+  if (j < 0 || j >= HYPO_KEYS.length) return false;
+  S.hypo = S.hypo || {}; S.plan = S.plan || {}; S.hyStatus = S.hyStatus || {};
+  var a = HYPO_KEYS[i], b = HYPO_KEYS[j], pa = 'p' + a.slice(1), pb = 'p' + b.slice(1), t;
+  t = S.hypo[a]; S.hypo[a] = S.hypo[b]; S.hypo[b] = t;
+  t = S.plan[pa]; S.plan[pa] = S.plan[pb]; S.plan[pb] = t;
+  t = S.hyStatus[a]; S.hyStatus[a] = S.hyStatus[b]; S.hyStatus[b] = t;
+  return true;
+}
+
+/* ---------- 전 관절 공통 증상 수정(Symptom Modification) ----------
+   건병증(tend)이 아닌 모든 관절에서 "어떤 동작이 아췔데, 무엇을 바꾸니 얼마나 줄었나"를 같은 형식으로 남긴다.
+   전략은 정해진 방향이 아니라 회원마다 찾는 맞춤형 MWM(움직임 동반 도수)이 핵심이라, 칩 + 자유 입력(MWM 방향)으로 남긴다.
+   서버 없이 값은 화면 상태(S.sym) → 회원 기록 clinic.sym → localStorage·구글 시트 jsonData로 이어진다. */
+var SYM_MAX = 3;
+function symBlank() { return { move: '', strat: [], mwm: '', pre: '', post: '' }; }
+/* 통증 점수는 0~10 정수만 — 숫자가 아닌 글자는 받지 않는다 */
+function cleanNum10(v) {
+  var s = String(v === undefined || v === null ? '' : v);
+  var m = s.match(/[0-9]+/);
+  if (!m) return '';
+  var n = parseInt(m[0], 10);
+  if (isNaN(n)) return '';
+  return String(clamp(n, 0, 10));
+}
+function symCleanRow(r) {
+  if (!r || typeof r !== 'object') return symBlank();
+  var strat = [];
+  (Array.isArray(r.strat) ? r.strat : []).forEach(function (x) {
+    var t = cleanField(x, 40);
+    if (t && strat.indexOf(t) < 0 && strat.length < 12) strat.push(t);
+  });
+  return {
+    move: cleanField(r.move, 80), strat: strat, mwm: cleanField(r.mwm, 120),
+    pre: cleanNum10(r.pre), post: cleanNum10(r.post)
+  };
+}
+function symHasData(r) {
+  return !!(r && (cleanStr(r.move) || (r.strat || []).length || cleanStr(r.mwm) || cleanStr(r.pre) || cleanStr(r.post)));
+}
+function cleanSymList(list) {
+  var out = [];
+  (Array.isArray(list) ? list : []).forEach(function (r) {
+    if (out.length >= SYM_MAX) return;
+    var c = symCleanRow(r);
+    if (symHasData(c)) out.push(c);
+  });
+  return out;
+}
+function symState() {
+  return cleanSymList(S.sym).map(function (r) { return { move: r.move, strat: r.strat.slice(), mwm: r.mwm, pre: r.pre, post: r.post }; });
+}
+function symList() {
+  var arr = Array.isArray(S.sym) ? S.sym.slice(0, SYM_MAX).map(symCleanRow) : [];
+  if (!arr.length) arr.push(symBlank());
+  return arr;
+}
+function symRow(i) { var l = symList(); return l[clamp(i, 0, l.length - 1)]; }
+function symDelta(r) {
+  var a = parseNum(r && r.pre), b = parseNum(r && r.post);
+  if (a === null || b === null) return null;
+  var drop = Math.round((a - b) * 10) / 10;
+  return { pre: a, post: b, drop: drop, pct: a > 0 ? Math.round(drop / a * 100) : null, ok: drop > 0 && b <= 2 };
+}
+function symStratText(r) {
+  var bits = (r.strat || []).slice();
+  if (cleanStr(r.mwm)) bits.push(cleanStr(r.mwm));
+  return bits.join(' · ');
+}
+function symSummary() {
+  var rows = cleanSymList(S.sym);
+  if (!rows.length) return '기록 없음 · 눌러서 적기';
+  var d = symDelta(rows[0]);
+  var name = cleanStr(rows[0].move) || '동작';
+  var tail = rows.length > 1 ? ' 외 ' + (rows.length - 1) + '개' : '';
+  return d ? (name + ' ' + d.pre + '점→' + d.post + '점' + tail) : (name + tail);
+}
+/* 회원 레포트용 — 전략 이름·MWM 같은 말 없이 쉬운 한 줄로만 */
+function symEasyLines() {
+  var out = [];
+  cleanSymList(S.sym).forEach(function (r) {
+    var d = symDelta(r);
+    if (!d) return;
+    var nm = cleanStr(r.move);
+    out.push((nm ? '‘' + nm + '’ 동작에서' : '불편한 동작에서') +
+      ' 자세·움직임 조절 시 통증이 ' + d.pre + '점→' + d.post + '점으로 완화');
+  });
+  return out;
+}
 /* 회원용 레포트에 그릴 임상 요약(쉬운 말) */
 function clinicReportData() {
   var parts = (S.body || []).map(bodyRegionText).filter(Boolean);
   var plans = clinicPlans();
+  var symLines = symEasyLines();
   /* PQRST·가설만 있고 보여 줄 요약이 없으면 레포트 카드를 그리지 않는다 */
-  var on = !!(parts.length || S.pain || S.irrit || plans.length);
+  var on = !!(parts.length || S.pain || S.irrit || plans.length || symLines.length);
   return {
     on: on,
     parts: parts.join(' · '),
     pain: (S.pain && PAIN_EASY[S.pain]) ? PAIN_EASY[S.pain] : '',
     irrit: (S.irrit && IRR_EASY[S.irrit]) ? IRR_EASY[S.irrit] : '',
     irritLevel: S.irrit || '',
-    plans: clinicPlans()
+    plans: clinicPlans(),
+    sym: symLines /* 동작 조절 반응 — 쉬운 한 줄(전문 용어 없음) */
   };
 }
 /* 3단계 상단 안내 — 과민성 높음 / 신경병증성 */
@@ -2877,6 +3153,185 @@ function partClinHTML() {
     h += '</div></details>';
   });
   return h + '</div>';
+}
+
+/* ---------- 3단계: 전 관절 공통 증상 수정(Symptom Modification) 패널 ----------
+   고른 부위와 상관없이 모든 부위에서 열린다. 어깨 전용 SSMP와 역할이 겹치지 않게
+   이 패널은 "동작 하나 × 무엇을 바꿨나 × 전→후 점수"만 남기고, 단계별·도수 세부는 SSMP 쪽에 둔다. */
+function symResBadge(r) {
+  var d = symDelta(r);
+  if (!d) return { txt: '수정 전·후 점수를 넣으면 완화 폭을 계산해요', cls: '' };
+  if (d.drop > 0) {
+    return {
+      txt: d.drop + '점 완화' + (d.pct !== null ? ' · ' + d.pct + '%' : '') + (d.ok ? ' · 즉시 0~2점' : ''),
+      cls: ' good'
+    };
+  }
+  if (d.drop === 0) return { txt: '변화 없음 — 다른 방향·전략을 찾아보세요', cls: ' flat' };
+  return { txt: Math.abs(d.drop) + '점 악화 — 방향을 다시 찾아보세요', cls: ' bad' };
+}
+function symStratChipsHTML(r, i) {
+  var list = (typeof SYM_STRATS === 'undefined') ? [] : SYM_STRATS;
+  return list.map(function (s) {
+    var on = (r.strat || []).indexOf(s) >= 0;
+    return '<button type="button" class="symchip' + (on ? ' on' : '') + '" data-act="symstrat" data-i="' + i + '" data-s="' + esc(s) + '"' +
+      ' aria-pressed="' + (on ? 'true' : 'false') + '">' + esc(s) + '</button>';
+  }).join('');
+}
+function symRowHTML(i) {
+  var l = symList(), r = l[i] || symBlank(), b = symResBadge(r);
+  var num = function (k, ph, lbl) {
+    return '<label class="symf"><span>' + esc(lbl) + '</span>' +
+      '<input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" class="symnum" data-sym="' + k + '" data-i="' + i + '"' +
+      ' value="' + esc(r[k] || '') + '" placeholder="' + esc(ph) + '" autocomplete="off" aria-label="' + esc((i + 1) + '번째 동작 ' + lbl) + '"></label>';
+  };
+  return '<div class="symrow" data-symrow="' + i + '">' +
+    '<div class="symrow-h"><b>' + (i + 1) + '</b><span>동작</span>' +
+    (l.length > 1 ? '<button type="button" class="symdel" data-act="sym-del" data-i="' + i + '" aria-label="' + (i + 1) + '번째 동작 지우기">지우기</button>' : '') + '</div>' +
+    '<input type="text" class="symin" data-sym="move" data-i="' + i + '" value="' + esc(r.move || '') + '"' +
+    ' placeholder="예: 스쿼트 하강, 계단 내려가기, 경추 오른쪽 돌리기" autocomplete="off"' +
+    ' aria-label="' + esc((i + 1) + '번째 동작 — 불편감이 나타나는 동작') + '">' +
+    '<div class="symstrat" data-symchips="' + i + '" role="group" aria-label="' + esc((i + 1) + '번째 동작 수정 전략') + '">' + symStratChipsHTML(r, i) + '</div>' +
+    '<label class="symmwm"><span>MWM 방향 · 조절 방법</span>' +
+    '<input type="text" class="symin" data-sym="mwm" data-i="' + i + '" value="' + esc(r.mwm || '') + '"' +
+    ' placeholder="예: 무릎 내측 활주 + 굴곡, 견갑 후방 활주, 내회전 보조 (찾은 방향 그대로)" autocomplete="off"' +
+    ' aria-label="' + esc((i + 1) + '번째 동작 MWM 방향·조절 방법') + '"></label>' +
+    '<div class="sympair">' + num('pre', '6', '수정 전') + num('post', '3', '수정 후') +
+    '<span class="symres' + b.cls + '" data-symres="' + i + '">' + esc(b.txt) + '</span></div>' +
+    '</div>';
+}
+function symGuideHTML() {
+  var g = (typeof SYM_GUIDE === 'undefined') ? null : SYM_GUIDE;
+  if (!g) return '';
+  return '<div class="guide noprint" id="symGuide"' + (S.symGuide ? '' : ' hidden') + '>' +
+    '<p><b>관찰 포인트</b><span>' + esc(g.watch) + '</span></p>' +
+    '<p><b>회원 설명 예시</b><span>' + esc(g.say) + '</span></p></div>';
+}
+function symPanelHTML() {
+  var rows = symList();
+  var h = '<details class="sym noprint" id="symPanel"' + (S.symOpen ? ' open' : '') + '>' +
+    '<summary><b>관절 증상 수정</b>' +
+    '<em class="sym-sum" id="symSum">' + esc(symSummary()) + '</em>' +
+    '<button type="button" class="t-guide' + (S.symGuide ? ' on' : '') + '" data-act="sym-guide"' +
+    ' aria-expanded="' + (S.symGuide ? 'true' : 'false') + '" aria-controls="symGuide"' +
+    ' title="관찰 포인트·회원 설명 예시" aria-label="관절 증상 수정 관찰 포인트와 회원 설명 보기">?</button>' +
+    '<i class="pc-ar" aria-hidden="true">›</i></summary>' +
+    '<div class="sym-body">' + symGuideHTML() +
+    '<p class="sym-help"><b>Symptom Modification</b> — <b>모든 부위</b>에서 쓰는 기록이에요. 불편한 동작을 하나 정하고, 그 동작은 그대로 둔 채 <b>회원이 통증을 느끼지 않는 맞춤형 방향의 MWM</b>이나 정렬·안정화·부하 조절을 적용해 봐요. 같은 동작에서 통증이 <b>0~2점 이하</b>로 떨어지면 그 방법이 그 동작의 중재 단서예요.</p>' +
+    rows.map(function (r, i) { return symRowHTML(i); }).join('') +
+    (rows.length < SYM_MAX ? '<button type="button" class="btn ghost symadd" data-act="sym-add">+ 동작 추가</button>' : '') +
+    (effParts().indexOf('어깨') >= 0
+      ? '<p class="sym-link">어깨는 단계별로 더 자세히 보는 <b>SSMP</b>가 따로 있어요. 여기서는 한 동작의 전·후만 간단히 남기고, 단계별 반응은 SSMP 카드에서 봐요. <button type="button" class="linkbtn" data-act="sym-ssmp">SSMP 카드 열기</button></p>'
+      : '') +
+    '</div></details>';
+  return h;
+}
+function renderSym() {
+  if (typeof document === 'undefined' || !document.getElementById) return;
+  var s = $('symSum');
+  if (s) s.textContent = symSummary();
+  Array.prototype.forEach.call(document.querySelectorAll('[data-symres]'), function (el) {
+    var i = parseInt(el.getAttribute('data-symres'), 10);
+    if (isNaN(i)) return;
+    var b = symResBadge(symRow(i));
+    el.textContent = b.txt;
+    el.className = 'symres' + b.cls;
+  });
+}
+/* 4단계 결과 — 치료사·회원이 함께 보는 동작 조절 반응. 인쇄·PNG에는 쉬운 요약으로 따로 나간다(noprint) */
+function symResultHTML() {
+  var rows = cleanSymList(S.sym);
+  if (!rows.length) return '';
+  var h = '<div class="symresbox noprint" id="symResult">' +
+    '<div class="srb-head"><b>동작 조절 반응</b><span>같은 동작을 같은 방법으로 다시 재서 비교해요</span></div>';
+  rows.forEach(function (r) {
+    var d = symDelta(r), st = symStratText(r), b = symResBadge(r);
+    h += '<div class="srb-row"><span class="srb-m">' + esc(cleanStr(r.move) || '동작 미기록') + '</span>' +
+      '<span class="srb-b' + b.cls + '">' + esc(b.txt) + '</span>' +
+      '<span class="srb-s">' + esc(st ? '조절 · ' + st : '조절 방법 미기록') + '</span>' +
+      (d ? '<span class="srb-v">' + d.pre + '점 → ' + d.post + '점</span>' : '') + '</div>';
+  });
+  return h + '</div>';
+}
+/* 화면(DOM)이 있는 환경인지 — 계산 엔진 테스트(quickjs)에서는 document가 없다 */
+function hasDom() { return (typeof document !== 'undefined') && !!document && typeof document.querySelector === 'function'; }
+/* 검사 카드를 펼쳐 화면 가운데로 — 부위별 임상 패널의 연결 검사·증상 수정의 SSMP 링크가 함께 쓴다 */
+function openTestCard(id) {
+  if (!id || !testById(id)) return false;
+  S.open[id] = true;
+  var seen = hasDom() ? document.querySelector('details.test[data-id="' + id + '"]') : null;
+  if (!seen) { /* 지금 보기에 없으면 전체 검사 보기로 바꿔 꺼낸다 */
+    if (S.routine) clearRoutine();
+    S.view = 'all'; S.tend = false; S.cat = '';
+  }
+  renderAll(); saveState();
+  var card = hasDom() ? document.querySelector('details.test[data-id="' + id + '"]') : null;
+  if (card) {
+    card.open = true;
+    if (card.scrollIntoView) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  return true;
+}
+/* 증상 수정 패널만 다시 그린다(검사 목록 전체를 다시 그리지 않아 입력 상태·위치가 흔들리지 않음) */
+function renderSymPanel() {
+  if (typeof document === 'undefined' || !document.getElementById) return;
+  var el = $('symPanel');
+  if (!el || !el.parentNode || typeof document.createElement !== 'function') return;
+  var tmp = document.createElement('div');
+  tmp.innerHTML = symPanelHTML();
+  var fresh = tmp.firstChild;
+  if (!fresh) return;
+  el.parentNode.replaceChild(fresh, el);
+  if (fresh.open !== undefined) fresh.open = !!S.symOpen;
+  renderSym();
+}
+function toggleSymStrat(i, s) {
+  if (!(i >= 0) || i >= SYM_MAX || !s) return;
+  var arr = (Array.isArray(S.sym) ? S.sym.slice() : []);
+  while (arr.length <= i && arr.length < SYM_MAX) arr.push(symBlank());
+  var r = arr[i];
+  if (!r) return;
+  r.strat = Array.isArray(r.strat) ? r.strat : [];
+  var j = r.strat.indexOf(s);
+  if (j >= 0) r.strat.splice(j, 1); else r.strat.push(s);
+  S.sym = arr;
+  var box = hasDom() ? document.querySelector('[data-symchips="' + i + '"]') : null;
+  if (box) box.innerHTML = symStratChipsHTML(r, i); /* 칩만 다시 그려 입력 초점을 건드리지 않는다 */
+  renderSym();
+  saveState();
+}
+function symAdd() {
+  var l = symList();
+  if (l.length >= SYM_MAX) return false;
+  S.sym = l.concat([symBlank()]);
+  S.symOpen = true;
+  renderSymPanel();
+  saveState();
+  return true;
+}
+function symDel(i) {
+  var l = symList();
+  if (l.length <= 1 || !l[i]) return false;
+  l.splice(i, 1);
+  S.sym = l;
+  renderSymPanel();
+  saveState();
+  return true;
+}
+function symSetField(i, k, v) {
+  if (!(i >= 0) || i >= SYM_MAX) return false;
+  var arr = (Array.isArray(S.sym) ? S.sym.slice() : []);
+  while (arr.length <= i && arr.length < SYM_MAX) arr.push(symBlank());
+  var r = arr[i];
+  if (!r) return false;
+  r.strat = Array.isArray(r.strat) ? r.strat : [];
+  /* 타이핑 중에는 공백을 지우지 않는다(저장할 때 cleanSymList가 정리) */
+  if (k === 'pre' || k === 'post') r[k] = cleanNum10(v);
+  else if (k === 'move') r.move = String(v === undefined || v === null ? '' : v).slice(0, 80);
+  else if (k === 'mwm') r.mwm = String(v === undefined || v === null ? '' : v).slice(0, 120);
+  else return false;
+  S.sym = arr;
+  return true;
 }
 
 /* ---------- 추천 ---------- */
@@ -3003,15 +3458,33 @@ function inputRow(t, m, side, label, unit) {
   var p = S.prev[k] === undefined ? '' : S.prev[k];
   var ph = m.ph || (m.fmt === 'time' ? '12:30' : '');
   var an = (m.label ? m.label + ' ' : '') + (label ? label + ' ' : '') + '측정값';
-  var im = (m.fmt === 'time') ? 'text' : 'decimal';
+  /* 글자로 적는 항목(예: SSMP 통증 유발 동작) */
+  if (m.txt) {
+    return '<div class="irow trow">' +
+      (label ? '<span class="lbl">' + esc(label) + '</span>' : '') +
+      '<input class="v txt" aria-label="' + esc(an) + '" type="text" data-k="v" data-t="' + t.id + '" data-m="' + m.k + '" data-s="' + (side || '') + '"' +
+      ' value="' + esc(v) + '" placeholder="' + esc(ph) + '" autocomplete="off">' +
+      '</div>';
+  }
+  /* 점수·정수 항목은 숫자만 넣도록 키패드와 입력 필터를 맞춘다(0~10 통증 점수 등) */
+  var intOnly = !!(m.rng && m.fmt === 'int');
+  var im = (m.fmt === 'time') ? 'text' : (intOnly ? 'numeric' : 'decimal');
+  var numAttr = intOnly ? ' pattern="[0-9]*" maxlength="2"' : '';
   var prevHtml = m.noPrev ? '' : '<span class="pw"><span class="prevlbl">이전</span>' +
-    '<input class="prev" aria-label="' + esc(an) + ' 이전 값" type="text" inputmode="' + im + '" data-k="p" data-t="' + t.id + '" data-m="' + m.k + '" data-s="' + (side || '') + '" value="' + esc(p) + '" placeholder="—"></span>';
+    '<input class="prev" aria-label="' + esc(an) + ' 이전 값" type="text" inputmode="' + im + '"' + numAttr + ' data-k="p" data-t="' + t.id + '" data-m="' + m.k + '" data-s="' + (side || '') + '" value="' + esc(p) + '" placeholder="—"></span>';
   return '<div class="irow">' +
     (label ? '<span class="lbl">' + esc(label) + '</span>' : '') +
-    '<input class="v" aria-label="' + esc(an) + '" type="text" inputmode="' + im + '" data-k="v" data-t="' + t.id + '" data-m="' + m.k + '" data-s="' + (side || '') + '" value="' + esc(v) + '" placeholder="' + ph + '">' +
+    '<input class="v" aria-label="' + esc(an) + '" type="text" inputmode="' + im + '"' + numAttr + ' data-k="v" data-t="' + t.id + '" data-m="' + m.k + '" data-s="' + (side || '') + '" value="' + esc(v) + '" placeholder="' + ph + '">' +
     (unit ? '<span class="unit">' + esc(unit) + '</span>' : '') +
     prevHtml +
     '</div>';
+}
+/* 검사·측정키로 측정항목 정의 찾기(입력 처리에서 숫자만 받을 항목인지 판단) */
+function measureOf(tid, mk) {
+  var t = testById(tid);
+  if (!t) return null;
+  for (var i = 0; i < t.measures.length; i++) if (t.measures[i].k === mk) return t.measures[i];
+  return null;
 }
 
 /* 자동 계산 항목: 값은 보여주고, 이전 값은 직접 넣어 재평가 비교 */
@@ -3130,7 +3603,7 @@ function renderTestsHTML() {
   var r = visibleTests();
   var set = routineTests();
   var setName = set ? (findPreset(S.routine) || {}).name : '';
-  var h = clinicBannersHTML() + redFlagHTML() + partClinHTML() + routineBar() + browseBar(!!set);
+  var h = clinicBannersHTML() + redFlagHTML() + partClinHTML() + symPanelHTML() + routineBar() + browseBar(!!set);
   if (set) {
     h += '<div class="hint rt-hint">' + (set.length
       ? '‘' + esc(setName) + '’ 세트 ' + set.length + '종만 보여드려요. 카드를 펼쳐 숫자를 넣으면 결과에 바로 반영됩니다.'
@@ -3395,8 +3868,8 @@ function areaHTML(items) {
 function renderResultsHTML() {
   var all = evaluateAll();
   var items = all.items;
-  /* 4단계 맨 위 — 가설 검증(2단계에 가설을 적었을 때만). 치료사용이라 회원 레포트·인쇄에는 나가지 않는다 */
-  var head = '<div id="hyCheckWrap">' + hyCheckHTML() + '</div>';
+  /* 4단계 맨 위 — 가설 검증(2단계에 가설을 적었을 때만) · 동작 조절 반응. 둘 다 치료사용이라 회원 레포트·인쇄에는 따로 안 나간다 */
+  var head = '<div id="hyCheckWrap">' + hyCheckHTML() + '</div>' + symResultHTML();
   if (!items.length) {
     return head + '<div class="empty">측정값을 입력하면 여기에 연령대 기준과 비교한 결과가 나타나요.<br>상단의 <b>예시로 채우기</b>를 눌러 미리 볼 수도 있어요.</div>';
   }
@@ -3420,6 +3893,8 @@ function clinicClientLines() {
   if (parts.length) out.push('불편 부위: ' + parts.join(' · '));
   if (S.pain && PAIN_EASY[S.pain]) out.push('통증 느낌: ' + PAIN_EASY[S.pain] + '.');
   if (S.irrit && IRR_EASY[S.irrit]) out.push('현재 예민도: ' + IRR_EASY[S.irrit] + '.');
+  var syms = symEasyLines();
+  if (syms.length) out.push('동작 조절: ' + syms.join('  /  ') + '.'); /* 쉬운 말만 — MWM·전략 이름은 넣지 않는다 */
   var plans = clinicPlans();
   if (plans.length) out.push('앞으로의 관리 방향: ' + plans.map(function (x, i) { return (i + 1) + ') ' + x; }).join('  '));
   return out;
@@ -4055,6 +4530,27 @@ function pqField(k, label, ph, mode) {
 function lineField(attr, k, label, ph) {
   return '<label class="cq"><span>' + esc(label) + '</span><input type="text" data-' + attr + '="' + k + '" placeholder="' + esc(ph) + '" autocomplete="off"></label>';
 }
+var HY_PH = [
+  '예: 슬개건 부하 증가에 따른 통증',
+  '예: 둔근 조절 저하로 무릎 안쪽 붕괴',
+  '예: 발목 가동 제한으로 계단 시 보상'
+];
+/* 가설 1·2·3 = 1·2·3순위. 각 줄 옆 ↑↓로 순위를 바꾼다(중재·해결 상태도 같은 줄에서 함께 움직인다) */
+function hypoRowsHTML() {
+  var h = '<div class="hylist-h"><b>가설 우선순위</b><span>가능성 높은 순 — ↑↓로 바꿔요. 칩을 누르면 1순위부터 들어가요</span></div>';
+  HYPO_KEYS.forEach(function (k, i) {
+    var v = cleanStr((S.hypo || {})[k]);
+    h += '<div class="hyrow" data-hrow="' + k + '">' +
+      '<span class="hyrank' + (v ? ' on' : '') + '">' + (i + 1) + '순위</span>' +
+      '<input type="text" class="hyin" data-hy="' + k + '" value="' + esc((S.hypo || {})[k] || '') + '"' +
+      ' placeholder="' + esc(HY_PH[i]) + '" autocomplete="off" aria-label="가설 ' + (i + 1) + '순위">' +
+      '<span class="hyarw">' +
+      '<button type="button" data-act="hy-up" data-h="' + k + '" aria-label="가설 ' + (i + 1) + '순위를 한 칸 올리기"' + (i === 0 ? ' disabled' : '') + '>↑</button>' +
+      '<button type="button" data-act="hy-down" data-h="' + k + '" aria-label="가설 ' + (i + 1) + '순위를 한 칸 내리기"' + (i === HYPO_KEYS.length - 1 ? ' disabled' : '') + '>↓</button>' +
+      '</span></div>';
+  });
+  return h;
+}
 function clinicPanelHTML() {
   var h = '';
   h += '<div class="clinic-sec" style="margin-top:0;padding-top:0;border-top:0"><div class="csec-h"><b>통증 타입</b><span>한 가지만</span></div>' +
@@ -4087,10 +4583,8 @@ function clinicPanelHTML() {
     pqField('t', 'T 시간 양상', '3주 전부터, 아침에 심해요') +
     '</div>' +
     '<div id="hyChips"></div>' +
+    '<div id="hyRows">' + hypoRowsHTML() + '</div>' +
     '<div class="hygrid">' +
-    lineField('hy', 'h1', '가설 1', '예: 슬개건 부하 증가에 따른 통증') +
-    lineField('hy', 'h2', '가설 2', '예: 둔근 조절 저하로 무릎 안쪽 붕괴') +
-    lineField('hy', 'h3', '가설 3', '예: 발목 가동 제한으로 계단 시 보상') +
     lineField('ip', 'p1', '중재 1', '예: 4주 저부하 슬개건 등척성') +
     lineField('ip', 'p2', '중재 2', '예: 둔근·중둔근 조절 운동') +
     lineField('ip', 'p3', '중재 3', '예: 발목 가동성 + 계단 전략 교육') +
@@ -4116,7 +4610,7 @@ function hypoChipsHTML() {
   if (!ps.length) return '';
   var shown = ps.slice(0, 3); /* 부위를 많이 골라도 세 부위까지만 — 화면이 길어지지 않게 */
   var cur = hypoValues();
-  var h = '<div class="hychips"><div class="hychips-h"><b>대표 가설</b><span>눌러서 가설 칸에 넣기 · 다시 누르면 빠져요</span></div>';
+  var h = '<div class="hychips"><div class="hychips-h"><b>대표 가설</b><span>부위별 임상 분류에서 골라 1순위부터 담아요 · 다시 누르면 빠져요</span></div>';
   shown.forEach(function (p) {
     var list = HYPO_CHIPS[p];
     h += '<div class="hychips-row"><span class="hychips-p">' + esc(p) + '</span>' + list.map(function (x) {
@@ -4153,14 +4647,23 @@ function toggleHypo(text) {
   renderHyCheck();  /* 4단계 가설 검증 줄도 바로 갱신 */
   saveState();
 }
-/* 4단계 가설 검증 — 가설이 있을 때만. 치료사용(noprint) */
+/* 4단계 가설 검증 — 가설(1·2·3순위)마다 해결 상태(미해결·진행중·해결) + 전체 일치 여부. 치료사용(noprint) */
 function hyCheckHTML() {
-  var hy = hypoLines();
-  if (!hy.length) return '';
+  var rows = hypoRows().filter(function (r) { return r.text; });
+  if (!rows.length) return '';
+  var c = hyStatusCounts();
   var h = '<div class="hycheck noprint" id="hyCheck">' +
-    '<div class="hc-head"><b>가설 검증</b><span>검사 결과와 견줘 한 번만 · 회원 레포트에는 나가지 않아요</span></div>' +
-    '<div class="hc-hy">' + hy.map(function (x, i) {
-      return '<span><i>' + (i + 1) + '</i>' + esc(x) + '</span>';
+    '<div class="hc-head"><b>가설 검증</b><span>순위별 해결 상태와 일치 여부 · 회원 레포트에는 나가지 않아요</span></div>' +
+    '<div class="hc-items">' + rows.map(function (r) {
+      var st = hyStatusOf(r.k);
+      return '<div class="hc-item" data-hcitem="' + r.k + '">' +
+        '<div class="hc-t"><i>' + r.rank + '</i><span class="hc-rank">' + r.rank + '순위</span><span class="hc-text">' + esc(r.text) + '</span></div>' +
+        '<div class="hc-stat" role="group" aria-label="' + esc('가설 ' + r.rank + '순위 해결 상태') + '">' +
+        ['open', 'prog', 'done'].map(function (k) {
+          var on = st === k;
+          return '<button type="button" class="hc-s ' + k + (on ? ' on' : '') + '" data-act="hystat" data-h="' + r.k + '" data-st="' + k + '"' +
+            ' aria-pressed="' + (on ? 'true' : 'false') + '">' + HYSTAT_LABEL[k] + '</button>';
+        }).join('') + '</div></div>';
     }).join('') + '</div>' +
     '<div class="hc-btns" role="group" aria-label="가설 검증">' +
     ['match', 'partial', 'revise'].map(function (k) {
@@ -4169,6 +4672,11 @@ function hyCheckHTML() {
         ' aria-pressed="' + (on ? 'true' : 'false') + '">' + HV_LABEL[k] + '</button>';
     }).join('') + '</div>';
   if (S.hv && HV_HINT[S.hv]) h += '<p class="hc-hint">' + esc(HV_HINT[S.hv]) + '</p>';
+  var sum = [];
+  if (c.done) sum.push('해결 ' + c.done);
+  if (c.prog) sum.push('진행중 ' + c.prog);
+  if (c.open) sum.push('미해결 ' + c.open);
+  if (sum.length) h += '<p class="hc-sum">' + esc(sum.join(' · ') + (c.done === rows.length ? ' — 이번 가설은 모두 확됐어요' : '')) + '</p>';
   return h + '</div>';
 }
 function renderHyCheck() {
@@ -4286,6 +4794,11 @@ function renderClinic() {
   Array.prototype.forEach.call(document.querySelectorAll('[data-hy]'), function (el) {
     var k = el.getAttribute('data-hy');
     if (document.activeElement !== el && el.value !== (S.hypo[k] || '')) el.value = S.hypo[k] || '';
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-hrow]'), function (row) {
+    var hrk = row.getAttribute('data-hrow');
+    var rb = row.querySelector ? row.querySelector('.hyrank') : null;
+    if (rb) rb.classList.toggle('on', !!cleanStr((S.hypo || {})[hrk]));
   });
   Array.prototype.forEach.call(document.querySelectorAll('[data-ip]'), function (el) {
     var k = el.getAttribute('data-ip');
@@ -4957,7 +5470,7 @@ function saveState() {
     /* 회원 이름·한마디는 세션에만 둔다(기기에 남기지 않음). 화면 안내 문구도 저장하지 않는다. */
     var o = {};
     for (var k in S) {
-      if (k === 'member' || k === 'memo' || k === 'homet' || k === 'recNotice' || k === 'rtNotice' || k === 'rtSaving' || k === 'recManage' || k === 'clinicOpen' || k === 'hyNote') continue;
+      if (k === 'member' || k === 'memo' || k === 'homet' || k === 'recNotice' || k === 'rtNotice' || k === 'rtSaving' || k === 'recManage' || k === 'clinicOpen' || k === 'hyNote' || k === 'symOpen' || k === 'symGuide') continue;
       o[k] = S[k];
     }
     localStorage.setItem('pne_v1', JSON.stringify(o));
@@ -4973,7 +5486,7 @@ function loadState() {
       var o = JSON.parse(raw);
       if (o && typeof o === 'object') {
         ['sex', 'age', 'height', 'weight', 'parts', 'moves', 'hiEnd', 'view', 'cat', 'tend', 'values', 'prev', 'variant', 'open', 'routine',
-          'body', 'pain', 'irrit', 'hv', 'neuro', 'pqrst', 'hypo', 'plan', 'guide', 'bcView', 'pclin'].forEach(function (k) {
+          'body', 'pain', 'irrit', 'hv', 'hyStatus', 'sym', 'neuro', 'pqrst', 'hypo', 'plan', 'guide', 'bcView', 'pclin'].forEach(function (k) {
           if (o[k] !== undefined && o[k] !== null) S[k] = o[k];
         });
       }
@@ -5014,6 +5527,14 @@ function normalizeClinicState() {
   var pcOut = {};
   PART_ORDER.forEach(function (p) { if (pc[p]) pcOut[p] = true; });
   S.pclin = pcOut;
+  var hst = (S.hyStatus && typeof S.hyStatus === 'object') ? S.hyStatus : {};
+  var hstOut = {};
+  HYPO_KEYS.forEach(function (k) { hstOut[k] = HYSTAT_LABEL[hst[k]] ? hst[k] : ''; });
+  S.hyStatus = hstOut;
+  S.sym = symList().map(function (r) { return symCleanRow(r); }); /* 최소 1줄·최대 3줄, 0~10 정수만 */
+  S.symOpen = !!S.symOpen;
+  S.symGuide = !!S.symGuide;
+  S.tend = !!S.tend;
 }
 
 function demoState() {
@@ -5027,6 +5548,13 @@ function demoState() {
   S.pqrst = { p: '계단 내려갈 때 오른쪽 무릎 앞이 아프고, 앉아 쉬면 가라앉아요', q: '욱신거림', r: '무릎 앞쪽에 국소적', s: '4', t: '3주 전부터, 아침에 심해요' };
   S.hypo = { h1: '슬개건 부하 증가', h2: '둔근 조절 저하로 무릎 안쪽 붕괴', h3: '발목 가동 제한으로 계단 보상' };
   S.plan = { p1: '4주 저부하 슬개건 등척성', p2: '중둔근 조절 운동 주 3회', p3: '계단 내려가기 전략 교육' };
+  S.hyStatus = { h1: 'done', h2: 'prog', h3: 'open' };
+  /* 전 관절 공통 증상 수정 예시 — 무릎·고관절 두 동작 */
+  S.sym = [
+    { move: '계단 내려가기', strat: ['MWM(통증 없는 활주)', '골반·코어 안정화'], mwm: '무릎 내측 활주 + 굴곡 보조', pre: '6', post: '2' },
+    { move: '스쿼트 하강', strat: ['정렬 교정', '부하 조절'], mwm: '발목 앞쪽 지지 + 하강 3초', pre: '4', post: '2' }
+  ];
+  S.symOpen = false; S.symGuide = false;
   S.clinicOpen = false; S.bcView = 'front'; S.pclin = {};
   S.values = {}; S.prev = {};
   S.values[vkey('grip', 'abs', 'L')] = '28.5';
@@ -5077,6 +5605,7 @@ function resetState() {
   S.values = {}; S.prev = {}; S.variant = {}; S.open = {};
   S.member = ''; S.memo = ''; S.homet = ''; /* 센터·담당자명은 다음 회원에게도 그대로 */
   applyClinic(null); S.bcView = 'front'; S.clinicOpen = false; S.pclin = {};
+  S.symOpen = false; S.symGuide = false; S.hyStatus = { h1: '', h2: '', h3: '' };
   S.recNotice = ''; S.rtNotice = ''; S.rtSaving = false; /* 저장된 회원 기록(pne_clients_v1)은 건드리지 않는다 */
   if (S.routine) { /* 고른 루틴 세트는 그대로 두고 그 검사만 펼쳐 둔다 */
     var p = findPreset(S.routine);
@@ -5160,20 +5689,7 @@ function init() {
     if (!el) return;
     /* 부위별 임상 패널의 연결 검사 — 그 카드를 펼쳐 화면 가운데로 */
     if (el.hasAttribute('data-test')) {
-      var gt = el.getAttribute('data-test');
-      if (!testById(gt)) return;
-      S.open[gt] = true;
-      var seen = (typeof document.querySelector === 'function') ? document.querySelector('details.test[data-id="' + gt + '"]') : null;
-      if (!seen) { /* 지금 보기에 없으면 전체 검사 보기로 바꿔 꺼낸다 */
-        if (S.routine) clearRoutine();
-        S.view = 'all'; S.tend = false; S.cat = '';
-      }
-      renderAll(); saveState();
-      var card = (typeof document.querySelector === 'function') ? document.querySelector('details.test[data-id="' + gt + '"]') : null;
-      if (card) {
-        card.open = true;
-        if (card.scrollIntoView) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
+      openTestCard(el.getAttribute('data-test'));
       return;
     }
     if (el.hasAttribute('data-region')) {
@@ -5267,6 +5783,32 @@ function init() {
       saveState();
       return;
     }
+    if (act === 'hy-up' || act === 'hy-down') {
+      if (moveHypo(el.getAttribute('data-h'), act === 'hy-up' ? -1 : 1)) { renderClinic(); renderHyCheck(); saveState(); }
+      return;
+    }
+    if (act === 'hystat') {
+      if (setHyStatus(el.getAttribute('data-h'), el.getAttribute('data-st'))) { renderHyCheck(); saveState(); }
+      return;
+    }
+    if (act === 'sym-guide') {
+      if (ev.preventDefault) ev.preventDefault();
+      if (ev.stopPropagation) ev.stopPropagation();
+      S.symGuide = !S.symGuide;
+      var sgb = $('symGuide');
+      if (sgb) sgb.hidden = !S.symGuide;
+      el.classList.toggle('on', !!S.symGuide);
+      if (el.setAttribute) el.setAttribute('aria-expanded', S.symGuide ? 'true' : 'false');
+      var sp = $('symPanel');
+      if (sp && sp.open === false) sp.open = true; /* 가이드를 펼치면 패널도 열어 보이게 */
+      S.symOpen = !!(sp && sp.open);
+      saveState();
+      return;
+    }
+    if (act === 'symstrat') { toggleSymStrat(parseInt(el.getAttribute('data-i'), 10), el.getAttribute('data-s')); return; }
+    if (act === 'sym-add') { symAdd(); return; }
+    if (act === 'sym-del') { symDel(parseInt(el.getAttribute('data-i'), 10)); return; }
+    if (act === 'sym-ssmp') { openTestCard('ssmp'); return; }
     if (act === 'clinic-toggle') { S.clinicOpen = !S.clinicOpen; renderClinic(); updateFab(); saveState(); return; }
     if (act === 'part-clear') {
       S.body = []; S.parts = []; S.tend = false;
@@ -5416,11 +5958,36 @@ function init() {
       saveState(); return;
     }
     var hyk = el.getAttribute('data-hy');
-    if (hyk) { S.hypo[hyk] = el.value; renderHypoChips(); renderHyCheck(); saveState(); return; }
+    if (hyk) {
+      S.hypo[hyk] = el.value;
+      renderHypoChips();
+      renderHyCheck();
+      if (S.hyStatus && S.hyStatus[hyk] && !cleanStr(el.value)) S.hyStatus[hyk] = ''; /* 가설을 지우면 해결 상태도 비운다 */
+      saveState(); return;
+    }
     var ipk = el.getAttribute('data-ip');
     if (ipk) { S.plan[ipk] = el.value; saveState(); syncReportHeader(); return; }
+    /* 전 관절 공통 증상 수정 — 동작·MWM 방향·전후 점수 */
+    var syk = el.getAttribute('data-sym');
+    if (syk) {
+      var si = parseInt(el.getAttribute('data-i'), 10);
+      if (syk === 'pre' || syk === 'post') {
+        var cv = cleanNum10(el.value);
+        if (el.value !== cv) el.value = cv; /* 숫자만, 0~10 */
+      }
+      symSetField(si, syk, el.value);
+      renderSym();
+      saveState();
+      return;
+    }
     var k = el.getAttribute('data-k');
     if (!k) return;
+    /* 통증 점수처럼 0~10 정수만 받는 항목 — 숫자가 아닌 글자는 지우고 두 자리까지 */
+    var mt = measureOf(el.getAttribute('data-t'), el.getAttribute('data-m'));
+    if (mt && mt.rng && mt.fmt === 'int' && !mt.txt) {
+      var digits = String(el.value).replace(/[^0-9]/g, '').slice(0, 2);
+      if (digits !== el.value) el.value = digits;
+    }
     var key = vkey(el.getAttribute('data-t'), el.getAttribute('data-m'), el.getAttribute('data-s'));
     if (k === 'v') S.values[key] = el.value; else S.prev[key] = el.value;
     if (k === 'v') refreshCalc();
@@ -5453,6 +6020,7 @@ function init() {
       saveState();
       return;
     }
+    if (d.id === 'symPanel') { S.symOpen = !!d.open; saveState(); return; }
     if (d.getAttribute('data-id')) S.open[d.getAttribute('data-id')] = d.open;
   }, true);
 
@@ -5766,6 +6334,16 @@ function planReport(d, measure) {
     clRow('불편 부위', d.clinic.parts);
     clRow('통증 느낌', d.clinic.pain);
     clRow('현재 예민도', d.clinic.irrit, d.clinic.irritLevel === 'high' ? REP.warn : REP.ink);
+    if (d.clinic.sym && d.clinic.sym.length) {
+      clY += 6;
+      clT('동작 조절 반응', clX, clY + 20, repFont(25, 700), REP.brand2);
+      clY += 20 + 34;
+      for (var si = 0; si < d.clinic.sym.length; si++) {
+        var sf = repFont(26, 500), sls = wrapText(measure, d.clinic.sym[si], sf, clW);
+        for (var sj = 0; sj < sls.length; sj++) clT(sls[sj], clX, clY + 20 + sj * 35, sf, REP.ink);
+        clY += Math.max(1, sls.length) * 35 + 6;
+      }
+    }
     if (d.clinic.plans.length) {
       clY += 6;
       clT('앞으로의 관리 방향', clX, clY + 20, repFont(25, 700), REP.brand2);
@@ -6077,10 +6655,12 @@ function syncReportHeader() {
   }
   put('phcPain', cr.pain, cr.pain ? '1' : '0');
   put('phcIrr', cr.irrit, cr.irrit ? '1' : '0');
+  put('phcSym', (cr.sym || []).join('  /  '), (cr.sym || []).length ? '1' : '0');
   put('phcPlan', cr.plans.map(function (x, i) { return (i + 1) + '. ' + x; }).join('  '), cr.plans.length ? '1' : '0');
   rowOn('phcPartsRow', !!cr.parts);
   rowOn('phcPainRow', !!cr.pain);
   rowOn('phcIrrRow', !!cr.irrit);
+  rowOn('phcSymRow', (cr.sym || []).length > 0);
   rowOn('phcPlanRow', cr.plans.length > 0);
 }
 
@@ -6137,6 +6717,18 @@ G.APP = {
   HYPO_CHIPS: HYPO_CHIPS, HV_LABEL: HV_LABEL, HV_HINT: HV_HINT, hypoLines: hypoLines, hypoParts: hypoParts,
   hypoChipsHTML: hypoChipsHTML, renderHypoChips: renderHypoChips, toggleHypo: toggleHypo,
   hyCheckHTML: hyCheckHTML, renderHyCheck: renderHyCheck,
+  /* 가설 순위·해결 상태 */
+  HYPO_KEYS: HYPO_KEYS, hypoRows: hypoRows, hypoRowsHTML: hypoRowsHTML, moveHypo: moveHypo,
+  HYSTAT_LABEL: HYSTAT_LABEL, HYSTAT_HINT: HYSTAT_HINT, hyStatusOf: hyStatusOf, hyStatusState: hyStatusState,
+  setHyStatus: setHyStatus, hyStatusCounts: hyStatusCounts,
+  /* 전 관절 공통 증상 수정 */
+  SYM_STRATS: SYM_STRATS, SYM_GUIDE: SYM_GUIDE, SYM_MWM_CHIP: SYM_MWM_CHIP, SYM_MAX: SYM_MAX,
+  symBlank: symBlank, symCleanRow: symCleanRow, cleanSymList: cleanSymList, symState: symState, symList: symList,
+  symRow: symRow, symDelta: symDelta, symStratText: symStratText, symSummary: symSummary, symEasyLines: symEasyLines,
+  symPanelHTML: symPanelHTML, symRowHTML: symRowHTML, symStratChipsHTML: symStratChipsHTML, symResBadge: symResBadge,
+  symResultHTML: symResultHTML, symGuideHTML: symGuideHTML, renderSym: renderSym, renderSymPanel: renderSymPanel,
+  toggleSymStrat: toggleSymStrat, symAdd: symAdd, symDel: symDel, symSetField: symSetField, cleanNum10: cleanNum10,
+  measureOf: measureOf, openTestCard: openTestCard,
   /* 영역별 요약 */
   areaSummary: areaSummary, areaHTML: areaHTML, areaGrade: areaGrade, areaLevel: areaLevel, areaInk: areaInk,
   changeSummary: changeSummary, changeHTML: changeHTML, changeLabel: changeLabel,
