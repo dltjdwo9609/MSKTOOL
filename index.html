@@ -463,6 +463,29 @@ details.test>summary .t-badge+.t-badge{margin-left:0}
 .irow input.v.txt{flex:1 1 100%;font-size:14px;font-weight:500}
 .pc-proto h5{color:var(--brand-2)}
 .pc-proto .pc-list li b{color:var(--brand-2)}
+/* ---------- 허리 0·1·2단계 패널 ---------- */
+.pc-stage{border-left:2px solid color-mix(in srgb,var(--brand) 34%,var(--line));padding-left:8px;margin-top:11px}
+.pc-stage h5{display:flex;align-items:center;gap:5px;font-size:11.4px;font-weight:800;color:var(--brand-2);margin:0 0 4px}
+.pc-stage[data-stage="0"]{border-left-color:var(--warn)}
+.pc-stage[data-stage="0"] h5{color:var(--warn)}
+.pc-q{margin:0 0 5px;font-size:11px;color:var(--muted);line-height:1.45;word-break:keep-all}
+.pc-vals{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 6px}
+.pc-vals span{font-size:10.8px;font-weight:700;color:var(--brand-2);background:var(--soft);border:1px solid color-mix(in srgb,var(--brand) 22%,var(--line));border-radius:999px;padding:2px 8px}
+.pc-stage[data-stage="0"] .pc-vals span:first-child{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,var(--line));background:color-mix(in srgb,var(--warn) 10%,transparent)}
+.pc-note{margin:5px 0 0;font-size:10.8px;color:var(--muted);line-height:1.45;word-break:keep-all}
+.pc-stage .pc-list li b{color:var(--brand-2)}
+.pc-ev .pc-list li{display:block}
+.pc-evb{display:inline-block;font-style:normal;font-size:10px;font-weight:800;line-height:1.35;border-radius:5px;padding:1px 5px;margin-right:5px;vertical-align:1px;white-space:nowrap;background:var(--chip);color:var(--muted)}
+.pc-evb.warn{background:color-mix(in srgb,var(--warn) 12%,transparent);color:var(--warn)}
+.pc-evb.bad{background:color-mix(in srgb,var(--warn) 20%,transparent);color:var(--warn)}
+.pc-evb.soft{background:var(--soft);color:var(--brand-2)}
+.pc-say .pc-rule{margin:0 0 5px;font-size:11.2px;color:var(--ink);line-height:1.5;word-break:keep-all}
+.pc-say .pc-quote{margin:0;padding:7px 9px;border-left:2px solid color-mix(in srgb,var(--brand) 34%,var(--line));background:var(--soft);border-radius:0 8px 8px 0;font-size:11px;color:var(--ink);line-height:1.6;word-break:keep-all}
+.hygrp-t{flex:none;font-size:10.4px;font-weight:800;color:var(--brand-2);letter-spacing:-.01em}
+.hychips-gh{margin-top:2px}
+.hychips-gh+.hychips-gr{margin-top:3px}
+.hychips-gr+.hychips-gh{margin-top:8px}
+.hychips-row .hygrp-t{color:var(--brand-2)}
 .calcwrap{display:inline-flex;align-items:baseline;gap:4px;flex:0 0 auto}
 .irow.calcrow .pw{flex:0 0 auto;margin-left:auto;justify-content:flex-end}
 .calcval{font-size:17px;font-weight:800;color:var(--brand-2);letter-spacing:-.01em}
@@ -603,6 +626,8 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
   .painseg button em,.irrseg button em{font-size:8.9px}
   .pc-tag{max-width:50%}
   .pc-list li{font-size:11.4px}
+  .pc-q,.pc-note{font-size:10.6px}
+  .pc-say .pc-quote{font-size:10.7px}
   .rf-items span{font-size:10.6px}
 }
 @media print{
@@ -1940,23 +1965,56 @@ const PART_CLIN = {
     ],
     tests: ['thorrom', 'proneiyt']
   },
+  /* 허리만 0·1·2단계 통합 제안 구조다. 서로 다른 분류법(McKenzie MDT·부적응 움직임·조절 장애·SIJ)을
+     한 틀에 정리한 것으로, 단일 검증 체계나 진단 도구가 아니라 "생각을 정리하는 틀"이다.
+     cls 의 네 번째 값이 단계 키('0'·'1'·'2')이고, 화면은 이 값으로 묶어 0→1→2 계층으로 그린다.
+     세 번째 값(칩 이름)은 2단계 가설 칸과 3단계 패널이 같이 쓰고, 0단계는 칩을 만들지 않는다. */
   '허리': {
-    tag: 'McKenzie · 조절 · SIJ',
-    cls: [
-      ['Derangement syndrome', '디레인지먼트. 한쪽으로 치우진 통증, 반복 동작으로 중심화되면 이 분류', '디레인지먼트(방향 선호)'],
-      ['Dysfunction syndrome', '기능장애. 짧아진 조직이 끝 범위에서 통증', '기능장애(짧은 조직)'],
-      ['LBP with maladaptive movement · motor control impairment', '부적응 움직임·조절 장애. 굴곡·신전·회전 중 어느 방향으로 증상이 몰리는지', '움직임 조절 장애'],
-      ['SIJ (천장관절)', '천장관절 통증. 한쪽 엉덩이·사타구니 뒤, 한 발 서기에서 심함', '천장관절(SIJ) 연관']
+    tag: '0·1·2단계 · 구동요인·부하반응',
+    stages: [
+      { k: '0', h: '스크리닝 (가장 먼저)', q: '지금 꼭 확인해야 할 위험 신호나 신경근 관련 소견이 있는가?',
+        vals: ['심각한 병리 의심', '신경근 관련 하지통', '해당 없음'],
+        note: '심각한 병리가 의심되면 이후 단계로 가지 않고 의료 확인을 먼저 권한다.' },
+      { k: '1', h: '통증 구동 요인', q: '통증을 지금 무엇이 끌고 가는가? (한 가지만 고른다)',
+        note: '여럿이 겹쳐 보이면 지금 통증을 가장 크게 끌고 가는 것부터 본다.' },
+      { k: '2', h: '서술 라벨', q: '해당될 때만 붙이는 메모 — 1단계의 하위 유형이 아니라 "가설 + 반응 확인" 수준으로만 쓴다.' }
     ],
+    cls: [
+      ['A. 조직·병리 주도', '병리가 통증을 끌고 가고, 움직임 반응은 적응적이다. 부하 조절과 점진 부하가 중심.', '조직·병리 주도', '1'],
+      ['B-1. 움직임·통제 손상 주도 · 움직임 손상(회피)', '통증을 피하려는 행동이 두드러진다 — Maladaptive movement & motor control impairment의 움직임 손상 쪽.', '움직임 손상(회피)', '1'],
+      ['B-2. 움직임·통제 손상 주도 · 통제 손상(유발 패턴)', '통증을 유발하는 방식으로 움직이는 패턴이 두드러진다 — 같은 impairment의 통제 손상 쪽. 굴곡·신전·회전 중 어느 방향으로 증상이 몰리는지 본다.', '통제 손상(유발 패턴)', '1'],
+      ['C. 심리사회·중추 주도', '걱정, 대처 방식, 운동 전략이 부적응적으로 통증을 유지시킨다. 교육·호흡·점진 노출을 먼저.', '심리사회·중추 주도', '1'],
+      ['부하 반응 · Derangement', '특정 방향의 반복·지속 부하에서 증상의 위치·강도가 변한다(중심화·주변화).', '디레인지먼트(방향 부하 반응)', '2'],
+      ['부하 반응 · Dysfunction', '특정 방향 끝범위에서 늘 같은 통증이 나고, 반복해도 증상 위치는 변하지 않는다.', '기능장애(끝범위 고정 통증)', '2'],
+      ['통증 원천 · SIJ(천장관절)', '유발검사 군집(6개 중 3개 이상 양성)이 단서다. 한쪽 엉덩이·사타구니 뒤 통증, 한 발 서기에서 심함.', '천장관절(SIJ) 연관', '2']
+    ],
+    /* 가설 칩을 단계별로 묶어 보여 준다 — 목록은 위 cls 의 칩 이름과 같아야 한다(감사 테스트가 확인) */
+    chipGroups: [
+      ['1단계 · 구동 요인', ['조직·병리 주도', '움직임 손상(회피)', '통제 손상(유발 패턴)', '심리사회·중추 주도']],
+      ['2단계 · 서술 라벨', ['디레인지먼트(방향 부하 반응)', '기능장애(끝범위 고정 통증)', '천장관절(SIJ) 연관']]
+    ],
+    /* 근거 상태 — [제목, 내용, 단계(ok/soft/warn/bad), 배지] */
+    evidence: [
+      ['0·1·2단계 개념 구조', 'O\'Sullivan 2005 등을 바탕으로 한 통합 제안 — 단일 검증 체계가 아니다.', 'warn', '통합 제안'],
+      ['1단계 A/B/C 판정 기준', 'A·B·C를 가르는 검증된 판정 기준은 확인되지 않았다.', 'bad', '미확인'],
+      ['SIJ(천장관절) 군집', '군집이 양성이어도 확진 근거는 약하고(양성 사후확률 약 35%), 음성은 SIJ 배제에 상대적으로 유용하다.', 'warn', 'GRADE 매우 낮음'],
+      ['MDT 분류 일치도', 'Derangement·Dysfunction의 평가자 간 일치도는 중등도(κ=0.50, 청소년·젊은 성인 표본).', 'soft', '중등도']
+    ],
+    /* 고객에게 설명하는 방식 — 원칙과 예시(자동차 비유). 치료사용 패널에만 나가고 레포트에는 넣지 않는다. */
+    say: {
+      rule: '"진단"이라고 말하지 않고 "지금의 가설"과 "확인해 볼 단서"라고 말한다. 비유와 공감을 섞어 쉬운 말로.',
+      example: '허리 통증은 한 가지 이유로 설명하기 어려울 때가 많아요. 그래서 세 가지를 나눠서 봐요. 먼저, 지금 꼭 확인해야 할 위험 신호가 없는지부터 봐요. 이게 제일 먼저예요. 그다음엔 통증을 계속 붙잡고 있는 게 조직인지, 몸을 쓰는 습관인지, 아니면 긴장과 걱정이 크게 작용하는지를 같이 살펴요. 자동차로 치면 엔진 문제인지, 운전 습관 문제인지, 아니면 경고등에 계속 놀라서 브레이크를 밟는 상황인지 구분하는 거예요. 마지막으로 어느 방향으로 움직일 때 달라지는지, 엉치 관절이 관여하는지 같은 단서를 메모처럼 붙여요. 메모는 힌트일 뿐 정답표가 아니라서, 직접 움직여 보면서 맞는지 같이 확인해 갈 거예요. 지금 아프고 불안한 게 당연해요. 이 과정은 허리를 평가하려는 게 아니라, 맞는 방법을 같이 찾으려는 거예요.'
+    },
     red: [
       '대소변 조절 장애·회음부 감각 저하·양쪽 다리 힘 빠짐(마미증후군 의심) → 즉시 응급',
       '발열·체중 감소·야간통',
       '외상 후 통증'
     ],
     guide: [
-      '방향 선호(굴곡·신전·회전)를 먼저 확인하고 그 방향 운동으로 시작해요.',
-      '조절 장애형은 코어·둔근 안정화와 호흡을 함께, 통증 3점 이하 유지.',
-      'SIJ는 골반 안정화·둔근 강화와 보행 패턴을 함께 봐요.'
+      '0단계에서 심각한 병리·신경근 소견을 먼저 걸러요 — 마미증후군 의심이면 응급, 신경근 하지통은 신경학적 선별과 함께 다뤄요.',
+      '1단계 구동 요인을 하나 골라 초점을 정해요 — 조직·병리 주도면 부하 조절, 움직임·통제 손상 주도면 방향 선호·조절 운동, 심리사회·중추 주도면 교육·호흡·점진 노출부터.',
+      '2단계 라벨은 가설 메모로만 써요 — Derangement는 반복·지속 부하로 증상 위치·강도 변화를, Dysfunction은 끝범위 통증을 기준으로 확인하고, SIJ 군집 양성은 확진이 아니라 단서로만 봐요.',
+      '모든 단계에서 통증 3점 이하를 유지하고, 코어·둔근 안정화와 보행 패턴을 함께 봐요.'
     ],
     tests: ['sts1', 'sitreach', 'plank', 'sidebridge', 'slgh', 'slhb']
   }
@@ -2028,8 +2086,8 @@ const CLIN_SOURCES = {
     b: 'Scheuermann 등에서는 HVT·도수 조작 금기. TOS는 팔을 들어 올릴 때 증상이 재현되고, 혈관성(청색증·창백·맥박 약화)이면 즉시 병원. EAST는 팔을 90° 올린 채 3분간 증상 재현을 봄.'
   },
   lumbar: {
-    t: 'McKenzie 분류 + 부적응 움직임·조절 장애 + SIJ',
-    b: 'Derangement·Dysfunction·조절 장애·SIJ로 나눔. 마미증후군 의심 증상(대소변 장애·회음부 감각 저하·양다리 힘 빠짐)은 즉시 응급 의뢰. 코어·둔근 안정화와 방향 선호 운동을 함께 씀.'
+    t: 'O\'Sullivan 2005 등(통합 제안) · McKenzie MDT · SIJ 유발검사 군집 진단정확도 연구',
+    b: '0·1·2단계 개념 구조는 서로 다른 분류법을 한 틀에 정리한 통합 제안으로, 단일 검증 체계나 진단 도구가 아님. 1단계 A/B/C를 가르는 검증된 판정 기준은 미확인. SIJ 군집은 6개 중 3개 이상 양성이어도 확진 근거가 약하고(양성 사후확률 약 35%), 음성은 SIJ 배제에 상대적으로 유용(GRADE 매우 낮음). MDT의 Derangement·Dysfunction 평가자 간 일치도는 중등도(κ=0.50, 청소년·젊은 성인 표본). 마미증후군 의심 증상(대소변 장애·회음부 감각 저하·양다리 힘 빠짐)은 즉시 응급 의뢰.'
   }
 };
 
@@ -3182,6 +3240,84 @@ function redFlagHTML() {
     }).join('') + '</div>' +
     '<p class="rf-note">하나라도 있으면 검사를 멈추고 의료기관으로 의뢰하세요.</p></div>';
 }
+/* 연결 검사 칩 — 분류를 확인할 검사 카드로 바로 이동 */
+function pcTestsHTML(c) {
+  var tids = (c.tests || []).filter(function (id) { return !!testById(id); });
+  if (!tids.length) return '';
+  return '<div class="pc-sec pc-tests"><h5>연결 검사</h5><div class="pc-chips">' + tids.map(function (id) {
+    var t = testById(id);
+    return '<button type="button" class="pc-chip' + (t.refOnly ? ' ref' : '') + '" data-test="' + esc(id) + '">' + esc(t.name) + '</button>';
+  }).join('') + '</div></div>';
+}
+function pcRedHTML(c) {
+  if (!c.red || !c.red.length) return '';
+  return '<div class="pc-sec pc-red"><h5>주의신호</h5><ul class="pc-list">' + c.red.map(function (x) {
+    return '<li>' + esc(x) + '</li>';
+  }).join('') + '</ul></div>';
+}
+function pcGuideHTML(c) {
+  if (!c.guide || !c.guide.length) return '';
+  return '<div class="pc-sec"><h5>재활 가이드</h5><ul class="pc-list">' + c.guide.map(function (x) {
+    return '<li>' + esc(x) + '</li>';
+  }).join('') + '</ul></div>';
+}
+/* ---------- 허리 0·1·2단계 통합 제안 패널 ----------
+   서로 다른 분류법을 한 틀에 정리한 것이라 "진단"이 아니라 0단계(스크리닝) → 1단계(구동 요인 하나)
+   → 2단계(서술 라벨·메모) 계층으로 보여 주고, 그 아래에 근거 상태와 고객에게 설명하는 방식(자동차 비유)을 둔다.
+   cls 의 네 번째 값이 단계 키라 같은 데이터로 가설 칩도 만든다(분류와 칩이 어긋나지 않는다). 치료사용(noprint). */
+function stagedClinHTML(c, src) {
+  var by = {};
+  (c.cls || []).forEach(function (x) { var k = x[3] || ''; (by[k] = by[k] || []).push(x); });
+  var h = '', redDone = false;
+  (c.stages || []).forEach(function (st) {
+    var items = by[st.k] || [];
+    h += '<section class="pc-sec pc-stage" data-stage="' + esc(st.k) + '">' +
+      '<h5>' + esc(st.k + '단계 · ' + st.h) + '</h5>' +
+      (st.q ? '<p class="pc-q">' + esc(st.q) + '</p>' : '');
+    if (st.vals && st.vals.length) {
+      h += '<div class="pc-vals">' + st.vals.map(function (v) { return '<span>' + esc(v) + '</span>'; }).join('') + '</div>';
+    }
+    if (items.length) {
+      h += '<ul class="pc-list">' + items.map(function (x) {
+        return '<li><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></li>';
+      }).join('') + '</ul>';
+    }
+    if (st.note) h += '<p class="pc-note">' + esc(st.note) + '</p>';
+    h += '</section>';
+    /* 주의신호(레드플래그)는 0단계 스크리닝 바로 뒤에 둔다 */
+    if (st.k === '0' && !redDone) { h += pcRedHTML(c); redDone = true; }
+  });
+  if (!redDone) h += pcRedHTML(c);
+  if (c.evidence && c.evidence.length) {
+    h += '<div class="pc-sec pc-ev"><h5>근거 상태</h5><ul class="pc-list">' + c.evidence.map(function (x) {
+      return '<li><em class="pc-evb ' + esc(x[2] || '') + '">' + esc(x[3] || '') + '</em><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></li>';
+    }).join('') + '</ul></div>';
+  }
+  if (c.say && c.say.example) {
+    h += '<div class="pc-sec pc-say"><h5>고객에게 설명하는 방식</h5>' +
+      (c.say.rule ? '<p class="pc-rule">' + esc(c.say.rule) + '</p>' : '') +
+      '<p class="pc-quote">' + esc(c.say.example) + '</p></div>';
+  }
+  h += pcGuideHTML(c) + pcTestsHTML(c);
+  if (src) h += '<p class="pc-src">근거 · ' + esc(src.t) + '</p>';
+  return h;
+}
+/* 기존 부위(8개)의 패널 — 예전 그대로의 순서·마크업 */
+function flatClinHTML(c, src) {
+  var h = '<div class="pc-sec"><h5>임상 분류</h5><ul class="pc-list">' + c.cls.map(function (x) {
+    return '<li><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></li>';
+  }).join('') + '</ul></div>';
+  h += pcRedHTML(c) + pcGuideHTML(c);
+  /* 단계별 부하·복귀 프로토콜(고관절·서혜부·근위 햄스트링) — 치료사용 */
+  if (c.proto && c.proto.length) {
+    h += '<div class="pc-sec pc-proto"><h5>재활 프로토콜</h5><ul class="pc-list">' + c.proto.map(function (x) {
+      return '<li><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></li>';
+    }).join('') + '</ul></div>';
+  }
+  h += pcTestsHTML(c);
+  if (src) h += '<p class="pc-src">근거 · ' + esc(src.t) + '</p>';
+  return h;
+}
 function partClinHTML() {
   var parts = partClinParts();
   if (!parts.length) return '';
@@ -3189,37 +3325,13 @@ function partClinHTML() {
   parts.forEach(function (p) {
     var c = PART_CLIN[p], open = !!(S.pclin && S.pclin[p]);
     var src = CLIN_SOURCES[PART_SRC_KEY[p]];
-    h += '<details class="pcbox' + (p === '목' ? ' neck' : '') + '" data-pclin="' + esc(p) + '"' + (open ? ' open' : '') + '>' +
+    var staged = !!(c.stages && c.stages.length);
+    var count = '분류 ' + c.cls.length;
+    h += '<details class="pcbox' + (p === '목' ? ' neck' : '') + (staged ? ' staged' : '') + '" data-pclin="' + esc(p) + '"' + (open ? ' open' : '') + '>' +
       '<summary><b>' + esc(p) + '</b><span class="pc-tag">' + esc(c.tag) + '</span>' +
-      '<em>분류 ' + c.cls.length + (c.red.length ? ' · 주의 ' + c.red.length : '') + '</em>' +
+      '<em>' + count + (c.red.length ? ' · 주의 ' + c.red.length : '') + '</em>' +
       '<i class="pc-ar" aria-hidden="true">›</i></summary><div class="pc-body">';
-    h += '<div class="pc-sec"><h5>임상 분류</h5><ul class="pc-list">' + c.cls.map(function (x) {
-      return '<li><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></li>';
-    }).join('') + '</ul></div>';
-    if (c.red && c.red.length) {
-      h += '<div class="pc-sec pc-red"><h5>주의신호</h5><ul class="pc-list">' + c.red.map(function (x) {
-        return '<li>' + esc(x) + '</li>';
-      }).join('') + '</ul></div>';
-    }
-    if (c.guide && c.guide.length) {
-      h += '<div class="pc-sec"><h5>재활 가이드</h5><ul class="pc-list">' + c.guide.map(function (x) {
-        return '<li>' + esc(x) + '</li>';
-      }).join('') + '</ul></div>';
-    }
-    /* 단계별 부하·복귀 프로토콜(고관절·서혜부·근위 햄스트링) — 치료사용 */
-    if (c.proto && c.proto.length) {
-      h += '<div class="pc-sec pc-proto"><h5>재활 프로토콜</h5><ul class="pc-list">' + c.proto.map(function (x) {
-        return '<li><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></li>';
-      }).join('') + '</ul></div>';
-    }
-    var tids = (c.tests || []).filter(function (id) { return !!testById(id); });
-    if (tids.length) {
-      h += '<div class="pc-sec pc-tests"><h5>연결 검사</h5><div class="pc-chips">' + tids.map(function (id) {
-        var t = testById(id);
-        return '<button type="button" class="pc-chip' + (t.refOnly ? ' ref' : '') + '" data-test="' + esc(id) + '">' + esc(t.name) + '</button>';
-      }).join('') + '</div></div>';
-    }
-    if (src) h += '<p class="pc-src">근거 · ' + esc(src.t) + '</p>';
+    h += staged ? stagedClinHTML(c, src) : flatClinHTML(c, src);
     h += '</div></details>';
   });
   return h + '</div>';
@@ -4685,14 +4797,27 @@ function hypoChipsHTML() {
   if (!ps.length) return '';
   var shown = ps.slice(0, 3); /* 부위를 많이 골라도 세 부위까지만 — 화면이 길어지지 않게 */
   var cur = hypoValues();
+  var chip = function (x) {
+    var on = cur.indexOf(x) >= 0;
+    return '<button type="button" class="hychip' + (on ? ' on' : '') + '" data-act="hychip" data-h="' + esc(x) + '"' +
+      ' aria-pressed="' + (on ? 'true' : 'false') + '">' + esc(x) + '</button>';
+  };
   var h = '<div class="hychips"><div class="hychips-h"><b>대표 가설</b><span>부위별 임상 분류에서 골라 1순위부터 담아요 · 다시 누르면 빠져요</span></div>';
   shown.forEach(function (p) {
     var list = HYPO_CHIPS[p];
-    h += '<div class="hychips-row"><span class="hychips-p">' + esc(p) + '</span>' + list.map(function (x) {
-      var on = cur.indexOf(x) >= 0;
-      return '<button type="button" class="hychip' + (on ? ' on' : '') + '" data-act="hychip" data-h="' + esc(x) + '"' +
-        ' aria-pressed="' + (on ? 'true' : 'false') + '">' + esc(x) + '</button>';
-    }).join('') + '</div>';
+    var c = PART_CLIN[p] || {};
+    /* 허리처럼 단계가 있는 부위는 칩을 단계별로 묶어 보여 준다(목록은 같은 가설) */
+    var groups = (c.chipGroups || []).filter(function (g) { return g && g[1] && g[1].length; });
+    if (!groups.length) {
+      h += '<div class="hychips-row"><span class="hychips-p">' + esc(p) + '</span>' + list.map(chip).join('') + '</div>';
+      return;
+    }
+    groups.forEach(function (g, i) {
+      h += '<div class="hychips-row hychips-gh">' +
+        '<span class="hychips-p">' + esc(p) + '</span>' +
+        '<span class="hygrp-t">' + esc(g[0]) + '</span></div>' +
+        '<div class="hychips-row hychips-gr">' + g[1].map(chip).join('') + '</div>';
+    });
   });
   if (ps.length > shown.length) {
     h += '<p class="hychips-more">' + esc('세 부위(' + shown.join('·') + ') 가설만 보여요. 부위를 줄이면 나머지 부위 가설도 떠요.') + '</p>';
