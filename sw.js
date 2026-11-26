@@ -8,7 +8,7 @@
    · VERSION 은 build.py 가 index.html 내용 해시로 바꿔 넣습니다. 내용이 바뀌면 새 캐시를 만들고
      예전 캐시(pne-shell-*)는 activate 에서 지웁니다.
 */
-const VERSION = '32875d2cd8';
+const VERSION = '2e41e06cbd';
 const CACHE = 'pne-shell-' + VERSION;
 const SHELL = [
   './',
