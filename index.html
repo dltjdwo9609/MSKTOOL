@@ -4,7 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<title>연령대 기준 평가</title>
+<title>연령대 기준 평가 · 근골격계 임상 추론 툴 | 물리치료사 이성재</title>
+<meta name="description" content="동일 성별·연령대 규범 대조 평가, 바디차트·임상 문진·가설 우선순위·증상 수정(SSMP/MWM)·회원용 리포트를 한 번에 정리하는 근골격계 평가 웹앱">
+<meta name="author" content="물리치료사 이성재">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="연령대 기준 평가">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="연령대 기준 평가 · 근골격계 임상 추론 툴 | 물리치료사 이성재">
+<meta property="og:description" content="동일 성별·연령대 규범 대조 평가, 바디차트·임상 문진·가설 우선순위·증상 수정(SSMP/MWM)·회원용 리포트를 한 번에 정리하는 근골격계 평가 웹앱">
+<meta property="og:url" content="https://dltjdwo9609.github.io/physio_eval/">
+<meta property="og:image" content="https://dltjdwo9609.github.io/physio_eval/icon-512.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="연령대 기준 평가 · 근골격계 임상 추론 툴 | 물리치료사 이성재">
+<meta name="twitter:description" content="동일 성별·연령대 규범 대조 평가, 바디차트·임상 문진·가설 우선순위·증상 수정(SSMP/MWM)·회원용 리포트를 한 번에 정리하는 근골격계 평가 웹앱">
 <link rel="manifest" href="./manifest.webmanifest">
 <meta name="theme-color" content="#f4f6f4" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0b222d" media="(prefers-color-scheme: dark)">
@@ -609,6 +621,22 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
 .src .st{font-weight:700}
 .src .st.a{color:var(--good)} .src .st.b{color:var(--warn)}
 
+/* ---------- 공개용 푸터 (제작자 소개·채널·이용 안내·면책) — 인쇄·회원용 레포트에는 나가지 않음 ---------- */
+.pub{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 17px 13px;box-shadow:var(--shadow)}
+.pub-top{display:flex;align-items:center;justify-content:space-between;gap:9px 14px;flex-wrap:wrap}
+.pub-id{display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-width:0}
+.pub-id em{font-style:normal;font-size:10.5px;font-weight:700;letter-spacing:.01em;color:var(--brand-2);background:var(--soft);border:1px solid color-mix(in srgb,var(--brand) 22%,var(--line));border-radius:99px;padding:2px 8px;white-space:nowrap}
+.pub-id b{font-size:14px;letter-spacing:-.01em;color:var(--ink)}
+.pub-lsj{font-size:11px;font-weight:800;letter-spacing:.09em;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 5px;line-height:1.5}
+.pub-links{display:flex;gap:7px;flex-wrap:wrap}
+.pub-link{display:inline-flex;align-items:center;gap:5px;font-size:12.3px;font-weight:600;letter-spacing:-.01em;color:var(--brand-2);text-decoration:none;background:var(--card);border:1px solid color-mix(in srgb,var(--brand) 28%,var(--line));border-radius:99px;padding:6px 12px;white-space:nowrap;transition:background .15s}
+.pub-link:hover{background:var(--soft)}
+.pub-link:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.pub-notes{margin:11px 0 0;padding:0;list-style:none;display:grid;gap:5px;font-size:12px;line-height:1.55;color:var(--muted)}
+.pub-notes li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px;align-items:start;word-break:keep-all}
+.pub-notes b{font-size:10.5px;font-weight:700;color:var(--ink);background:var(--chip);border:1px solid var(--line);border-radius:6px;padding:1px 6px;line-height:1.55;white-space:nowrap}
+.pub-disc{margin:10px 0 0;padding-top:9px;border-top:1px dashed var(--line);font-size:11.3px;line-height:1.6;color:var(--muted);word-break:keep-all}
+
 @media (max-width:430px){
   .wrap{padding:14px 12px 50px}
   .grid{grid-template-columns:1fr 1fr}
@@ -629,6 +657,10 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
   .pc-q,.pc-note{font-size:10.6px}
   .pc-say .pc-quote{font-size:10.7px}
   .rf-items span{font-size:10.6px}
+  .pub{padding:14px 14px 12px}
+  .pub-links{width:100%}
+  .pub-link{flex:1 1 auto;justify-content:center;font-size:11.8px;padding:7px 10px}
+  .pub-notes{font-size:11.5px}
 }
 @media print{
   /* 다크 모드에서도 흰 종이·검정 글자로 강제 */
@@ -918,6 +950,25 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
   </section>
 
   <footer>
+    <!-- 공개용 푸터 — 회원용 PNG/A4 인쇄에는 나가지 않는다(noprint, 인쇄 규칙에서 footer 자체도 숨김) -->
+    <div class="pub noprint">
+      <div class="pub-top">
+        <div class="pub-id">
+          <em>제작 · 운영</em>
+          <b>물리치료사 이성재</b>
+          <span class="pub-lsj">LSJ</span>
+        </div>
+        <div class="pub-links">
+          <a class="pub-link" href="https://blog.naver.com/pt-lsj" target="_blank" rel="noopener">블로그 · 물리치료사 이성재</a>
+          <a class="pub-link" href="https://www.instagram.com/delight_s_jae/" target="_blank" rel="noopener">인스타 · @delight_s_jae</a>
+        </div>
+      </div>
+      <ul class="pub-notes">
+        <li><b>기록</b><span>모든 기록은 내 기기에 저장되며(타인과 섞이지 않음), 구글 시트 동기화는 선택 시에만 연결됩니다.</span></li>
+        <li><b>설치</b><span>휴대폰 앱으로 쓰려면 크롬(안드로이드) '앱 설치' 또는 사파리(아이폰) '공유 → 홈 화면에 추가'를 누르세요.</span></li>
+      </ul>
+      <p class="pub-disc">본 도구는 물리치료사·트레이너의 임상 추론과 평가 기록을 돕는 참고용 도구이며, 의학적 진단을 대신하지 않습니다.</p>
+    </div>
     <details id="srcDetails">
       <summary>치료사용 · 출처와 프로토콜</summary>
       <div class="src" id="sources"></div>
