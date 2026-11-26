@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "규범 대조 평가 프로그램",
-  "short_name": "규범평가",
+  "name": "MSKTOOL · 근골격계 임상 추론 평가",
+  "short_name": "MSKTOOL",
   "description": "동일 성별·연령대 규범과 비교해 회원의 기능 수준을 평가하는 물리치료사용 도구",
   "lang": "ko",
   "dir": "ltr",
