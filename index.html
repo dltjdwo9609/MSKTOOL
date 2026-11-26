@@ -685,6 +685,71 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
 .gs-hint{margin:7px 0 0;font-size:11.5px;line-height:1.5;color:var(--muted);word-break:keep-all}
 .gs-code{margin:8px 0 0;max-height:200px;overflow:auto;background:var(--chip);border:1px solid var(--line);border-radius:9px;padding:9px;font-size:10.5px;line-height:1.45;white-space:pre;color:var(--ink);-webkit-overflow-scrolling:touch}
 .gs-code[hidden]{display:none}
+/* =======================================================================
+   PC·태블릿 넓은 화면(≥960px) — 2단 레이아웃
+   · 모바일(<960px)과 A4 인쇄(@media print)는 이 블록의 영향을 받지 않는다.
+   · 1단계 고객 정보는 넓은 화면에서 상단 한 줄(기록 바 + 성별·체격)로 펼치고,
+     2단계는 좌(부위 선택·몸 그림·동작) / 우(임상 문진·PQRST·가설) 2단으로 나눈다.
+   ======================================================================= */
+.s2-left,.s2-right{display:contents}
+
+@media screen and (min-width:960px){
+  .wrap{max-width:1200px;padding:22px 24px 88px;display:grid;
+    grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);column-gap:22px;align-items:start}
+  header.top{grid-column:1/-1;grid-row:1;margin:4px 2px 18px}
+  header.top h1{font-size:24px}
+  header.top p{font-size:14px}
+
+  /* --- 1단계 고객 정보: 위 한 줄 --- */
+  .wrap>section.s1{grid-column:1/-1;grid-row:2;margin:0 0 16px;padding:16px 20px 18px;
+    display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);column-gap:20px;align-items:start}
+  .s1>.step{grid-column:1/-1;grid-row:1;margin:0 0 12px}
+  .s1>.recbar{grid-column:1;grid-row:2/span 2;margin:0}
+  .s1>.seg{grid-column:2;grid-row:2;margin:0 0 12px}
+  .s1>.grid{grid-column:2;grid-row:3;grid-template-columns:1fr 1fr;gap:10px}
+
+  /* --- 2단계: 좌(부위 선택·몸 그림·동작) / 우(임상 문진) --- */
+  .wrap>section.s2{display:contents}
+  .s2-left{grid-column:1;grid-row:3;display:block;background:var(--card);border:1px solid var(--line);
+    border-radius:var(--r);box-shadow:var(--shadow);padding:16px 18px}
+  .s2-left .partpick{margin:0}
+  .s2-left .group{margin:14px 0 0}
+  .s2-left .bcsvg{max-width:340px}
+  .s2-left .pp-quick .chip{padding:7px 14px}
+  .s2-right{grid-column:2;grid-row:3/span 2;display:block;align-self:start;
+    background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px 18px}
+  .s2-right .clinic{margin:0}
+  .s2>.switch{grid-column:1;grid-row:4;margin:14px 0 0;padding:13px 18px;background:var(--card);
+    border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+
+  /* --- 3단계 검사: 2열 그리드, 펼친 카드·넓은 패널은 전체 폭 --- */
+  #testSection{grid-column:1/-1;grid-row:5;margin:26px 0 0}
+  #testList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px;row-gap:10px;align-items:start}
+  #testList>details.test{margin:0}
+  #testList>:is(.clinic-warn,.rfwarn,.pclin,details.sym,.routine,.browse,.hint,.bnote,h2.sec,.empty,details.heldgrp){grid-column:1/-1}
+  .browse .viewseg{max-width:560px}
+  /* 관절 증상 수정 — 전체 폭 안에서 동작 기록 두 줄을 나란히 */
+  #testList>details.sym .sym-body{display:grid;grid-template-columns:1fr 1fr;column-gap:14px;align-items:start}
+  #testList>details.sym .sym-help,#testList>details.sym .symadd,#testList>details.sym .sym-link{grid-column:1/-1}
+  #testList>details.sym .symrow+.symrow{margin-top:0}
+
+  /* --- 4단계 결과: 카드 2열, 요약·가설·레포트는 전체 폭 --- */
+  #resultSection{grid-column:1/-1;grid-row:6;margin:28px 0 0}
+  #results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px;row-gap:11px;align-items:start}
+  #results>.res{margin:0}
+  #results>#hyCheckWrap{grid-column:1/-1}
+  #results>#hyCheckWrap:empty{display:none}
+  #results>:is(.areabox,.symresbox,.chgbox,.hint,.rep,.client,.safety,.empty){grid-column:1/-1}
+  /* 가설 검증 — 가설 글자는 왼쪽, 해결 상태 단추는 오른쪽 한 줄로 */
+  #results .hycheck .hc-item{display:grid;grid-template-columns:minmax(0,1fr) 340px;column-gap:16px;align-items:center}
+  #results .hycheck .hc-stat{margin:0}
+  #results .hycheck .hc-btns{max-width:420px}
+
+  footer{grid-column:1/-1;grid-row:7}
+  /* 넓은 화면에서는 떠 있는 '결과 보기' 단추를 쓰지 않는다(3·4단계가 바로 아래에 이어진다) */
+  .fab{display:none}
+}
+
 @media (max-width:375px){
   .gs-bar{column-gap:6px;padding:8px 9px}
   .gs-t{font-size:12px}
@@ -713,7 +778,7 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
     <button class="icon-btn" id="themeBtn" aria-label="화면 밝기 바꾸기">🌙</button>
   </header>
 
-  <section class="card">
+  <section class="card s1">
     <div class="step"><span>1</span>고객 정보
       <em class="noprint" style="display:flex;gap:6px">
         <button class="btn ghost" data-act="demo" style="padding:6px 11px;font-size:12.5px;border-radius:9px">예시로 채우기</button>
@@ -755,42 +820,47 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
     </div>
   </section>
 
-  <section class="card">
-    <div class="step"><span>2</span>개선하고 싶은 부위·동작</div>
-    <div class="partpick" id="partPick">
-      <div class="pp-head">
-        <h3>부위</h3>
-        <span class="pp-note">몸 그림 · 빠른 선택</span>
-        <button type="button" class="pp-clear" id="partClear" data-act="part-clear" hidden>모두 지우기</button>
-      </div>
-      <div class="pp-sum" id="clinicSum">아픈 곳을 눌러 표시해요</div>
-      <div class="pp-views">
-        <div class="seg bcviewseg" role="group" aria-label="몸 그림 방향">
-          <button type="button" data-bcview="front" class="on">앞면</button>
-          <button type="button" data-bcview="back">뒷면</button>
+  <section class="card s2">
+    <!-- PC 넓은 화면에서만 좌(부위 선택·몸 그림) / 우(임상 문진)로 나뉜다. 모바일에서는 두 상자가 display:contents 라 예전과 똑같이 이어진다. -->
+    <div class="s2-left">
+      <div class="step"><span>2</span>개선하고 싶은 부위·동작</div>
+      <div class="partpick" id="partPick">
+        <div class="pp-head">
+          <h3>부위</h3>
+          <span class="pp-note">몸 그림 · 빠른 선택</span>
+          <button type="button" class="pp-clear" id="partClear" data-act="part-clear" hidden>모두 지우기</button>
         </div>
-        <span class="bclegend" id="bcLegend">화면 왼쪽 = 회원 오른쪽</span>
+        <div class="pp-sum" id="clinicSum">아픈 곳을 눌러 표시해요</div>
+        <div class="pp-views">
+          <div class="seg bcviewseg" role="group" aria-label="몸 그림 방향">
+            <button type="button" data-bcview="front" class="on">앞면</button>
+            <button type="button" data-bcview="back">뒷면</button>
+          </div>
+          <span class="bclegend" id="bcLegend">화면 왼쪽 = 회원 오른쪽</span>
+        </div>
+        <div class="bcbox" id="bodyChart"></div>
+        <div class="bcsel" id="partSel"></div>
+        <p class="bchint">점선은 터치할 수 있는 부위예요 · 다시 누르면 해제 · 척추(목·흉추·허리)는 중앙/왼쪽/오른쪽으로 나눠 눌러요</p>
+        <div class="pp-quick">
+          <span class="pp-q-lbl">빠른 선택</span>
+          <div class="chips" id="partChips"></div>
+        </div>
       </div>
-      <div class="bcbox" id="bodyChart"></div>
-      <div class="bcsel" id="partSel"></div>
-      <p class="bchint">점선은 터치할 수 있는 부위예요 · 다시 누르면 해제 · 척추(목·흉추·허리)는 중앙/왼쪽/오른쪽으로 나눠 눌러요</p>
-      <div class="pp-quick">
-        <span class="pp-q-lbl">빠른 선택</span>
-        <div class="chips" id="partChips"></div>
+      <div class="group">
+        <h3>동작</h3>
+        <div class="chips" id="moveChips"></div>
       </div>
     </div>
-    <div class="group">
-      <h3>동작</h3>
-      <div class="chips" id="moveChips"></div>
-    </div>
-    <div class="clinic" id="clinicBox">
-      <button type="button" class="clinic-bar" id="clinicToggle" data-act="clinic-toggle" aria-expanded="false" aria-controls="clinicPanel">
-        <span class="cb-ic" aria-hidden="true">🩺</span>
-        <span class="cb-t">임상 문진 · 통증 양상</span>
-        <span class="cb-ar" aria-hidden="true">▾</span>
-        <span class="cb-sum" id="clinicState">통증 타입·과민성·메모</span>
-      </button>
-      <div class="clinic-body" id="clinicPanel" hidden></div>
+    <div class="s2-right">
+      <div class="clinic" id="clinicBox">
+        <button type="button" class="clinic-bar" id="clinicToggle" data-act="clinic-toggle" aria-expanded="false" aria-controls="clinicPanel">
+          <span class="cb-ic" aria-hidden="true">🩺</span>
+          <span class="cb-t">임상 문진 · 통증 양상</span>
+          <span class="cb-ar" aria-hidden="true">▾</span>
+          <span class="cb-sum" id="clinicState">통증 타입·과민성·메모</span>
+        </button>
+        <div class="clinic-body" id="clinicPanel" hidden></div>
+      </div>
     </div>
     <label class="switch"><input type="checkbox" id="hiEnd"><i class="tg" aria-hidden="true"></i><span>고가 장비 검사(HHD·포스플레이트·등속성·CPX)도 표시</span></label>
   </section>
@@ -3255,6 +3325,11 @@ function symResultHTML() {
 }
 /* 화면(DOM)이 있는 환경인지 — 계산 엔진 테스트(quickjs)에서는 document가 없다 */
 function hasDom() { return (typeof document !== 'undefined') && !!document && typeof document.querySelector === 'function'; }
+/* PC·태블릿 넓은 화면(2단 레이아웃)인지 — style.css 의 @media (min-width:960px) 와 같은 기준 */
+function wideScreen() {
+  try { return typeof window !== 'undefined' && !!window.matchMedia && window.matchMedia('(min-width:960px)').matches; }
+  catch (e) { return false; }
+}
 /* 검사 카드를 펼쳐 화면 가운데로 — 부위별 임상 패널의 연결 검사·증상 수정의 SSMP 링크가 함께 쓴다 */
 function openTestCard(id) {
   if (!id || !testById(id)) return false;
@@ -5591,6 +5666,7 @@ function demoState() {
 }
 function demo() {
   demoState();
+  if (wideScreen()) S.clinicOpen = true; /* PC 2단에서는 오른쪽 문진 패널을 펼친 채로 보여 준다 */
   ['age', 'height', 'weight'].forEach(function (k) { var el = $(k); if (el) el.value = S[k]; });
   if ($('hiEnd')) $('hiEnd').checked = !!S.hiEnd;
   renderChips(); renderAll(); saveState();
@@ -5633,6 +5709,8 @@ function fallbackCopy(txt) {
 function buildClinic() {
   var p = $('clinicPanel');
   if (p) p.innerHTML = clinicPanelHTML();
+  /* PC 넓은 화면의 오른쪽 문진 패널에서는 PQRST·가설 우선순위·중재까지 펼쳐 둔다 */
+  if (wideScreen()) { var d = $('clinicMore'); if (d) d.open = true; }
   renderClinic();
 }
 function init() {
@@ -5643,6 +5721,8 @@ function init() {
   if ($('height')) $('height').value = S.height || '';
   if ($('weight')) $('weight').value = S.weight || '';
   if ($('hiEnd')) $('hiEnd').checked = !!S.hiEnd;
+  /* PC 넓은 화면에서는 임상 문진을 처음부터 펼쳐 둔다 — 오른쪽 2단 패널이 빈 채로 남지 않게 */
+  if (!S.clinicOpen && wideScreen()) S.clinicOpen = true;
   buildChips(); buildClinic(); renderChips(); renderAll();
   $('sources').innerHTML = renderSourcesHTML();
   syncClientBar();
