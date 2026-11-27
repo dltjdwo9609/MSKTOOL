@@ -4393,8 +4393,16 @@ function symEasyLines() {
   return out;
 }
 /* 회원용 레포트에 그릴 임상 요약(쉬운 말) */
+/* 레포트·설명문의 부위 목록 — 무통증 체력 모드에서는 빠른 선택 칩(전신·무릎 …)까지 '관심 부위'로 넣는다 */
+function reportParts() {
+  var body = (S.body || []).map(bodyRegionText).filter(Boolean);
+  if (!goalPerf()) return body;
+  var out = body.slice();
+  (S.parts || []).forEach(function (p) { if (out.indexOf(p) < 0) out.push(p); });
+  return out;
+}
 function clinicReportData() {
-  var parts = (S.body || []).map(bodyRegionText).filter(Boolean);
+  var parts = reportParts();
   var plans = clinicPlans();
   var symLines = symEasyLines();
   /* 무통증 체력 평가에서는 통증 느낌·현재 예민도 줄을 레포트·인쇄에 넣지 않는다 */
@@ -5534,7 +5542,7 @@ function renderResultsHTML() {
 /* ---------- 고객용 설명문 ---------- */
 function clinicClientLines() {
   var out = [];
-  var parts = (S.body || []).map(bodyRegionText).filter(Boolean);
+  var parts = reportParts();
   if (goalPerf()) {
     /* 무통증 체력·퍼포먼스 — 통증 표현 대신 목적과 목표 동작을 적는다 */
     var mv = (S.moves || []).filter(function (x) { return MOVE_CHIPS.indexOf(x) >= 0; });
