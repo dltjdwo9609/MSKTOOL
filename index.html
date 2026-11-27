@@ -6171,7 +6171,11 @@ function init() {
     if (act === 'copy') { copyText(clientText()); return; }
     if (act === 'copy2') { copyText(resultText()); return; }
     if (act === 'memo-add') { memoAddSlot(-1); return; }
-    if (act === 'memo-del') { memoDelSlot(parseInt(el.getAttribute('data-slot'), 10)); return; }
+    if (act === 'memo-del') {
+      var mdi = parseInt(el.getAttribute('data-slot'), 10);
+      if (!isFinite(mdi) || mdi < 0) return;
+      memoDelSlot(mdi); return;
+    }
     if (act === 'rep-preview') { showReportPreview(); return; }
     if (act === 'rep-save') {
       if (!downloadReport()) alert('이 브라우저에서는 이미지 저장이 막혔어요. 미리보기를 길게 눌러 저장해 주세요.');
