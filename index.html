@@ -597,7 +597,7 @@ h2.sec::after{content:"";flex:1;height:1px;background:var(--line)}
 .print-head .ph-meta{margin:5px 0 0;font-size:12.5px;color:#555}
 .print-head .ph-memo{margin:11px 0 0;font-size:13px;line-height:1.6;background:#eef5f3;border-radius:10px;padding:10px 12px}
 .print-head .ph-memo b{display:block;font-size:11.5px;color:#0b5d57;margin-bottom:2px}
-.print-head .ph-memo span{white-space:pre-line}
+.print-head .ph-memo span{white-space:pre-line;word-break:keep-all}
 .print-head .ph-home{background:#ffffff;border:1px solid #cfe0da}
 .print-head [data-on="0"]{display:none}
 .print-head .ph-clinic{margin:11px 0 0;border:1px solid #d8ded9;border-radius:10px;padding:9px 12px;font-size:12.5px;line-height:1.55}
@@ -606,7 +606,7 @@ h2.sec::after{content:"";flex:1;height:1px;background:var(--line)}
 .phc-row:last-child{margin:0}
 .phc-row[data-on="0"]{display:none}
 .phc-row b{flex:0 0 96px;color:#0b5d57;font-size:12px}
-.phc-row span{flex:1 1 auto}
+.phc-row span{flex:1 1 auto;white-space:pre-line}
 
 footer{margin-top:26px}
 footer details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:0}
@@ -4173,8 +4173,11 @@ function clientText() {
   lines.push('');
   lines.push('숫자는 지금 위치를 알려 주는 지도예요. 낮게 보이는 항목은 출발점일 뿐이고, 같은 방법으로 다시 재면 변화가 그대로 보입니다. 다음 재평가 때 오늘 기록과 나란히 놓고 같이 확인해요.');
   if (memo) {
+    var mp = memoParas(memo);
+    if (!mp.length) mp = [memo];
     lines.push('');
-    lines.push('담당자 한마디: ' + memo);
+    lines.push('담당자 한마디: ' + mp[0]);
+    for (var mi0 = 1; mi0 < mp.length; mi0++) lines.push(mp[mi0]);
   }
   var homet = hometSegments();
   if (homet.length) {
@@ -6345,13 +6348,51 @@ function memberTitle() {
 }
 /* 오늘의 관리·홈트 포인트 — 줄바꿈이나 두 칸 이상 띄어쓰기로 항목을 나눈 것으로 본다 */
 function hometText() { return String(S.homet === undefined || S.homet === null ? '' : S.homet); }
+/* 이어 쓴 번호 항목(`1) … 2) …`, `1. … 2. …`, `① … ② …`)을 문단으로 나눈다.
+   문단 맨 앞 번호는 그대로 두고, 문장부호·띄어쓰기 뒤에 오는 번호만 새 문단으로 자른다.
+   `2026. 11. 27.`처럼 숫자 뒤에 숫자가 이어지는 날짜·소수는 나누지 않는다. */
+function splitNumberedLine(line) {
+  var s = String(line === undefined || line === null ? '' : line);
+  var re = /(^|[ .!?。…·])((?:[1-9]|1[0-9]|2[0-9])\)|(?:[1-9])\.|[①-⑳])(?=\s*\S)/g;
+  var out = [], last = 0, m;
+  while ((m = re.exec(s)) !== null) {
+    var idx = m.index + m[1].length, mark = m[2];
+    re.lastIndex = Math.max(re.lastIndex, idx + mark.length);
+    if (idx <= last) continue; /* 줄 맨 앞 번호는 이미 문단 시작 */
+    if (mark.charAt(mark.length - 1) === '.') {
+      var after = s.slice(idx + mark.length).replace(/^ +/, '');
+      if (!after || (after.charAt(0) >= '0' && after.charAt(0) <= '9')) continue;
+    }
+    out.push(s.slice(last, idx).replace(/ +$/, ''));
+    last = idx;
+  }
+  if (!out.length) return [s];
+  out.push(s.slice(last));
+  return out.filter(function (x) { return /\S/.test(x); });
+}
+/* 담당자 한마디 → 문단 목록. 입력한 줄바꿈은 그대로 문단이 되고, 이어 쓴 번호 항목도 문단으로 나뉜다. */
+function memoParas(src) {
+  var raw = String(src === undefined || src === null ? '' : src).replace(/\r\n?/g, '\n');
+  var out = [];
+  raw.split('\n').forEach(function (line) {
+    var s = line.replace(/[ \t]+/g, ' ').replace(/^ +| +$/g, '');
+    if (!s) return;
+    splitNumberedLine(s).forEach(function (part) {
+      var p = part.replace(/^ +| +$/g, '');
+      if (p) out.push(p);
+    });
+  });
+  return out;
+}
 function hometSegments(src) {
   var raw = String(src === undefined || src === null ? hometText() : src).replace(/\r/g, '');
   var out = [];
   raw.split(/\n+/).forEach(function (line) {
     line.split(/\s{2,}/).forEach(function (seg) {
-      var t = cleanStr(seg);
-      if (t) out.push(t);
+      splitNumberedLine(cleanStr(seg)).forEach(function (piece) {
+        var t = cleanStr(piece);
+        if (t) out.push(t);
+      });
     });
   });
   return out;
@@ -6686,19 +6727,28 @@ function planReport(d, measure) {
     y += cardH;
   });
 
-  /* 6) 담당자 한마디 */
+  /* 6) 담당자 한마디 — 줄바꿈·번호 항목마다 문단으로 나눠 그리고, 문단 사이는 띄운다 */
   if (d.memo) {
     y += 28;
-    var mF = repFont(28, 500), mLines = wrapText(measure, d.memo, mF, CW - 60);
-    if (!mLines.length) mLines = [''];
+    var mF = repFont(28, 500), mMax = CW - 60;
+    var mParas = memoParas(d.memo), mBlocks = [];
+    mParas.forEach(function (p) {
+      var ls = wrapText(measure, p, mF, mMax);
+      if (ls.length) mBlocks.push(ls);
+    });
+    if (!mBlocks.length) mBlocks = [['']];
     var boxTop = y;
     var labBase = boxTop + 46;
-    var firstBase = labBase + 46;
-    var boxH = firstBase - boxTop + (mLines.length - 1) * 40 + 34;
+    var mY = labBase + 46, mSeq = [];
+    mBlocks.forEach(function (ls, bi) {
+      if (bi > 0) mY += 14; /* 문단 사이 여백 */
+      for (var li = 0; li < ls.length; li++) { mSeq.push({ s: ls[li], y: mY }); mY += 40; }
+    });
+    var boxH = (mY - 40 - boxTop) + 34;
     ops.push({ k: 'rrect', x: PAD, y: boxTop, w: CW, h: boxH, r: 24, fill: REP.soft });
     ops.push({ k: 'text', x: PAD + 30, y: labBase, s: '담당자 한마디', font: repFont(23, 700), color: REP.brand2 });
-    for (var mi = 0; mi < mLines.length; mi++) {
-      ops.push({ k: 'text', x: PAD + 30, y: firstBase + mi * 40, s: mLines[mi], font: mF, color: REP.ink });
+    for (var mi = 0; mi < mSeq.length; mi++) {
+      ops.push({ k: 'text', x: PAD + 30, y: mSeq[mi].y, s: mSeq[mi].s, font: mF, color: REP.ink });
     }
     y = boxTop + boxH;
   }
@@ -6895,7 +6945,8 @@ function syncReportHeader() {
   put('phName', memberTitle());
   put('phMeta', peopleText());
   var memo = String(S.memo === undefined || S.memo === null ? '' : S.memo).trim();
-  put('phMemoText', memo);
+  /* 한마디는 줄바꿈·번호 항목마다 문단으로 나눠 넣는다(문단 사이는 빈 줄 — CSS white-space:pre-line) */
+  put('phMemoText', memoParas(memo).join('\n\n'));
   var pm = document.getElementById('phMemo');
   if (pm && pm.setAttribute) pm.setAttribute('data-on', memo ? '1' : '0');
   /* 오늘의 관리·홈트 포인트 — 입력했을 때만 인쇄 머리말에 */
@@ -6915,7 +6966,7 @@ function syncReportHeader() {
   put('phcPain', cr.pain, cr.pain ? '1' : '0');
   put('phcIrr', cr.irrit, cr.irrit ? '1' : '0');
   put('phcSym', (cr.sym || []).join('  /  '), (cr.sym || []).length ? '1' : '0');
-  put('phcPlan', cr.plans.map(function (x, i) { return (i + 1) + '. ' + x; }).join('  '), cr.plans.length ? '1' : '0');
+  put('phcPlan', cr.plans.map(function (x, i) { return (i + 1) + '. ' + x; }).join('\n'), cr.plans.length ? '1' : '0');
   rowOn('phcPartsRow', !!cr.parts);
   rowOn('phcPainRow', !!cr.pain);
   rowOn('phcIrrRow', !!cr.irrit);
@@ -6935,7 +6986,7 @@ function reportSectionHTML(d) {
   h += '<label class="repf"><span>회원 이름</span><input type="text" data-rep="member" value="' + esc(S.member || '') + '" placeholder="예: 김OO" autocomplete="off"></label>';
   h += '<label class="repf"><span>센터 · 담당자명 <em>다음에도 유지</em></span><input type="text" data-rep="center" value="' + esc(S.center || '') + '" placeholder="예: 피지오스튜디오 · 이성재 선생님" autocomplete="off"></label>';
   h += '</div>';
-  h += '<label class="repf wide"><span>담당자 한마디 <em>선택</em></span><textarea data-rep="memo" rows="2" placeholder="예: 오른쪽 엉덩이 안정성 강화 위주로 4주간 진행해요">' + esc(S.memo || '') + '</textarea></label>';
+  h += '<label class="repf wide"><span>담당자 한마디 <em>선택 · Enter·1) 2) 번호마다 문단</em></span><textarea data-rep="memo" rows="2" placeholder="예: 1) 오른쪽 엉덩이 안정성 강화 4주  2) 러닝은 4km로 조정">' + esc(S.memo || '') + '</textarea></label>';
   h += '<label class="repf wide"><span>오늘의 관리 · 홈트 포인트 <em>선택</em></span><textarea data-rep="homet" rows="3" placeholder="예: 1) 종아리 등척성 버티기 30초×3세트  2) 무릎 안쪽 모임 주의">' + esc(S.homet || '') + '</textarea></label>';
   h += '<div class="repbtns">';
   h += '<button class="btn" data-act="rep-preview">레포트 미리보기</button>';
@@ -6992,6 +7043,7 @@ G.APP = {
   areaSummary: areaSummary, areaHTML: areaHTML, areaGrade: areaGrade, areaLevel: areaLevel, areaInk: areaInk,
   changeSummary: changeSummary, changeHTML: changeHTML, changeLabel: changeLabel,
   hometText: hometText, hometSegments: hometSegments,
+  memoParas: memoParas, splitNumberedLine: splitNumberedLine,
   /* 루틴 세트 */
   BUILTIN_SETS: BUILTIN_SETS, presetList: presetList, findPreset: findPreset, routineTests: routineTests,
   applyRoutine: applyRoutine, clearRoutine: clearRoutine, routineBar: routineBar,
