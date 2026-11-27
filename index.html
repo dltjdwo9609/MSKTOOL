@@ -1010,6 +1010,102 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
   .irow.bwm .bwmout{font-size:12px}
 }
 
+/* ===== 내 기기 전용 사용 통계 (v27) — 푸터 보조 버튼 + 모달 ===== */
+.pub-tools{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin:8px 0 0}
+/* 고가 장비 검사 스위치 — 3단계 화면에서 빼고 푸터 보조 영역으로 옮겼다(기본 꺼짐) */
+.pub-switch{display:inline-flex;align-items:center;gap:6px;border:1px dashed var(--line);border-radius:999px;padding:4px 9px 4px 7px;font-size:11.2px;font-weight:600;color:var(--muted);cursor:pointer;line-height:1.5}
+.pub-switch:hover{border-color:color-mix(in srgb,var(--brand) 32%,var(--line));background:var(--chip)}
+.pub-switch input{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
+.pub-switch .tg{width:26px;height:15px;border-radius:99px;background:var(--line);position:relative;flex:none;transition:.15s}
+.pub-switch .tg::after{content:"";position:absolute;top:2px;left:2px;width:11px;height:11px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.22);transition:.15s}
+.pub-switch input:checked+.tg{background:var(--brand)}
+.pub-switch input:checked+.tg::after{left:13px}
+.pub-switch input:focus-visible+.tg{box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 40%,transparent)}
+.pub-switch .ps-t{white-space:nowrap}
+.pub-switch .ps-b{font-style:normal;font-size:9.6px;font-weight:800;color:var(--muted);background:var(--chip);border:1px solid var(--line);border-radius:5px;padding:0 4px;line-height:1.6}
+.pub-switch input:checked~.ps-b{color:var(--brand-2);border-color:color-mix(in srgb,var(--brand) 32%,var(--line));background:var(--soft)}
+.pub-switch.on{border-style:solid;border-color:color-mix(in srgb,var(--brand) 30%,var(--line))}
+.pub-stat{border:1px dashed color-mix(in srgb,var(--brand) 30%,var(--line));background:transparent;color:var(--muted);font:inherit;font-size:11.4px;font-weight:700;letter-spacing:-.01em;line-height:1.5;border-radius:999px;padding:5px 11px;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.pub-stat:hover{background:var(--soft);color:var(--brand-2);border-color:color-mix(in srgb,var(--brand) 44%,var(--line));border-style:solid}
+.pub-stat:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+@media (max-width:430px){.pub-tools{justify-content:flex-start}}
+
+html.umodal{overflow:hidden}
+.modal{position:fixed;inset:0;z-index:70;display:flex;align-items:flex-end;justify-content:center}
+.modal[hidden]{display:none}
+.modal-bg{position:absolute;inset:0;background:rgba(9,20,18,.48)}
+.modal-card{position:relative;width:100%;max-width:560px;max-height:min(88vh,780px);display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:20px 20px 0 0;box-shadow:0 -10px 44px rgba(0,0,0,.26);overflow:hidden}
+.modal-head{display:flex;align-items:center;gap:10px;padding:15px 16px 11px;border-bottom:1px solid var(--line);flex:none}
+.modal-head h2{margin:0;font-size:16px;letter-spacing:-.02em}
+.modal-x{margin-left:auto;width:34px;height:34px;flex:none;border-radius:11px;border:1px solid var(--line);background:var(--chip);color:var(--ink);font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.modal-body{padding:13px 16px 16px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;min-height:0}
+.modal-foot{display:flex;gap:7px;flex:none;padding:10px 16px calc(11px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:var(--card)}
+.modal-foot .btn{flex:1 1 auto;padding:10px 6px;font-size:12.8px}
+@media (min-width:600px){
+  .modal{align-items:center;padding:24px}
+  .modal-card{border-radius:20px;max-height:min(84vh,760px)}
+}
+
+.unote{margin:0 0 11px;font-size:11.6px;line-height:1.55;color:var(--muted);word-break:keep-all}
+.usum{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:center;background:var(--chip);border:1px solid var(--line);border-radius:14px;padding:11px 13px}
+.usum-big{display:flex;flex-direction:column;gap:1px;min-width:82px}
+.ulb{font-size:10.6px;font-weight:700;color:var(--muted);letter-spacing:.01em}
+.usum-big b{font-size:26px;line-height:1.15;letter-spacing:-.02em;color:var(--brand-2);font-weight:800}
+.usum-big b em{font-style:normal;font-size:12px;font-weight:700;color:var(--muted);margin-left:2px}
+.usub{font-size:10.4px;color:var(--muted);line-height:1.4}
+.usum-goal{display:grid;gap:6px;min-width:0}
+.ugl{display:flex;align-items:baseline;gap:5px;font-size:11.6px;font-weight:600;color:var(--ink);min-width:0}
+.ugl .ut{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.udot{width:7px;height:7px;border-radius:50%;flex:none;align-self:center}
+.udot.pain{background:var(--a1)}
+.udot.perf{background:var(--brand)}
+.ugl b{margin-left:auto;font-size:12.2px;font-weight:800;flex:none}
+.ugl .up{font-size:10.4px;color:var(--muted);font-weight:600;min-width:30px;text-align:right;flex:none}
+.ubar{height:5px;border-radius:99px;background:var(--line);overflow:hidden}
+.ubar>i{display:block;height:100%;border-radius:99px;background:var(--brand);min-width:0}
+.ubar.pain>i{background:var(--a1)}
+
+.usec{display:flex;align-items:baseline;gap:6px;margin:15px 0 7px;font-size:12.3px;letter-spacing:-.01em;font-weight:700}
+.usec .uhint{font-size:10.4px;font-weight:600;color:var(--muted)}
+.ucells{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.ucells.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.ucell{background:var(--chip);border:1px solid var(--line);border-radius:11px;padding:7px 9px 8px;display:flex;flex-direction:column;gap:1px;min-width:0}
+.ucell .ulb{font-size:10.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ucell b{font-size:15.5px;letter-spacing:-.01em;font-weight:800;line-height:1.25}
+.ucell.zero b{color:var(--muted);font-weight:600}
+.utop{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.utop li{display:grid;grid-template-columns:17px minmax(0,1fr) 52px 40px;gap:7px;align-items:center;font-size:12px;line-height:1.4}
+.urk{font-style:normal;font-size:10.4px;font-weight:800;color:var(--brand-2);text-align:center}
+.utn{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
+.utbar{display:block;height:5px;border-radius:99px;background:var(--line);overflow:hidden}
+.utbar>i{display:block;height:100%;background:color-mix(in srgb,var(--brand) 58%,var(--card))}
+.utop .un{font-size:11.2px;font-weight:800;text-align:right;color:var(--muted)}
+.uempty{margin:0;font-size:11.6px;line-height:1.55;color:var(--muted);background:var(--chip);border:1px dashed var(--line);border-radius:11px;padding:10px 12px;word-break:keep-all}
+.uznote{margin:0 0 7px;font-size:11.6px;line-height:1.55;color:var(--muted);word-break:keep-all}
+.uznote b{color:var(--ink)}
+.uzero{border:1px solid var(--line);border-radius:12px;background:var(--chip);overflow:hidden}
+.uzero summary{cursor:pointer;list-style:none;padding:9px 12px;font-size:11.6px;font-weight:700;color:var(--brand-2)}
+.uzero summary::-webkit-details-marker{display:none}
+.uzero summary::after{content:"▾";float:right;color:var(--muted)}
+.uzero[open] summary::after{content:"▴"}
+.uzlist{display:flex;flex-wrap:wrap;gap:5px;padding:0 11px 11px;max-height:172px;overflow-y:auto;overscroll-behavior:contain}
+.uzc{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px 8px;line-height:1.45}
+.uzc em{font-style:normal;font-size:9.4px;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:0 4px}
+@media (max-width:379.98px){
+  .modal-head{padding:13px 13px 10px}
+  .modal-body{padding:11px 13px 14px}
+  .modal-foot{padding:9px 13px calc(10px + env(safe-area-inset-bottom,0px))}
+  .usum{padding:10px 11px;gap:7px 10px}
+  .usum-big b{font-size:23px}
+  .ucell{padding:6px 7px 7px}
+  .ucell .ulb{font-size:9.8px}
+  .ucell b{font-size:14px}
+  .utop li{grid-template-columns:15px minmax(0,1fr) 44px 36px;gap:5px;font-size:11.4px}
+}
+@media print{
+  .modal,.pub-tools{display:none!important}
+}
+
 
 /* PWA: 홈 화면 앱(standalone)에서 상태 표시줄·노치 영역만큼 위를 비운다 */
 @media (display-mode: standalone){
@@ -1138,7 +1234,6 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
         <div class="clinic-body" id="clinicPanel" hidden></div>
       </div>
     </div>
-    <label class="switch"><input type="checkbox" id="hiEnd"><i class="tg" aria-hidden="true"></i><span>고가 장비 검사(HHD·포스플레이트·등속성·CPX)도 표시</span></label>
     <p class="snav noprint">← 좌우로 쓸어서 단계를 넘겨요 →</p>
   </section>
 
@@ -1188,6 +1283,15 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
         </div>
       </div>
       <p class="pub-code">오픈채팅 참여코드 <b>MSKTOOL</b></p>
+      <div class="pub-tools noprint">
+        <label class="pub-switch" id="hiEndSwitch" title="고가 장비 검사 4종(HHD·포스플레이트·등속성·CPX)을 검사 목록에 함께 보여 줍니다">
+          <input type="checkbox" id="hiEnd">
+          <i class="tg" aria-hidden="true"></i>
+          <span class="ps-t">고가 장비 검사</span>
+          <em class="ps-b" id="hiEndBadge">꺼짐</em>
+        </label>
+        <button type="button" class="pub-stat" id="usageBtn" data-act="usage-open">내 사용 통계</button>
+      </div>
       <ul class="pub-notes">
         <li><b>기록</b><span>모든 기록은 내 기기에 저장되며(타인과 섞이지 않음), 구글 시트 동기화는 선택 시에만 연결됩니다.</span></li>
         <li><b>설치</b><span>휴대폰 앱으로 쓰려면 크롬(안드로이드) '앱 설치' 또는 사파리(아이폰) '공유 → 홈 화면에 추가'를 누르세요.</span></li>
@@ -1202,6 +1306,23 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
   </footer>
 </div>
 <div class="fab noprint" id="fab" hidden><button class="btn" id="fabBtn" data-act="goto">결과 보기</button></div>
+
+<!-- 내 기기 전용 사용 통계 모달 — localStorage만 읽는다(서버 전송 없음). 인쇄·레포트에는 나가지 않는다 -->
+<div class="modal noprint" id="usageModal" hidden role="dialog" aria-modal="true" aria-labelledby="usageTitle">
+  <div class="modal-bg" data-act="usage-close"></div>
+  <div class="modal-card" role="document">
+    <div class="modal-head">
+      <h2 id="usageTitle">내 사용 통계</h2>
+      <button type="button" class="modal-x" data-act="usage-close" aria-label="닫기">✕</button>
+    </div>
+    <div class="modal-body" id="usageBody"></div>
+    <div class="modal-foot">
+      <button type="button" class="btn noprint" data-act="usage-copy">요약 복사</button>
+      <button type="button" class="btn ghost noprint" data-act="usage-reset">통계 초기화</button>
+      <button type="button" class="btn ghost noprint" data-act="usage-close">닫기</button>
+    </div>
+  </div>
+</div>
 
 <script id="s-norms">window.NORMS={"grip_abs":{"dir":1,"variants":[{"minAge":19,"maxAge":200,"type":"meanSD","bands":[{"sex":"M","lo":19,"hi":24,"mean":45.3,"sd":7.29},{"sex":"F","lo":19,"hi":24,"mean":27.5,"sd":4.35},{"sex":"M","lo":25,"hi":29,"mean":47.2,"sd":7.56},{"sex":"F","lo":25,"hi":29,"mean":27.7,"sd":4.34},{"sex":"M","lo":30,"hi":34,"mean":48.1,"sd":7.51},{"sex":"F","lo":30,"hi":34,"mean":27.8,"sd":4.81},{"sex":"M","lo":35,"hi":39,"mean":48.0,"sd":7.39},{"sex":"F","lo":35,"hi":39,"mean":28.0,"sd":4.86},{"sex":"M","lo":40,"hi":44,"mean":47.7,"sd":7.11},{"sex":"F","lo":40,"hi":44,"mean":27.9,"sd":4.9},{"sex":"M","lo":45,"hi":49,"mean":46.1,"sd":6.8},{"sex":"F","lo":45,"hi":49,"mean":27.7,"sd":4.59},{"sex":"M","lo":50,"hi":54,"mean":44.6,"sd":6.66},{"sex":"F","lo":50,"hi":54,"mean":26.7,"sd":4.52},{"sex":"M","lo":55,"hi":59,"mean":42.7,"sd":6.27},{"sex":"F","lo":55,"hi":59,"mean":26.3,"sd":4.25},{"sex":"M","lo":60,"hi":64,"mean":41.4,"sd":5.92},{"sex":"F","lo":60,"hi":64,"mean":25.5,"sd":4.25},{"sex":"M","lo":65,"hi":69,"mean":39.6,"sd":5.94},{"sex":"F","lo":65,"hi":69,"mean":24.3,"sd":4.19},{"sex":"M","lo":70,"hi":74,"mean":36.8,"sd":5.9},{"sex":"F","lo":70,"hi":74,"mean":22.9,"sd":4.14},{"sex":"M","lo":75,"hi":79,"mean":34.1,"sd":5.93},{"sex":"F","lo":75,"hi":79,"mean":21.6,"sd":4.33},{"sex":"M","lo":80,"hi":200,"mean":30.0,"sd":6.47},{"sex":"F","lo":80,"hi":200,"mean":18.5,"sd":4.77}]}]},"grip_rel":{"dir":1,"variants":[{"minAge":19,"maxAge":200,"type":"pct","bands":[{"sex":"M","lo":19,"hi":24,"pts":[[30.0,51.8],[50.0,57.2],[70.0,62.6]]},{"sex":"M","lo":25,"hi":29,"pts":[[30.0,51.6],[50.0,57.0],[70.0,62.4]]},{"sex":"M","lo":30,"hi":34,"pts":[[30.0,51.8],[50.0,57.2],[70.0,62.6]]},{"sex":"M","lo":35,"hi":39,"pts":[[30.0,51.1],[50.0,56.6],[70.0,62.1]]},{"sex":"M","lo":40,"hi":44,"pts":[[30.0,51.6],[50.0,57.2],[70.0,62.8]]},{"sex":"M","lo":45,"hi":49,"pts":[[30.0,51.4],[50.0,56.7],[70.0,62.0]]},{"sex":"M","lo":50,"hi":54,"pts":[[30.0,50.1],[50.0,55.3],[70.0,60.5]]},{"sex":"M","lo":55,"hi":59,"pts":[[30.0,49.0],[50.0,54.2],[70.0,59.4]]},{"sex":"M","lo":60,"hi":64,"pts":[[30.0,46.6],[50.0,51.7],[70.0,56.8]]},{"sex":"F","lo":19,"hi":24,"pts":[[30.0,38.0],[50.0,42.4],[70.0,46.8]]},{"sex":"F","lo":25,"hi":29,"pts":[[30.0,38.2],[50.0,42.6],[70.0,47.0]]},{"sex":"F","lo":30,"hi":34,"pts":[[30.0,40.8],[50.0,45.2],[70.0,49.6]]},{"sex":"F","lo":35,"hi":39,"pts":[[30.0,38.7],[50.0,43.1],[70.0,47.5]]},{"sex":"F","lo":40,"hi":44,"pts":[[30.0,38.5],[50.0,42.8],[70.0,47.1]]},{"sex":"F","lo":45,"hi":49,"pts":[[30.0,37.6],[50.0,41.9],[70.0,46.2]]},{"sex":"F","lo":50,"hi":54,"pts":[[30.0,36.5],[50.0,40.6],[70.0,44.7]]},{"sex":"F","lo":55,"hi":59,"pts":[[30.0,35.2],[50.0,39.2],[70.0,43.2]]},{"sex":"F","lo":60,"hi":64,"pts":[[30.0,34.1],[50.0,38.0],[70.0,41.9]]},{"sex":"M","lo":65,"hi":69,"pts":[[30.0,44.9],[50.0,50.1],[70.0,55.3]]},{"sex":"M","lo":70,"hi":74,"pts":[[30.0,43.1],[50.0,48.3],[70.0,53.6]]},{"sex":"M","lo":75,"hi":79,"pts":[[30.0,39.8],[50.0,45.2],[70.0,50.6]]},{"sex":"M","lo":80,"hi":84,"pts":[[30.0,36.5],[50.0,42.0],[70.0,47.5]]},{"sex":"M","lo":85,"hi":200,"pts":[[30.0,33.8],[50.0,39.6],[70.0,45.4]]},{"sex":"F","lo":65,"hi":69,"pts":[[30.0,32.2],[50.0,36.4],[70.0,40.6]]},{"sex":"F","lo":70,"hi":74,"pts":[[30.0,29.8],[50.0,34.1],[70.0,38.4]]},{"sex":"F","lo":75,"hi":79,"pts":[[30.0,27.4],[50.0,31.8],[70.0,36.2]]},{"sex":"F","lo":80,"hi":84,"pts":[[30.0,25.4],[50.0,29.9],[70.0,34.4]]},{"sex":"F","lo":85,"hi":200,"pts":[[30.0,23.1],[50.0,27.9],[70.0,32.7]]}]}]},"situp":{"dir":1,"variants":[{"minAge":19,"maxAge":64,"type":"meanSD","bands":[{"sex":"M","lo":19,"hi":24,"mean":44.2,"sd":11.38},{"sex":"F","lo":19,"hi":24,"mean":28.2,"sd":12.0},{"sex":"M","lo":25,"hi":29,"mean":43.5,"sd":11.11},{"sex":"F","lo":25,"hi":29,"mean":27.5,"sd":10.69},{"sex":"M","lo":30,"hi":34,"mean":43.2,"sd":10.96},{"sex":"F","lo":30,"hi":34,"mean":28.4,"sd":11.63},{"sex":"M","lo":35,"hi":39,"mean":40.8,"sd":11.46},{"sex":"F","lo":35,"hi":39,"mean":26.3,"sd":11.85},{"sex":"M","lo":40,"hi":44,"mean":37.9,"sd":11.31},{"sex":"F","lo":40,"hi":44,"mean":24.9,"sd":11.28},{"sex":"M","lo":45,"hi":49,"mean":35.6,"sd":11.1},{"sex":"F","lo":45,"hi":49,"mean":22.9,"sd":11.19},{"sex":"M","lo":50,"hi":54,"mean":32.2,"sd":10.95},{"sex":"F","lo":50,"hi":54,"mean":19.3,"sd":11.08},{"sex":"M","lo":55,"hi":59,"mean":29.9,"sd":10.6},{"sex":"F","lo":55,"hi":59,"mean":16.5,"sd":10.91},{"sex":"M","lo":60,"hi":64,"mean":27.4,"sd":9.55},{"sex":"F","lo":60,"hi":64,"mean":13.9,"sd":10.35}]}]},"sitreach":{"dir":1,"variants":[{"minAge":19,"maxAge":200,"type":"meanSD","bands":[{"sex":"M","lo":19,"hi":24,"mean":9.6,"sd":9.39},{"sex":"F","lo":19,"hi":24,"mean":16.2,"sd":8.16},{"sex":"M","lo":25,"hi":29,"mean":8.8,"sd":9.37},{"sex":"F","lo":25,"hi":29,"mean":16.5,"sd":7.78},{"sex":"M","lo":30,"hi":34,"mean":9.0,"sd":8.93},{"sex":"F","lo":30,"hi":34,"mean":15.3,"sd":8.72},{"sex":"M","lo":35,"hi":39,"mean":9.0,"sd":9.18},{"sex":"F","lo":35,"hi":39,"mean":14.5,"sd":8.82},{"sex":"M","lo":40,"hi":44,"mean":8.5,"sd":9.31},{"sex":"F","lo":40,"hi":44,"mean":14.3,"sd":8.54},{"sex":"M","lo":45,"hi":49,"mean":8.2,"sd":9.0},{"sex":"F","lo":45,"hi":49,"mean":14.0,"sd":8.12},{"sex":"M","lo":50,"hi":54,"mean":8.3,"sd":8.68},{"sex":"F","lo":50,"hi":54,"mean":15.0,"sd":7.67},{"sex":"M","lo":55,"hi":59,"mean":8.7,"sd":8.35},{"sex":"F","lo":55,"hi":59,"mean":15.7,"sd":7.17},{"sex":"M","lo":60,"hi":64,"mean":9.3,"sd":7.62},{"sex":"F","lo":60,"hi":64,"mean":15.8,"sd":7.08},{"sex":"M","lo":65,"hi":69,"mean":8.1,"sd":7.96},{"sex":"F","lo":65,"hi":69,"mean":15.2,"sd":7.26},{"sex":"M","lo":70,"hi":74,"mean":6.2,"sd":8.38},{"sex":"F","lo":70,"hi":74,"mean":14.1,"sd":7.43},{"sex":"M","lo":75,"hi":79,"mean":4.0,"sd":9.02},{"sex":"F","lo":75,"hi":79,"mean":12.8,"sd":7.95},{"sex":"M","lo":80,"hi":200,"mean":1.4,"sd":9.52},{"sex":"F","lo":80,"hi":200,"mean":9.4,"sd":8.09}]}]},"run20m":{"dir":1,"variants":[{"minAge":19,"maxAge":64,"type":"meanSD","bands":[{"sex":"M","lo":19,"hi":24,"mean":46.5,"sd":16.2},{"sex":"F","lo":19,"hi":24,"mean":23.8,"sd":8.78},{"sex":"M","lo":25,"hi":29,"mean":42.7,"sd":15.08},{"sex":"F","lo":25,"hi":29,"mean":22.6,"sd":8.36},{"sex":"M","lo":30,"hi":34,"mean":41.8,"sd":15.12},{"sex":"F","lo":30,"hi":34,"mean":22.4,"sd":11.09},{"sex":"M","lo":35,"hi":39,"mean":39.3,"sd":15.22},{"sex":"F","lo":35,"hi":39,"mean":21.1,"sd":9.75},{"sex":"M","lo":40,"hi":44,"mean":36.6,"sd":14.17},{"sex":"F","lo":40,"hi":44,"mean":19.1,"sd":10.23},{"sex":"M","lo":45,"hi":49,"mean":33.1,"sd":14.54},{"sex":"F","lo":45,"hi":49,"mean":16.7,"sd":8.03},{"sex":"M","lo":50,"hi":54,"mean":28.1,"sd":11.95},{"sex":"F","lo":50,"hi":54,"mean":15.5,"sd":7.19},{"sex":"M","lo":55,"hi":59,"mean":25.5,"sd":11.05},{"sex":"F","lo":55,"hi":59,"mean":14.3,"sd":6.75},{"sex":"M","lo":60,"hi":64,"mean":21.0,"sd":7.82},{"sex":"F","lo":60,"hi":64,"mean":11.6,"sd":5.41}]}]},"chair30":{"dir":1,"variants":[{"minAge":65,"maxAge":200,"type":"meanSD","bands":[{"sex":"M","lo":65,"hi":69,"mean":26.2,"sd":5.4},{"sex":"F","lo":65,"hi":69,"mean":22.5,"sd":5.96},{"sex":"M","lo":70,"hi":74,"mean":24.3,"sd":5.8},{"sex":"F","lo":70,"hi":74,"mean":20.6,"sd":6.15},{"sex":"M","lo":75,"hi":79,"mean":22.1,"sd":6.12},{"sex":"F","lo":75,"hi":79,"mean":18.5,"sd":6.08},{"sex":"M","lo":80,"hi":200,"mean":18.3,"sd":6.21},{"sex":"F","lo":80,"hi":200,"mean":14.6,"sd":5.71}]},{"minAge":60,"maxAge":64,"type":"pct","bands":[{"sex":"F","lo":60,"hi":64,"pts":[[5.0,8.0],[10.0,9.0],[25.0,12.0],[50.0,15.0],[75.0,17.0],[90.0,20.0],[95.0,21.0]]},{"sex":"M","lo":60,"hi":64,"pts":[[5.0,9.0],[10.0,11.0],[25.0,14.0],[50.0,16.0],[75.0,19.0],[90.0,22.0],[95.0,23.0]]}]}]},"walk6":{"dir":1,"variants":[{"minAge":65,"maxAge":200,"type":"meanSD","bands":[{"sex":"M","lo":65,"hi":69,"mean":688.3,"sd":85.11},{"sex":"F","lo":65,"hi":69,"mean":623.7,"sd":81.44},{"sex":"M","lo":70,"hi":74,"mean":707.8,"sd":96.4},{"sex":"F","lo":70,"hi":74,"mean":613.3,"sd":66.95},{"sex":"M","lo":75,"hi":79,"mean":596.6,"sd":98.51},{"sex":"F","lo":75,"hi":79,"mean":555.2,"sd":70.27},{"sex":"M","lo":80,"hi":200,"mean":552.2,"sd":75.29}]},{"minAge":60,"maxAge":64,"type":"pct","bands":[{"sex":"F","lo":60,"hi":64,"pts":[[25.0,547.0],[50.0,603.0],[75.0,659.0]]},{"sex":"M","lo":60,"hi":64,"pts":[[25.0,612.0],[50.0,674.0],[75.0,736.0]]}]}]},"sts5":{"dir":-1,"variants":[{"minAge":50,"maxAge":200,"type":"pct","bands":[{"sex":"F","lo":50,"hi":54,"pts":[[5.0,-16.3],[50.0,-9.1],[95.0,-5.9]]},{"sex":"M","lo":50,"hi":54,"pts":[[5.0,-14.1],[50.0,-9.1],[95.0,-5.5]]},{"sex":"F","lo":55,"hi":59,"pts":[[5.0,-15.6],[50.0,-9.4],[95.0,-5.6]]},{"sex":"M","lo":55,"hi":59,"pts":[[5.0,-15.5],[50.0,-9.2],[95.0,-5.8]]},{"sex":"F","lo":60,"hi":64,"pts":[[5.0,-16.5],[50.0,-10.0],[95.0,-6.1]]},{"sex":"M","lo":60,"hi":64,"pts":[[5.0,-15.2],[50.0,-9.5],[95.0,-5.7]]},{"sex":"F","lo":65,"hi":69,"pts":[[5.0,-17.4],[50.0,-10.2],[95.0,-6.5]]},{"sex":"M","lo":65,"hi":69,"pts":[[5.0,-16.3],[50.0,-10.2],[95.0,-6.0]]},{"sex":"F","lo":70,"hi":74,"pts":[[5.0,-18.8],[50.0,-11.1],[95.0,-7.0]]},{"sex":"M","lo":70,"hi":74,"pts":[[5.0,-18.8],[50.0,-11.1],[95.0,-7.0]]},{"sex":"F","lo":75,"hi":79,"pts":[[5.0,-22.6],[50.0,-12.7],[95.0,-8.2]]},{"sex":"M","lo":75,"hi":79,"pts":[[5.0,-19.6],[50.0,-11.8],[95.0,-7.2]]},{"sex":"F","lo":80,"hi":84,"pts":[[5.0,-25.8],[50.0,-14.3],[95.0,-8.1]]},{"sex":"M","lo":80,"hi":84,"pts":[[5.0,-23.3],[50.0,-13.4],[95.0,-8.4]]},{"sex":"F","lo":85,"hi":200,"pts":[[5.0,-26.3],[50.0,-15.0],[95.0,-9.8]]},{"sex":"M","lo":85,"hi":200,"pts":[[5.0,-23.4],[50.0,-13.5],[95.0,-8.6]]}]}]},"sts1":{"dir":1,"variants":[{"minAge":20,"maxAge":79,"type":"pct","bands":[{"sex":"M","lo":20,"hi":24,"pts":[[2.5,27.0],[25.0,41.0],[50.0,50.0],[75.0,57.0],[97.5,72.0]]},{"sex":"F","lo":20,"hi":24,"pts":[[2.5,31.0],[25.0,39.0],[50.0,47.0],[75.0,55.0],[97.5,70.0]]},{"sex":"M","lo":25,"hi":29,"pts":[[2.5,29.0],[25.0,40.0],[50.0,48.0],[75.0,56.0],[97.5,74.0]]},{"sex":"F","lo":25,"hi":29,"pts":[[2.5,30.0],[25.0,40.0],[50.0,47.0],[75.0,54.0],[97.5,68.0]]},{"sex":"M","lo":30,"hi":34,"pts":[[2.5,28.0],[25.0,40.0],[50.0,47.0],[75.0,56.0],[97.5,72.0]]},{"sex":"F","lo":30,"hi":34,"pts":[[2.5,27.0],[25.0,37.0],[50.0,45.0],[75.0,51.0],[97.5,68.0]]},{"sex":"M","lo":35,"hi":39,"pts":[[2.5,27.0],[25.0,38.0],[50.0,47.0],[75.0,58.0],[97.5,72.0]]},{"sex":"F","lo":35,"hi":39,"pts":[[2.5,25.0],[25.0,37.0],[50.0,42.0],[75.0,50.0],[97.5,63.0]]},{"sex":"M","lo":40,"hi":44,"pts":[[2.5,25.0],[25.0,37.0],[50.0,45.0],[75.0,53.0],[97.5,69.0]]},{"sex":"F","lo":40,"hi":44,"pts":[[2.5,26.0],[25.0,35.0],[50.0,41.0],[75.0,48.0],[97.5,65.0]]},{"sex":"M","lo":45,"hi":49,"pts":[[2.5,25.0],[25.0,35.0],[50.0,44.0],[75.0,52.0],[97.5,70.0]]},{"sex":"F","lo":45,"hi":49,"pts":[[2.5,25.0],[25.0,35.0],[50.0,41.0],[75.0,50.0],[97.5,63.0]]},{"sex":"M","lo":50,"hi":54,"pts":[[2.5,24.0],[25.0,35.0],[50.0,42.0],[75.0,53.0],[97.5,67.0]]},{"sex":"F","lo":50,"hi":54,"pts":[[2.5,23.0],[25.0,33.0],[50.0,39.0],[75.0,47.0],[97.5,60.0]]},{"sex":"M","lo":55,"hi":59,"pts":[[2.5,22.0],[25.0,33.0],[50.0,41.0],[75.0,48.0],[97.5,63.0]]},{"sex":"F","lo":55,"hi":59,"pts":[[2.5,21.0],[25.0,30.0],[50.0,36.0],[75.0,43.0],[97.5,61.0]]},{"sex":"M","lo":60,"hi":64,"pts":[[2.5,20.0],[25.0,31.0],[50.0,37.0],[75.0,46.0],[97.5,63.0]]},{"sex":"F","lo":60,"hi":64,"pts":[[2.5,20.0],[25.0,28.0],[50.0,34.0],[75.0,40.0],[97.5,55.0]]},{"sex":"M","lo":65,"hi":69,"pts":[[2.5,20.0],[25.0,29.0],[50.0,35.0],[75.0,44.0],[97.5,60.0]]},{"sex":"F","lo":65,"hi":69,"pts":[[2.5,19.0],[25.0,27.0],[50.0,33.0],[75.0,40.0],[97.5,53.0]]},{"sex":"M","lo":70,"hi":74,"pts":[[2.5,19.0],[25.0,27.0],[50.0,32.0],[75.0,40.0],[97.5,59.0]]},{"sex":"F","lo":70,"hi":74,"pts":[[2.5,17.0],[25.0,25.0],[50.0,30.0],[75.0,36.0],[97.5,51.0]]},{"sex":"M","lo":75,"hi":79,"pts":[[2.5,16.0],[25.0,25.0],[50.0,30.0],[75.0,37.0],[97.5,56.0]]},{"sex":"F","lo":75,"hi":79,"pts":[[2.5,13.0],[25.0,22.0],[50.0,27.0],[75.0,30.0],[97.5,43.0]]}]}]},"heelraise":{"dir":1,"variants":[{"minAge":20,"maxAge":80,"type":"ageCurve","nodes":[{"sex":"M","age":20,"side":"L","lo":15.8,"mid":37.4,"hi":51.1},{"sex":"M","age":20,"side":"R","lo":16.7,"mid":37.5,"hi":55.3},{"sex":"F","age":20,"side":"L","lo":13.2,"mid":29.6,"hi":47.2},{"sex":"F","age":20,"side":"R","lo":13.6,"mid":30.7,"hi":49.4},{"sex":"M","age":30,"side":"L","lo":12.7,"mid":32.7,"hi":47.5},{"sex":"M","age":30,"side":"R","lo":13.7,"mid":33.0,"hi":50.4},{"sex":"F","age":30,"side":"L","lo":10.6,"mid":26.8,"hi":44.2},{"sex":"F","age":30,"side":"R","lo":11.1,"mid":28.0,"hi":46.0},{"sex":"M","age":40,"side":"L","lo":9.6,"mid":28.1,"hi":43.9},{"sex":"M","age":40,"side":"R","lo":10.6,"mid":28.5,"hi":45.6},{"sex":"F","age":40,"side":"L","lo":8.0,"mid":24.0,"hi":41.2},{"sex":"F","age":40,"side":"R","lo":8.6,"mid":25.3,"hi":42.5},{"sex":"M","age":50,"side":"L","lo":6.5,"mid":23.5,"hi":40.4},{"sex":"M","age":50,"side":"R","lo":7.6,"mid":24.0,"hi":40.7},{"sex":"F","age":50,"side":"L","lo":5.5,"mid":21.3,"hi":38.3},{"sex":"F","age":50,"side":"R","lo":6.4,"mid":22.6,"hi":39.1},{"sex":"M","age":60,"side":"L","lo":3.4,"mid":18.8,"hi":36.8},{"sex":"M","age":60,"side":"R","lo":4.5,"mid":19.5,"hi":35.9},{"sex":"F","age":60,"side":"L","lo":2.9,"mid":18.5,"hi":35.3},{"sex":"F","age":60,"side":"R","lo":3.5,"mid":19.9,"hi":35.7},{"sex":"M","age":70,"side":"L","lo":0.3,"mid":14.2,"hi":33.2},{"sex":"M","age":70,"side":"R","lo":1.5,"mid":14.9,"hi":31.0},{"sex":"F","age":70,"side":"L","lo":0.3,"mid":15.7,"hi":32.3},{"sex":"F","age":70,"side":"R","lo":1.0,"mid":17.2,"hi":32.2},{"sex":"M","age":80,"side":"L","lo":0.0,"mid":9.6,"hi":26.6},{"sex":"M","age":80,"side":"R","lo":0.0,"mid":10.4,"hi":26.2},{"sex":"F","age":80,"side":"L","lo":0.0,"mid":12.9,"hi":29.4},{"sex":"F","age":80,"side":"R","lo":0.0,"mid":14.5,"hi":28.8}]}]},"pushup_std":{"dir":1,"variants":[{"minAge":20,"maxAge":200,"type":"pct","bands":[{"sex":"M","lo":20,"hi":29,"pts":[[10,21.5],[30,28.5],[50,36.5],[70,46.5],[90,61.5]]},{"sex":"M","lo":30,"hi":39,"pts":[[10,16.5],[30,23.5],[50,29.5],[70,38.5],[90,51.5]]},{"sex":"M","lo":40,"hi":49,"pts":[[10,10.5],[30,17.5],[50,23.5],[70,29.5],[90,39.5]]},{"sex":"M","lo":50,"hi":59,"pts":[[10,8.5],[30,12.5],[50,18.5],[70,24.5],[90,38.5]]},{"sex":"M","lo":60,"hi":200,"pts":[[10,5.5],[30,9.5],[50,17.5],[70,22.5],[90,27.5]]},{"sex":"F","lo":20,"hi":29,"pts":[[10,9.5],[30,14.5],[50,20.5],[70,27.5],[90,41.5]]},{"sex":"F","lo":30,"hi":39,"pts":[[10,7.5],[30,10.5],[50,14.5],[70,22.5],[90,38.5]]},{"sex":"F","lo":40,"hi":49,"pts":[[10,5.5],[30,8.5],[50,12.5],[70,14.5],[90,20.0]]}]}]},"pushup_knee":{"dir":1,"variants":[{"minAge":20,"maxAge":200,"type":"pct","bands":[{"sex":"F","lo":20,"hi":29,"pts":[[10,16.5],[30,22.5],[50,29.5],[70,35.5],[90,44.5]]},{"sex":"F","lo":30,"hi":39,"pts":[[10,11.0],[30,18.5],[50,23.5],[70,30.5],[90,38.5]]},{"sex":"F","lo":40,"hi":49,"pts":[[10,6.0],[30,12.5],[50,17.5],[70,23.5],[90,32.5]]},{"sex":"F","lo":50,"hi":59,"pts":[[10,6.0],[30,11.5],[50,16.5],[70,20.5],[90,27.5]]},{"sex":"F","lo":60,"hi":200,"pts":[[10,2.0],[30,4.5],[50,11.5],[70,14.5],[90,19.5]]}]}]},"run15":{"dir":-1,"variants":[{"minAge":20,"maxAge":200,"type":"pct","bands":[{"sex":"M","lo":20,"hi":29,"pts":[[10,-840.0],[30,-758.5],[50,-689.5],[70,-609.5],[90,-557.5]]},{"sex":"M","lo":30,"hi":39,"pts":[[10,-874.0],[30,-778.5],[50,-714.5],[70,-646.5],[90,-573.5]]},{"sex":"M","lo":40,"hi":49,"pts":[[10,-924.0],[30,-830.5],[50,-744.5],[70,-675.5],[90,-591.5]]},{"sex":"M","lo":50,"hi":59,"pts":[[10,-1018.0],[30,-906.5],[50,-815.5],[70,-728.5],[90,-632.5]]},{"sex":"M","lo":60,"hi":200,"pts":[[10,-1150.0],[30,-1006.0],[50,-912.5],[70,-803.5],[90,-686.5]]},{"sex":"F","lo":20,"hi":29,"pts":[[10,-1006.0],[30,-890.5],[50,-804.5],[70,-718.5],[90,-628.5]]},{"sex":"F","lo":30,"hi":39,"pts":[[10,-1058.0],[30,-943.0],[50,-848.5],[70,-744.5],[90,-660.5]]},{"sex":"F","lo":40,"hi":49,"pts":[[10,-1117.0],[30,-991.5],[50,-893.5],[70,-803.5],[90,-693.5]]},{"sex":"F","lo":50,"hi":59,"pts":[[10,-1244.0],[30,-1098.5],[50,-995.5],[70,-874.5],[90,-773.5]]},{"sex":"F","lo":60,"hi":200,"pts":[[10,-1372.0],[30,-1216.0],[50,-1107.5],[70,-993.5],[90,-845.5]]}]}]},"walk1mile":{"dir":1,"variants":[{"minAge":20,"maxAge":200,"type":"pct","bands":[{"sex":"M","lo":20,"hi":29,"pts":[[10,38.0],[30,41.650000000000006],[50,45.55],[70,51.05],[90,55.45]]},{"sex":"M","lo":30,"hi":39,"pts":[[10,36.7],[30,40.650000000000006],[50,44.05],[70,48.25],[90,54.05]]},{"sex":"M","lo":40,"hi":49,"pts":[[10,34.8],[30,38.349999999999994],[50,42.349999999999994],[70,46.349999999999994],[90,52.45]]},{"sex":"M","lo":50,"hi":59,"pts":[[10,32.0],[30,35.45],[50,38.95],[70,43.25],[90,48.95]]},{"sex":"M","lo":60,"hi":200,"pts":[[10,28.7],[30,32.25],[50,35.5],[70,39.55],[90,45.650000000000006]]},{"sex":"F","lo":20,"hi":29,"pts":[[10,32.3],[30,36.05],[50,39.45],[70,43.849999999999994],[90,49.55]]},{"sex":"F","lo":30,"hi":39,"pts":[[10,30.9],[30,34.150000000000006],[50,37.650000000000006],[70,42.349999999999994],[90,47.349999999999994]]},{"sex":"F","lo":40,"hi":49,"pts":[[10,29.4],[30,32.75],[50,35.849999999999994],[70,39.55],[90,45.25]]},{"sex":"F","lo":50,"hi":59,"pts":[[10,26.8],[30,29.85],[50,32.55],[70,36.650000000000006],[90,46.05]]},{"sex":"F","lo":60,"hi":200,"pts":[[10,26.8],[30,29.85],[50,32.55],[70,36.650000000000006],[90,40.45]]}]}]},"vjump":{"dir":1,"variants":[{"minAge":20,"maxAge":200,"type":"pct","bands":[{"sex":"M","lo":20,"hi":29,"pts":[[10,43.815],[30,50.165],[50,53.975],[70,60.325],[90,67.31]]},{"sex":"M","lo":30,"hi":39,"pts":[[10,41.275],[30,47.117000000000004],[50,50.165],[70,55.245],[90,62.865]]},{"sex":"M","lo":40,"hi":49,"pts":[[10,34.925],[30,38.735],[50,42.545],[70,47.625],[90,55.245]]},{"sex":"M","lo":50,"hi":59,"pts":[[10,30.48],[30,33.655],[50,37.465],[70,42.545],[90,52.705]]},{"sex":"F","lo":20,"hi":29,"pts":[[10,31.115000000000002],[30,34.925],[50,40.005],[70,43.815],[90,46.355000000000004]]},{"sex":"F","lo":30,"hi":39,"pts":[[10,27.94],[30,30.48],[50,33.655],[70,37.465],[90,42.545]]},{"sex":"F","lo":40,"hi":49,"pts":[[10,19.05],[30,23.495],[50,28.575],[70,32.385],[90,34.29]]}]}]},"sls_eo":{"dir":1,"variants":[{"minAge":18,"maxAge":200,"type":"meanSD","bands":[{"sex":"F","lo":18,"hi":39,"mean":43.5,"sd":3.8},{"sex":"M","lo":18,"hi":39,"mean":43.2,"sd":6.0},{"sex":"F","lo":40,"hi":49,"mean":40.4,"sd":10.1},{"sex":"M","lo":40,"hi":49,"mean":40.1,"sd":11.5},{"sex":"F","lo":50,"hi":59,"mean":36.0,"sd":12.8},{"sex":"M","lo":50,"hi":59,"mean":38.1,"sd":12.4},{"sex":"F","lo":60,"hi":69,"mean":25.1,"sd":16.5},{"sex":"M","lo":60,"hi":69,"mean":28.7,"sd":16.7},{"sex":"F","lo":70,"hi":79,"mean":11.3,"sd":11.2},{"sex":"M","lo":70,"hi":79,"mean":18.3,"sd":15.3},{"sex":"F","lo":80,"hi":99,"mean":7.4,"sd":10.7},{"sex":"M","lo":80,"hi":99,"mean":5.6,"sd":8.4}]}]},"sls_ec":{"dir":1,"variants":[{"minAge":18,"maxAge":200,"type":"meanSD","bands":[{"sex":"F","lo":18,"hi":39,"mean":8.5,"sd":9.1},{"sex":"M","lo":18,"hi":39,"mean":10.2,"sd":9.6},{"sex":"F","lo":40,"hi":49,"mean":7.4,"sd":6.7},{"sex":"M","lo":40,"hi":49,"mean":7.3,"sd":7.4},{"sex":"F","lo":50,"hi":59,"mean":5.0,"sd":5.6},{"sex":"M","lo":50,"hi":59,"mean":4.5,"sd":3.8},{"sex":"F","lo":60,"hi":69,"mean":2.5,"sd":1.5},{"sex":"M","lo":60,"hi":69,"mean":3.1,"sd":2.7},{"sex":"F","lo":70,"hi":79,"mean":2.2,"sd":2.1},{"sex":"M","lo":70,"hi":79,"mean":1.9,"sd":0.9},{"sex":"F","lo":80,"hi":99,"mean":1.4,"sd":0.6},{"sex":"M","lo":80,"hi":99,"mean":1.3,"sd":0.6}]}]},"tug":{"dir":-1,"variants":[{"minAge":65,"maxAge":90,"type":"pct","bands":[{"sex":"M","lo":65,"hi":69,"pts":[[7,-7.65],[31,-6.05],[69,-4.85],[93,-4.35]]},{"sex":"M","lo":70,"hi":74,"pts":[[7,-8.25],[31,-6.45],[69,-5.15],[93,-4.55]]},{"sex":"M","lo":75,"hi":79,"pts":[[7,-9.149999999999999],[31,-6.95],[69,-5.45],[93,-4.75]]},{"sex":"M","lo":80,"hi":84,"pts":[[7,-10.850000000000001],[31,-8.05],[69,-6.05],[93,-5.25]]},{"sex":"M","lo":85,"hi":90,"pts":[[7,-12.25],[31,-8.75],[69,-6.45],[93,-5.65]]},{"sex":"F","lo":65,"hi":69,"pts":[[7,-7.95],[31,-6.45],[69,-5.25],[93,-4.65]]},{"sex":"F","lo":70,"hi":74,"pts":[[7,-9.05],[31,-7.05],[69,-5.55],[93,-4.95]]},{"sex":"F","lo":75,"hi":79,"pts":[[7,-10.649999999999999],[31,-7.95],[69,-6.15],[93,-5.35]]},{"sex":"F","lo":80,"hi":84,"pts":[[7,-12.55],[31,-9.149999999999999],[69,-6.85],[93,-5.85]]},{"sex":"F","lo":85,"hi":90,"pts":[[7,-14.95],[31,-10.45],[69,-7.55],[93,-6.25]]}]}]},"step2":{"dir":1,"variants":[{"minAge":20,"maxAge":60,"type":"pct","bands":[{"sex":"M","lo":20,"hi":29,"pts":[[5.0,84.0],[25.0,93.0],[50.0,100.5],[75.0,112.0],[95.0,138.0]]},{"sex":"F","lo":20,"hi":29,"pts":[[5.0,85.0],[25.0,96.0],[50.0,99.0],[75.0,108.0],[95.0,129.0]]},{"sex":"M","lo":31,"hi":40,"pts":[[5.0,75.0],[25.0,84.0],[50.0,94.5],[75.0,105.0],[95.0,130.0]]},{"sex":"F","lo":31,"hi":40,"pts":[[5.0,52.0],[25.0,74.0],[50.0,89.5],[75.0,99.0],[95.0,120.0]]},{"sex":"M","lo":41,"hi":50,"pts":[[5.0,60.0],[25.0,78.0],[50.0,92.0],[75.0,103.0],[95.0,114.0]]},{"sex":"F","lo":41,"hi":50,"pts":[[5.0,50.0],[25.0,65.0],[50.0,79.5],[75.0,88.0],[95.0,105.0]]},{"sex":"M","lo":51,"hi":60,"pts":[[5.0,60.0],[25.0,72.0],[50.0,81.0],[75.0,91.0],[95.0,113.0]]},{"sex":"F","lo":51,"hi":60,"pts":[[5.0,59.0],[25.0,70.0],[50.0,74.0],[75.0,83.0],[95.0,112.0]]}]},{"minAge":60,"maxAge":64,"type":"pct","bands":[{"sex":"F","lo":60,"hi":64,"pts":[[25.0,75.0],[50.0,91.0],[75.0,107.0]]},{"sex":"M","lo":60,"hi":64,"pts":[[25.0,87.0],[50.0,101.0],[75.0,115.0]]}]},{"minAge":65,"maxAge":90,"type":"pct","bands":[{"sex":"M","lo":65,"hi":69,"pts":[[7,85.5],[31,102.5],[69,123.5],[93,144.5]]},{"sex":"M","lo":70,"hi":74,"pts":[[7,78.5],[31,97.5],[69,119.5],[93,139.5]]},{"sex":"M","lo":75,"hi":79,"pts":[[7,69.5],[31,91.5],[69,114.5],[93,133.5]]},{"sex":"M","lo":80,"hi":84,"pts":[[7,50.5],[31,80.5],[69,108.5],[93,127.5]]},{"sex":"M","lo":85,"hi":90,"pts":[[7,40.5],[31,68.5],[69,102.5],[93,122.5]]},{"sex":"F","lo":65,"hi":69,"pts":[[7,76.5],[31,96.5],[69,119.5],[93,138.5]]},{"sex":"F","lo":70,"hi":74,"pts":[[7,64.5],[31,89.5],[69,114.5],[93,134.5]]},{"sex":"F","lo":75,"hi":79,"pts":[[7,47.5],[31,78.5],[69,107.5],[93,127.5]]},{"sex":"F","lo":80,"hi":84,"pts":[[7,31.5],[31,63.5],[69,99.5],[93,120.5]]},{"sex":"F","lo":85,"hi":90,"pts":[[7,20.5],[31,48.5],[69,88.5],[93,111.5]]}]}]},"eight":{"dir":-1,"variants":[{"minAge":65,"maxAge":200,"type":"pct","bands":[{"sex":"M","lo":65,"hi":69,"pts":[[30.0,-26.8],[50.0,-23.9],[70.0,-21.0]]},{"sex":"M","lo":70,"hi":74,"pts":[[30.0,-28.7],[50.0,-25.6],[70.0,-22.5]]},{"sex":"M","lo":75,"hi":79,"pts":[[30.0,-31.6],[50.0,-27.8],[70.0,-24.0]]},{"sex":"M","lo":80,"hi":84,"pts":[[30.0,-35.3],[50.0,-30.8],[70.0,-26.3]]},{"sex":"M","lo":85,"hi":200,"pts":[[30.0,-38.7],[50.0,-33.6],[70.0,-28.5]]},{"sex":"F","lo":65,"hi":69,"pts":[[30.0,-27.7],[50.0,-24.9],[70.0,-22.1]]},{"sex":"F","lo":70,"hi":74,"pts":[[30.0,-31.6],[50.0,-27.9],[70.0,-24.2]]},{"sex":"F","lo":75,"hi":79,"pts":[[30.0,-35.5],[50.0,-31.1],[70.0,-26.7]]},{"sex":"F","lo":80,"hi":84,"pts":[[30.0,-39.3],[50.0,-34.1],[70.0,-28.9]]},{"sex":"F","lo":85,"hi":200,"pts":[[30.0,-42.6],[50.0,-36.7],[70.0,-30.8]]}]}]},"run10":{"dir":-1,"variants":[{"minAge":19,"maxAge":64,"type":"pct","bands":[{"sex":"M","lo":19,"hi":24,"pts":[[50.0,-10.9],[70.0,-9.9]]},{"sex":"M","lo":25,"hi":29,"pts":[[50.0,-11.2],[70.0,-10.3]]},{"sex":"M","lo":30,"hi":34,"pts":[[50.0,-11.6],[70.0,-10.6]]},{"sex":"M","lo":35,"hi":39,"pts":[[50.0,-11.9],[70.0,-10.9]]},{"sex":"M","lo":40,"hi":44,"pts":[[50.0,-12.1],[70.0,-11.0]]},{"sex":"M","lo":45,"hi":49,"pts":[[50.0,-12.5],[70.0,-11.3]]},{"sex":"M","lo":50,"hi":54,"pts":[[50.0,-13.0],[70.0,-11.8]]},{"sex":"M","lo":55,"hi":59,"pts":[[50.0,-13.7],[70.0,-12.3]]},{"sex":"M","lo":60,"hi":64,"pts":[[50.0,-14.6],[70.0,-13.1]]},{"sex":"F","lo":19,"hi":24,"pts":[[50.0,-13.2],[70.0,-12.3]]},{"sex":"F","lo":25,"hi":29,"pts":[[50.0,-13.6],[70.0,-12.7]]},{"sex":"F","lo":30,"hi":34,"pts":[[50.0,-13.9],[70.0,-12.9]]},{"sex":"F","lo":35,"hi":39,"pts":[[50.0,-13.9],[70.0,-13.0]]},{"sex":"F","lo":40,"hi":44,"pts":[[50.0,-14.0],[70.0,-13.1]]},{"sex":"F","lo":45,"hi":49,"pts":[[50.0,-14.4],[70.0,-13.4]]},{"sex":"F","lo":50,"hi":54,"pts":[[50.0,-14.9],[70.0,-13.8]]},{"sex":"F","lo":55,"hi":59,"pts":[[50.0,-15.8],[70.0,-14.5]]},{"sex":"F","lo":60,"hi":64,"pts":[[50.0,-16.8],[70.0,-15.3]]}]}]},"ckcuest":{"dir":1,"variants":[{"minAge":18,"maxAge":40,"type":"meanSD","bands":[{"sex":"F","lo":18,"hi":25,"mean":18.68,"sd":3.51},{"sex":"M","lo":18,"hi":25,"mean":18.98,"sd":3.39},{"sex":"F","lo":26,"hi":40,"mean":17.33,"sd":3.35},{"sex":"M","lo":26,"hi":40,"mean":20.45,"sd":2.2}]}]},"ymcastep":{"dir":-1,"variants":[{"minAge":18,"maxAge":200,"type":"pct","bands":[{"sex":"M","lo":18,"hi":25,"pts":[[0.0,-157.0],[5.0,-132.0],[10.0,-124.0],[15.0,-119.0],[20.0,-114.0],[25.0,-111.0],[30.0,-107.0],[35.0,-105.0],[40.0,-102.0],[45.0,-100.0],[50.0,-97.0],[55.0,-95.0],[60.0,-93.0],[65.0,-90.0],[70.0,-88.0],[75.0,-84.0],[80.0,-82.0],[85.0,-79.0],[90.0,-76.0],[95.0,-71.0],[100.0,-50.0]]},{"sex":"M","lo":26,"hi":35,"pts":[[0.0,-161.0],[5.0,-134.0],[10.0,-126.0],[15.0,-121.0],[20.0,-118.0],[25.0,-114.0],[30.0,-110.0],[35.0,-108.0],[40.0,-104.0],[45.0,-102.0],[50.0,-100.0],[55.0,-96.0],[60.0,-94.0],[65.0,-91.0],[70.0,-88.0],[75.0,-85.0],[80.0,-83.0],[85.0,-79.0],[90.0,-76.0],[95.0,-70.0],[100.0,-51.0]]},{"sex":"M","lo":36,"hi":45,"pts":[[0.0,-163.0],[5.0,-138.0],[10.0,-130.0],[15.0,-124.0],[20.0,-119.0],[25.0,-116.0],[30.0,-113.0],[35.0,-111.0],[40.0,-108.0],[45.0,-105.0],[50.0,-101.0],[55.0,-100.0],[60.0,-98.0],[65.0,-95.0],[70.0,-92.0],[75.0,-88.0],[80.0,-84.0],[85.0,-80.0],[90.0,-76.0],[95.0,-70.0],[100.0,-49.0]]},{"sex":"M","lo":46,"hi":55,"pts":[[0.0,-159.0],[5.0,-139.0],[10.0,-131.0],[15.0,-126.0],[20.0,-124.0],[25.0,-121.0],[30.0,-119.0],[35.0,-117.0],[40.0,-113.0],[45.0,-111.0],[50.0,-107.0],[55.0,-103.0],[60.0,-101.0],[65.0,-99.0],[70.0,-95.0],[75.0,-93.0],[80.0,-89.0],[85.0,-87.0],[90.0,-82.0],[95.0,-77.0],[100.0,-56.0]]},{"sex":"M","lo":56,"hi":65,"pts":[[0.0,-154.0],[5.0,-136.0],[10.0,-131.0],[15.0,-128.0],[20.0,-123.0],[25.0,-119.0],[30.0,-117.0],[35.0,-115.0],[40.0,-111.0],[45.0,-109.0],[50.0,-105.0],[55.0,-103.0],[60.0,-100.0],[65.0,-99.0],[70.0,-97.0],[75.0,-94.0],[80.0,-91.0],[85.0,-86.0],[90.0,-77.0],[95.0,-71.0],[100.0,-60.0]]},{"sex":"M","lo":66,"hi":200,"pts":[[0.0,-151.0],[5.0,-136.0],[10.0,-130.0],[15.0,-126.0],[20.0,-123.0],[25.0,-121.0],[30.0,-118.0],[35.0,-116.0],[40.0,-114.0],[45.0,-110.0],[50.0,-106.0],[55.0,-104.0],[60.0,-102.0],[65.0,-97.0],[70.0,-94.0],[75.0,-92.0],[80.0,-91.0],[85.0,-87.0],[90.0,-81.0],[95.0,-74.0],[100.0,-59.0]]},{"sex":"F","lo":18,"hi":25,"pts":[[0.0,-169.0],[5.0,-143.0],[10.0,-135.0],[15.0,-131.0],[20.0,-126.0],[25.0,-122.0],[30.0,-120.0],[35.0,-116.0],[40.0,-113.0],[45.0,-110.0],[50.0,-108.0],[55.0,-104.0],[60.0,-102.0],[65.0,-98.0],[70.0,-96.0],[75.0,-93.0],[80.0,-89.0],[85.0,-85.0],[90.0,-81.0],[95.0,-75.0],[100.0,-52.0]]},{"sex":"F","lo":26,"hi":35,"pts":[[0.0,-171.0],[5.0,-141.0],[10.0,-134.0],[15.0,-129.0],[20.0,-126.0],[25.0,-122.0],[30.0,-119.0],[35.0,-116.0],[40.0,-113.0],[45.0,-110.0],[50.0,-107.0],[55.0,-104.0],[60.0,-101.0],[65.0,-98.0],[70.0,-95.0],[75.0,-92.0],[80.0,-89.0],[85.0,-85.0],[90.0,-80.0],[95.0,-74.0],[100.0,-58.0]]},{"sex":"F","lo":36,"hi":45,"pts":[[0.0,-169.0],[5.0,-142.0],[10.0,-137.0],[15.0,-132.0],[20.0,-128.0],[25.0,-124.0],[30.0,-120.0],[35.0,-118.0],[40.0,-115.0],[45.0,-112.0],[50.0,-109.0],[55.0,-107.0],[60.0,-104.0],[65.0,-102.0],[70.0,-100.0],[75.0,-96.0],[80.0,-92.0],[85.0,-89.0],[90.0,-84.0],[95.0,-77.0],[100.0,-51.0]]},{"sex":"F","lo":46,"hi":55,"pts":[[0.0,-171.0],[5.0,-143.0],[10.0,-137.0],[15.0,-132.0],[20.0,-128.0],[25.0,-126.0],[30.0,-124.0],[35.0,-121.0],[40.0,-120.0],[45.0,-118.0],[50.0,-115.0],[55.0,-113.0],[60.0,-110.0],[65.0,-107.0],[70.0,-104.0],[75.0,-101.0],[80.0,-98.0],[85.0,-95.0],[90.0,-91.0],[95.0,-85.0],[100.0,-63.0]]},{"sex":"F","lo":56,"hi":65,"pts":[[0.0,-174.0],[5.0,-147.0],[10.0,-141.0],[15.0,-135.0],[20.0,-131.0],[25.0,-129.0],[30.0,-127.0],[35.0,-123.0],[40.0,-119.0],[45.0,-118.0],[50.0,-116.0],[55.0,-113.0],[60.0,-111.0],[65.0,-109.0],[70.0,-106.0],[75.0,-103.0],[80.0,-100.0],[85.0,-97.0],[90.0,-92.0],[95.0,-83.0],[100.0,-60.0]]},{"sex":"F","lo":66,"hi":200,"pts":[[0.0,-155.0],[5.0,-145.0],[10.0,-135.0],[15.0,-133.0],[20.0,-129.0],[25.0,-128.0],[30.0,-126.0],[35.0,-125.0],[40.0,-123.0],[45.0,-121.0],[50.0,-120.0],[55.0,-116.0],[60.0,-111.0],[65.0,-108.0],[70.0,-104.0],[75.0,-101.0],[80.0,-98.0],[85.0,-96.0],[90.0,-92.0],[95.0,-85.0],[100.0,-70.0]]}]}]},"broadjump":{"dir":1,"variants":[{"minAge":20,"maxAge":64,"type":"meanSD","bands":[{"sex":"M","lo":20,"hi":24,"mean":224.65,"sd":25.72},{"sex":"F","lo":20,"hi":24,"mean":168.5,"sd":22.89},{"sex":"M","lo":25,"hi":29,"mean":222.65,"sd":23.54},{"sex":"F","lo":25,"hi":29,"mean":163.99,"sd":24.12},{"sex":"M","lo":30,"hi":34,"mean":216.91,"sd":24.87},{"sex":"F","lo":30,"hi":34,"mean":159.23,"sd":22.41},{"sex":"M","lo":35,"hi":39,"mean":210.28,"sd":23.42},{"sex":"F","lo":35,"hi":39,"mean":153.55,"sd":22.99},{"sex":"M","lo":40,"hi":44,"mean":203.26,"sd":23.95},{"sex":"F","lo":40,"hi":44,"mean":149.29,"sd":22.87},{"sex":"M","lo":45,"hi":49,"mean":196.76,"sd":22.54},{"sex":"F","lo":45,"hi":49,"mean":144.8,"sd":23.3},{"sex":"M","lo":50,"hi":54,"mean":189.02,"sd":23.7},{"sex":"F","lo":50,"hi":54,"mean":140.02,"sd":23.27},{"sex":"M","lo":55,"hi":59,"mean":182.92,"sd":23.41},{"sex":"F","lo":55,"hi":59,"mean":135.59,"sd":21.76},{"sex":"M","lo":60,"hi":64,"mean":173.09,"sd":23.76},{"sex":"F","lo":60,"hi":64,"mean":129.31,"sd":22.41}]}]},"sidestep20":{"dir":1,"variants":[{"minAge":20,"maxAge":64,"type":"meanSD","bands":[{"sex":"M","lo":20,"hi":24,"mean":56.2,"sd":7.0},{"sex":"F","lo":20,"hi":24,"mean":46.1,"sd":6.3},{"sex":"M","lo":25,"hi":29,"mean":54.4,"sd":6.9},{"sex":"F","lo":25,"hi":29,"mean":45.0,"sd":6.1},{"sex":"M","lo":30,"hi":34,"mean":51.6,"sd":7.0},{"sex":"F","lo":30,"hi":34,"mean":42.8,"sd":5.8},{"sex":"M","lo":35,"hi":39,"mean":49.5,"sd":6.5},{"sex":"F","lo":35,"hi":39,"mean":42.3,"sd":5.5},{"sex":"M","lo":40,"hi":44,"mean":48.5,"sd":6.1},{"sex":"F","lo":40,"hi":44,"mean":42.0,"sd":5.5},{"sex":"M","lo":45,"hi":49,"mean":47.5,"sd":6.3},{"sex":"F","lo":45,"hi":49,"mean":41.3,"sd":5.4},{"sex":"M","lo":50,"hi":54,"mean":45.8,"sd":6.2},{"sex":"F","lo":50,"hi":54,"mean":40.2,"sd":5.8},{"sex":"M","lo":55,"hi":59,"mean":43.7,"sd":6.4},{"sex":"F","lo":55,"hi":59,"mean":38.6,"sd":6.0},{"sex":"M","lo":60,"hi":64,"mean":41.4,"sd":6.5},{"sex":"F","lo":60,"hi":64,"mean":36.5,"sd":6.0}]}]},"burpee3m":{"dir":1,"variants":[{"minAge":18,"maxAge":25,"type":"pct","bands":[{"sex":"M","lo":18,"hi":25,"pts":[[7,38.0],[31,47.0],[69,66.0],[93,76.0]]},{"sex":"F","lo":18,"hi":25,"pts":[[7,26.0],[31,37.0],[69,60.0],[93,72.0]]}]}]}};</script>
 <script id="s-meta">
@@ -4730,7 +4851,7 @@ function swipeBlocked(t) {
   if (!t || !t.closest) return true;
   /* 입력칸·단계 탭·가로 스크롤 영역·바디차트의 누를 수 있는 부위(패드·이름표) 위에서는 가로채지 않는다.
      차트의 빈 배경(그림 바깥)은 조작 대상이 아니라서 스와이프를 그대로 받는다. */
-  if (t.closest('input,textarea,select,option,[contenteditable="true"],[data-no-swipe],.msteps,.gs-code')) return true;
+  if (t.closest('input,textarea,select,option,[contenteditable="true"],[data-no-swipe],.msteps,.gs-code,#usageModal')) return true;
   if (t.closest('[data-region],[data-bcdel],.bcpill')) return true;
   var e = t, guard = 0;
   while (e && e.nodeType === 1 && guard++ < 40) {
@@ -4999,7 +5120,7 @@ function browseBar(noCat, counts) {
         : '성인(20~59세) 맞춤이라 TUG·8자보행·30초 의자·2분 제자리 걷기 같은 어르신 기능·낙상 검사는 추천에서 빠져 있어요. 필요하면 ‘전체 검사 보기’에서 꺼내 쓰세요.') + '</p>';
     }
   }
-  if (!S.hiEnd) h += '<p class="bnote">고가 장비 검사 4종(HHD·포스플레이트·등속성·CPX)은 위 스위치를 켜면 함께 보여요.</p>';
+  /* 고가 장비 4종은 기본 목록에서 빼 둔다 — 필요할 때만 푸터의 `고가 장비 검사` 스위치로 꺼낸다 */
   return h + '</div>';
 }
 
@@ -5241,7 +5362,7 @@ function renderTestsHTML() {
   if (set) {
     h += '<div class="hint rt-hint">' + (set.length
       ? '‘' + esc(setName) + '’ 세트 ' + set.length + '종만 보여드려요. 카드를 펼쳐 숫자를 넣으면 결과에 바로 반영됩니다.'
-      : '‘' + esc(setName) + '’ 세트의 검사가 지금 설정에서는 숨겨져 있어요. 고가 장비 스위치를 확인해 주세요.') + '</div>';
+      : '‘' + esc(setName) + '’ 세트의 검사가 지금 설정에서는 숨겨져 있어요. 맨 아래 ‘고가 장비 검사’ 스위치를 확인해 주세요.') + '</div>';
   } else if (S.tend) {
     h += '<div class="hint">' + esc(NOTE_VIEW_TEND) + '</div>';
   } else if (S.view === 'all') {
@@ -5531,9 +5652,8 @@ function renderResultsHTML() {
   h = head + h;
   items.forEach(function (e) { h += resCard(e); });
   h += reportSectionHTML(reportData(items));
-  h += '<div class="client"><h3>고객에게 보여줄 설명</h3><pre id="clientText">' + esc(clientText()) + '</pre>' +
-    '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn noprint" data-act="copy">설명문 복사</button>' +
-    '<button class="btn ghost noprint" data-act="copy2">표로 복사</button></div></div>';
+  /* 설명문은 화면에서 읽고 보여 주는 용도 — 복사 버튼은 쓰지 않아 메인 노출에서 뺐다(2026-11-28) */
+  h += '<div class="client"><h3>고객에게 보여줄 설명</h3><pre id="clientText">' + esc(clientText()) + '</pre></div>';
   h += '<p class="safety">이 화면은 동일 성별·연령대와 비교한 참고 자료이고, 질환이나 진단을 말해 주는 것이 아닙니다. 검사 중 통증·어지러움·가슴 불편감이 있으면 바로 멈추고 의료진과 상담하세요.</p>';
   return h;
 }
@@ -6723,6 +6843,7 @@ function saveClientFromUI() {
     return false;
   }
   S.recNotice = res.record.date + ' 기록을 ' + (res.replaced ? '새 값으로 바꿨어요' : '저장했어요') + '.';
+  usageCommit(); /* 회원 기록 저장 = 세션 스냅샷 1회(내보내기 횟수는 늘지 않는다) */
   syncClientBar();
   gsDropTombstone(nm, res.record.date); /* 지웠던 날짜를 다시 저장하면 되살리는 뜻 */
   gsAutoPush(nm, res.record); /* URL이 있고 자동 동기화가 켜져 있을 때만, 실패해도 로컬 저장은 이미 끝났다 */
@@ -6730,6 +6851,7 @@ function saveClientFromUI() {
 }
 function applyRecord(cl, rec) {
   if (!cl || !rec) return false;
+  usageNewSession(); /* 재평가 불러오기 = 그 회원의 새 세션 */
   S.member = cl.name;
   S.sex = rec.sex === 'M' ? 'M' : 'F';
   S.age = cleanStr(rec.age); S.height = cleanStr(rec.height); S.weight = cleanStr(rec.weight);
@@ -7123,6 +7245,7 @@ function gsAutoPush(name, rec) {
   gsRequest({ action: 'upsert', rows: [gsRowFor(name, rec)] }).then(function () {
     GS.last = stampISO(); lsSet(GS_LAST_KEY, GS.last); GS.retry = false;
     gsNote('기기에 저장하고 구글 시트에도 올렸어요.', 'ok');
+    usageCommit('gsheet'); /* 구글 시트 저장이 실제로 끝났을 때만 +1 */
     syncClientBar();
   }).catch(function () {
     gsNote('기기에는 저장했어요. 구글 시트 업로드는 나중에 다시 시도할게요.', 'warn');
@@ -7138,6 +7261,276 @@ function gsQueueRetry() {
     if (!GS.auto || !gsValidUrl(GS.url) || gsOffline()) return;
     gsSync();
   }, 30000);
+}
+
+/* 고가 장비 스위치(푸터) — 켜짐/꺼짐 배지를 한 곳에서 맞춘다 */
+function syncHiEnd() {
+  var b = (typeof document !== 'undefined' && document.getElementById) ? document.getElementById('hiEndBadge') : null;
+  if (b) b.textContent = S.hiEnd ? '켜짐' : '꺼짐';
+  var sw = (typeof document !== 'undefined' && document.getElementById) ? document.getElementById('hiEndSwitch') : null;
+  if (sw && sw.classList) { if (S.hiEnd) sw.classList.add('on'); else sw.classList.remove('on'); }
+  return S.hiEnd;
+}
+
+/* ===================================================================
+   내 기기 전용 사용 통계 — localStorage['pne_usage_v1']
+   · 외부 서버로 보내지 않는다. 이 기기 브라우저에만 쌓인다.
+   · 타이핑할 때마다 세지 않는다 — 내보내기(PNG·복사·인쇄·시트)·기록 저장 때
+     그 세션에 값이 들어간 검사·기능을 한 번만 센다(세션 토큰으로 중복 방지).
+   · `새 고객`(resetState)·예시 채우기·재평가 불러오기는 세션만 새로 시작하고
+     쌓인 통계는 지우지 않는다(모달의 `통계 초기화`로만 지운다).
+   =================================================================== */
+var USAGE_KEY = 'pne_usage_v1';
+var USAGE_EXPORTS = [
+  { k: 'png', label: 'PNG 저장' },
+  { k: 'gsheet', label: '시트 저장' }
+];
+var USAGE_FEATS = [
+  { k: 'pqrst', label: 'PQRST' },
+  { k: 'hypo', label: '가설' },
+  { k: 'sym', label: '증상수정' },
+  { k: 'hiEnd', label: '고가장비' }
+];
+var USAGE = { d: null, session: null };
+
+function emptyUsage() {
+  return {
+    version: 1, since: '', lastAt: '', sessions: 0,
+    goal: { pain: 0, perf: 0 },
+    exports: { png: 0, gsheet: 0 },
+    feats: { pqrst: 0, hypo: 0, sym: 0, hiEnd: 0 },
+    tests: {}
+  };
+}
+function usageCount(v) { var n = parseInt(v, 10); return (isFinite(n) && n > 0) ? n : 0; }
+function readUsage() {
+  var u = emptyUsage(), o = null;
+  var raw = lsGet(USAGE_KEY);
+  if (raw) { try { o = JSON.parse(raw); } catch (e) { o = null; } }
+  if (o && typeof o === 'object') {
+    u.since = cleanStr(o.since);
+    u.lastAt = cleanStr(o.lastAt);
+    u.sessions = usageCount(o.sessions);
+    u.goal.pain = usageCount(o.goal && o.goal.pain);
+    u.goal.perf = usageCount(o.goal && o.goal.perf);
+    USAGE_EXPORTS.forEach(function (x) { u.exports[x.k] = usageCount(o.exports && o.exports[x.k]); });
+    USAGE_FEATS.forEach(function (x) { u.feats[x.k] = usageCount(o.feats && o.feats[x.k]); });
+    if (o.tests && typeof o.tests === 'object') {
+      Object.keys(o.tests).forEach(function (id) {
+        if (testById(id)) u.tests[id] = usageCount(o.tests[id]); /* 없어진 검사 id는 버린다 */
+      });
+    }
+  }
+  return u;
+}
+function usageData() { if (!USAGE.d) USAGE.d = readUsage(); return USAGE.d; }
+function writeUsage() { if (USAGE.d) lsSet(USAGE_KEY, JSON.stringify(USAGE.d)); }
+/* 새 세션(새 고객·예시·재평가 불러오기·새로고침) — 여기서 통계를 지우지는 않는다 */
+function usageNewSession() { USAGE.session = null; }
+
+/* 증상 수정 패널 또는 SSMP 카드에 값이 들어갔는지 */
+function usageSymOn() {
+  var rows = Array.isArray(S.sym) ? S.sym : [];
+  for (var i = 0; i < rows.length; i++) {
+    var r = symCleanRow(rows[i]);
+    if (cleanStr(r.move) || cleanStr(r.mwm) || (r.strat && r.strat.length) ||
+        parseNum(r.pre) !== null || parseNum(r.post) !== null) return true;
+  }
+  var ks = Object.keys(S.values || {});
+  for (var j = 0; j < ks.length; j++) {
+    if (ks[j].indexOf('ssmp:') === 0 && cleanStr(S.values[ks[j]])) return true;
+  }
+  return false;
+}
+function usagePqrstOn() {
+  var k = ['p', 'q', 'r', 's', 't'];
+  for (var i = 0; i < k.length; i++) if (cleanStr(S.pqrst && S.pqrst[k[i]])) return true;
+  return false;
+}
+function usageHypoOn() {
+  var k = ['h1', 'h2', 'h3'];
+  for (var i = 0; i < k.length; i++) if (cleanStr(S.hypo && S.hypo[k[i]])) return true;
+  return false;
+}
+/* 지금 화면 상태의 스냅샷 — 무엇을 셀지 한 곳에서 정한다 */
+function usageSnap() {
+  var tests = {};
+  TESTS.forEach(function (t) { if (hasAnyValue(t)) tests[t.id] = 1; });
+  return {
+    goal: goalPerf() ? 'perf' : 'pain',
+    feats: { pqrst: usagePqrstOn(), hypo: usageHypoOn(), sym: usageSymOn(), hiEnd: !!S.hiEnd },
+    tests: tests
+  };
+}
+/* 내보내기(evt = png·copy·print·gsheet) 또는 기록 저장(evt 생략) 한 번.
+   같은 세션에서 다시 눌러도 세션·목적·기능·검사는 두 번 세지 않고,
+   그 사이 새로 입력한 검사만 더한다(과집계 없음). */
+function usageCommit(evt) {
+  var u = usageData();
+  var s = USAGE.session;
+  if (!s) s = USAGE.session = { started: false, feats: {}, tests: {} };
+  if (evt && u.exports[evt] !== undefined) u.exports[evt] += 1;
+  var snap = usageSnap();
+  if (!s.started) {
+    s.started = true;
+    u.sessions += 1;
+    u.goal[snap.goal] += 1;
+    if (!u.since) u.since = todayISO();
+  }
+  USAGE_FEATS.forEach(function (f) {
+    if (snap.feats[f.k] && !s.feats[f.k]) { s.feats[f.k] = 1; u.feats[f.k] += 1; }
+  });
+  Object.keys(snap.tests).forEach(function (id) {
+    if (!s.tests[id]) { s.tests[id] = 1; u.tests[id] = (u.tests[id] || 0) + 1; }
+  });
+  u.lastAt = stampISO();
+  writeUsage();
+  return u;
+}
+/* 통계 초기화 — 회원 기록·설정은 건드리지 않는다 */
+function usageReset() {
+  if (typeof confirm === 'function' &&
+      !confirm('이 기기에 쌓인 사용 통계를 모두 지울까요? 회원 기록과 설정은 그대로예요.')) return false;
+  try { if (typeof localStorage !== 'undefined' && localStorage) localStorage.removeItem(USAGE_KEY); } catch (e) {}
+  USAGE.d = emptyUsage();
+  USAGE.session = null;
+  usageRender();
+  return true;
+}
+function usageTotals() {
+  var u = usageData(), used = 0, runs = 0;
+  TESTS.forEach(function (t) {
+    var n = u.tests[t.id] || 0;
+    if (n) { used += 1; runs += n; }
+  });
+  return { u: u, goalTotal: u.goal.pain + u.goal.perf, usedTests: used, testRuns: runs,
+           zeroTests: TESTS.length - used, allTests: TESTS.length };
+}
+/* 많이 쓴 검사 — 횟수 내림차순(같으면 검사 정의 순서) */
+function usageTopTests(n) {
+  var u = usageData(), arr = [];
+  TESTS.forEach(function (t) {
+    var c = u.tests[t.id] || 0;
+    if (c) arr.push({ id: t.id, name: t.name, n: c });
+  });
+  arr.sort(function (a, b) { return b.n - a.n; });
+  return arr.slice(0, n || 10);
+}
+function usageZeroTests() {
+  var u = usageData();
+  return TESTS.filter(function (t) { return !u.tests[t.id]; });
+}
+
+function usageGoalRow(k, label, n, pct) {
+  return '<div class="ugl"><span class="udot ' + k + '" aria-hidden="true"></span>' +
+    '<span class="ut">' + esc(label) + '</span><b>' + n + '회</b><span class="up">' + pct + '%</span></div>' +
+    '<div class="ubar ' + k + '"><i style="width:' + pct + '%"></i></div>';
+}
+function usageCells(list, counts) {
+  var h = '<div class="ucells' + (list.length === 2 ? ' two' : '') + '">';
+  list.forEach(function (x) {
+    var n = counts[x.k] || 0;
+    h += '<div class="ucell' + (n ? '' : ' zero') + '"><span class="ulb">' + esc(x.label) + '</span><b>' + n + '</b></div>';
+  });
+  return h + '</div>';
+}
+function usageBodyHTML() {
+  var tu = usageTotals(), u = tu.u;
+  var pct = function (n) { return tu.goalTotal ? Math.round(n / tu.goalTotal * 100) : 0; };
+  var top = usageTopTests(10), zt = usageZeroTests();
+  var h = '<p class="unote">이 기기 브라우저(localStorage)에만 쌓여요. 외부 서버로 보내지 않아요.</p>';
+
+  /* 요약 — 누적 기록 + 평가 목적 비율 */
+  h += '<div class="usum"><div class="usum-big"><span class="ulb">누적 기록</span><b>' + u.sessions +
+    '<em>회</em></b><span class="usub">' + (u.since ? esc(u.since) + ' 부터' : '아직 기록 없음') + '</span></div>' +
+    '<div class="usum-goal">' + usageGoalRow('pain', '통증 · 재활', u.goal.pain, pct(u.goal.pain)) +
+    usageGoalRow('perf', '무통증 · 체력', u.goal.perf, pct(u.goal.perf)) + '</div></div>';
+
+  /* 내보내기 · 세부 기능 */
+  h += '<h3 class="usec">내보내기 <span class="uhint">누른 횟수</span></h3>' + usageCells(USAGE_EXPORTS, u.exports);
+  h += '<h3 class="usec">세부 기능 사용 <span class="uhint">값을 넣고 내보낸 세션 기준</span></h3>' +
+    usageCells(USAGE_FEATS, u.feats);
+
+  /* 가장 많이 쓴 검사 TOP 10 */
+  h += '<h3 class="usec">가장 많이 쓴 검사 <span class="uhint">TOP 10</span></h3>';
+  if (!top.length) {
+    h += '<p class="uempty">아직 쌓인 기록이 없어요. 레포트를 내보내거나 회원 기록을 저장하면 여기부터 쌓여요.</p>';
+  } else {
+    var max = top[0].n;
+    h += '<ol class="utop">';
+    top.forEach(function (t, i) {
+      h += '<li><i class="urk">' + (i + 1) + '</i><span class="utn">' + esc(t.name) + '</span>' +
+        '<span class="utbar"><i style="width:' + Math.max(4, Math.round(t.n / max * 100)) + '%"></i></span>' +
+        '<b class="un">' + t.n + '회</b></li>';
+    });
+    h += '</ol>';
+  }
+
+  /* 한 번도 안 쓴 검사 — 덜어내기 후보 */
+  h += '<h3 class="usec">한 번도 안 쓴 검사 <span class="uhint">덜어내기 후보</span></h3>';
+  h += '<p class="uznote"><b>0회 ' + tu.zeroTests + '종</b> / 전체 ' + tu.allTests + '종' +
+    (zt.length ? ' · 접어서 정리할 때 참고하세요.' : ' · 전부 한 번 이상 썼어요.') + '</p>';
+  if (zt.length) {
+    h += '<details class="uzero"><summary>0회 검사 ' + zt.length + '종 펼쳐 보기</summary><div class="uzlist">';
+    zt.forEach(function (t) {
+      h += '<span class="uzc">' + esc(t.name) + (t.hiEnd ? '<em>고가 장비</em>' : '') + '</span>';
+    });
+    h += '</div></details>';
+  }
+  return h;
+}
+function usageSummaryText() {
+  var tu = usageTotals(), u = tu.u;
+  var pct = function (n) { return tu.goalTotal ? Math.round(n / tu.goalTotal * 100) : 0; };
+  var top = usageTopTests(10), zt = usageZeroTests();
+  var L = [];
+  L.push('MSKTOOL · 내 사용 통계 (이 기기)');
+  L.push(u.since ? (u.since + ' ~ ' + (u.lastAt ? u.lastAt.slice(0, 10) : todayISO())) : '아직 기록 없음');
+  L.push('');
+  L.push('누적 기록 ' + u.sessions + '회 — 통증·재활 ' + u.goal.pain + '회(' + pct(u.goal.pain) + '%) · 무통증·체력 ' + u.goal.perf + '회(' + pct(u.goal.perf) + '%)');
+  L.push('내보내기: PNG 저장 ' + u.exports.png + ' · 구글 시트 저장 ' + u.exports.gsheet);
+  L.push('세부 기능: PQRST ' + u.feats.pqrst + ' · 가설 ' + u.feats.hypo + ' · 증상 수정 ' + u.feats.sym + ' · 고가 장비 ' + u.feats.hiEnd);
+  if (top.length) {
+    L.push('가장 많이 쓴 검사: ' + top.map(function (t, i) { return (i + 1) + ') ' + t.name + ' ' + t.n + '회'; }).join(' / '));
+  }
+  L.push('한 번도 안 쓴 검사: ' + zt.length + '종 / 전체 ' + tu.allTests + '종');
+  if (zt.length) {
+    L.push('  ' + zt.slice(0, 20).map(function (t) { return t.name; }).join(', ') +
+      (zt.length > 20 ? ' 외 ' + (zt.length - 20) + '종' : ''));
+  }
+  return L.join('\n');
+}
+function usageRender() {
+  var b = (typeof document !== 'undefined' && document.getElementById) ? document.getElementById('usageBody') : null;
+  if (b) b.innerHTML = usageBodyHTML();
+  var m = (typeof document !== 'undefined' && document.getElementById) ? document.getElementById('usageModal') : null;
+  if (m) m.setAttribute('data-usage', String(usageData().sessions));
+  return b;
+}
+function usageOpen() {
+  var m = (typeof document !== 'undefined' && document.getElementById) ? document.getElementById('usageModal') : null;
+  if (!m) return false;
+  usageRender();
+  m.hidden = false;
+  var bg = (typeof document !== 'undefined') ? document.documentElement : null;
+  if (bg && bg.classList) bg.classList.add('umodal');
+  var bd = m.querySelector('.modal-body');
+  if (bd && bd.scrollTop) bd.scrollTop = 0;
+  var x = m.querySelector('.modal-x');
+  if (x && x.focus) { try { x.focus(); } catch (e) {} }
+  return true;
+}
+function usageClose() {
+  var m = (typeof document !== 'undefined' && document.getElementById) ? document.getElementById('usageModal') : null;
+  if (!m) return false;
+  m.hidden = true;
+  var bg = (typeof document !== 'undefined') ? document.documentElement : null;
+  if (bg && bg.classList) bg.classList.remove('umodal');
+  return true;
+}
+function usageIsOpen() {
+  var m = (typeof document !== 'undefined' && document.getElementById) ? document.getElementById('usageModal') : null;
+  return !!(m && !m.hidden);
 }
 
 /* ---------- Apps Script 코드(원클릭 복사) ---------- */
@@ -7360,10 +7753,12 @@ function demoState() {
   S.values[vkey('sidebridge', 's', 'R')] = '48';
 }
 function demo() {
+  usageNewSession(); /* 예시로 채우기도 새 세션으로 본다 */
   demoState();
   if (wideScreen()) S.clinicOpen = true; /* PC 2단에서는 오른쪽 문진 패널을 펼친 채로 보여 준다 */
   ['age', 'height', 'weight'].forEach(function (k) { var el = $(k); if (el) el.value = S[k]; });
   if ($('hiEnd')) $('hiEnd').checked = !!S.hiEnd;
+  syncHiEnd();
   renderChips(); renderAll(); saveState();
   if (stepsOn()) { setStep(STEP_MAX); return; } /* 모바일은 결과 단계로 */
   var sec = $('results');
@@ -7371,6 +7766,7 @@ function demo() {
 }
 
 function resetState() {
+  usageNewSession(); /* 새 고객 = 새 세션. 쌓인 통계는 지우지 않는다 */
   S.sex = 'F'; S.age = ''; S.height = ''; S.weight = '';
   S.goal = 'pain'; /* 평가 목적은 새 고객에서 기본값(통증·재활)으로 돌아간다 */
   S.parts = []; S.moves = []; S.hiEnd = false;
@@ -7387,6 +7783,7 @@ function resetState() {
   }
   ['age', 'height', 'weight'].forEach(function (k) { var el = $(k); if (el) el.value = ''; });
   if ($('hiEnd')) $('hiEnd').checked = false;
+  syncHiEnd();
   clearReportPreview(); renderChips(); renderAll(); saveState(); syncClientBar();
   if (stepsOn()) setStep(1, { anim: false }); /* 새 고객은 1단계부터 */
 }
@@ -7419,6 +7816,7 @@ function init() {
   if ($('height')) $('height').value = S.height || '';
   if ($('weight')) $('weight').value = S.weight || '';
   if ($('hiEnd')) $('hiEnd').checked = !!S.hiEnd;
+  syncHiEnd();
   /* PC 넓은 화면에서는 임상 문진을 처음부터 펼쳐 둔다 — 오른쪽 2단 패널이 빈 채로 남지 않게 */
   if (!S.clinicOpen && wideScreen()) S.clinicOpen = true;
   buildChips(); buildClinic(); renderChips(); renderAll();
@@ -7703,6 +8101,11 @@ function init() {
     }
     if (act === 'copy') { copyText(clientText()); return; }
     if (act === 'copy2') { copyText(resultText()); return; }
+    /* 내 기기 전용 사용 통계 모달 */
+    if (act === 'usage-open') { usageOpen(); return; }
+    if (act === 'usage-close') { usageClose(); return; }
+    if (act === 'usage-copy') { copyText(usageSummaryText()); return; }
+    if (act === 'usage-reset') { usageReset(); return; }
     if (act === 'memo-add') { memoAddSlot(-1); return; }
     if (act === 'memo-del') {
       var mdi = parseInt(el.getAttribute('data-slot'), 10);
@@ -7711,7 +8114,11 @@ function init() {
     }
     if (act === 'rep-preview') { showReportPreview(); return; }
     if (act === 'rep-save') {
-      if (!downloadReport()) alert('이 브라우저에서는 이미지 저장이 막혔어요. 미리보기를 길게 눌러 저장해 주세요.');
+      if (!downloadReport()) {
+        alert('이 브라우저에서는 이미지 저장이 막혔어요. 미리보기를 길게 눌러 저장해 주세요.');
+        return;
+      }
+      usageCommit('png'); /* PNG 레포트 저장 +1 */
       return;
     }
     if (act === 'rep-share') { shareReport(); return; }
@@ -7838,11 +8245,17 @@ function init() {
     saveState();
   });
 
-  $('hiEnd').addEventListener('change', function () { S.hiEnd = this.checked; renderAll(); saveState(); });
+  $('hiEnd').addEventListener('change', function () {
+    S.hiEnd = this.checked;
+    syncHiEnd(); /* 푸터 스위치 꺼짐/켜짐 표시 */
+    renderAll(); saveState();
+  });
 
   /* 몸 그림 부위는 키보드(Enter·Space)로도 고를 수 있게 */
   document.addEventListener('keydown', function (ev) {
     var el = ev.target;
+    /* 사용 통계 모달 — Esc로 닫기 */
+    if (ev.key === 'Escape' && usageIsOpen()) { usageClose(); return; }
     /* 담당자 한마디 칸 — Enter는 다음 칸, Shift+Enter는 칸 안 줄바꿈 */
     var mk = (el && el.getAttribute) ? el.getAttribute('data-memo-slot') : null;
     if (mk !== null && mk !== undefined) {
@@ -8546,9 +8959,7 @@ function showReportPreview() {
   box.innerHTML = '<div class="rpv-head"><b>레포트 미리보기</b><span>' + cv.width + ' × ' + cv.height +
     'px · 글자가 잘리거나 겹치지 않는지 확인해 주세요</span></div>' +
     '<img alt="회원용 레포트 미리보기" src="' + url + '">' +
-    '<div class="repbtns" style="margin-top:12px"><button class="btn" data-act="rep-save">이미지로 저장 (PNG)</button>' +
-    (canShareReport() ? '<button class="btn ghost" data-act="rep-share">카톡으로 바로 보내기</button>' : '') +
-    '<button class="btn ghost" data-act="rep-print">PDF 저장 · 인쇄</button></div>';
+    '<div class="repbtns" style="margin-top:12px"><button class="btn" data-act="rep-save">이미지로 저장 (PNG)</button></div>';
   box.hidden = false;
   if (box.scrollIntoView) box.scrollIntoView({ behavior: 'smooth', block: 'start' });
   return true;
@@ -8732,11 +9143,10 @@ function memoEnterSplit(idx, el) {
 /* 결과 영역 안의 '회원용 레포트 보내기' 블록 */
 function reportSectionHTML(d) {
   if (!d || !d.items.length) return '';
-  var share = canShareReport();
   var h = '<div class="rep noprint">';
-  h += '<h3>회원용 레포트 보내기</h3>';
-  h += '<p class="repnote">회원에게 그대로 보낼 수 있는 카드형 이미지를 만들어요. 이름·한마디·홈트 포인트는 비워 두어도 됩니다.' +
-    (share ? '' : ' 저장한 이미지를 카톡·문자에 붙여 넣으면 바로 보낼 수 있어요.') + '</p>';
+  h += '<h3>회원용 레포트 이미지</h3>';
+  h += '<p class="repnote">회원에게 그대로 보낼 수 있는 카드형 이미지를 만들어요. 이름·한마디·홈트 포인트는 비워 두어도 됩니다. ' +
+    '저장한 이미지를 카톡·문자에 붙여 넣으면 바로 보낼 수 있어요.</p>';
   h += '<div class="repgrid">';
   h += '<label class="repf"><span>회원 이름</span><input type="text" data-rep="member" value="' + esc(S.member || '') + '" placeholder="예: 김OO" autocomplete="off"></label>';
   h += '<label class="repf"><span>센터 · 담당자명 <em>다음에도 유지</em></span><input type="text" data-rep="center" value="' + esc(S.center || '') + '" placeholder="예: 피지오스튜디오 · 이성재 선생님" autocomplete="off"></label>';
@@ -8746,10 +9156,8 @@ function reportSectionHTML(d) {
     '<button type="button" class="memoadd" data-act="memo-add">+ 항목 추가</button></div>';
   h += '<label class="repf wide"><span>오늘의 관리 · 홈트 포인트 <em>선택</em></span><textarea data-rep="homet" rows="3" placeholder="예: 1) 종아리 등척성 버티기 30초×3세트  2) 무릎 안쪽 모임 주의">' + esc(S.homet || '') + '</textarea></label>';
   h += '<div class="repbtns">';
-  h += '<button class="btn" data-act="rep-preview">레포트 미리보기</button>';
-  h += '<button class="btn ghost" data-act="rep-save">이미지로 저장 (PNG)</button>';
-  if (share) h += '<button class="btn ghost" data-act="rep-share">카톡으로 바로 보내기</button>';
-  h += '<button class="btn ghost" data-act="rep-print">PDF 저장 · 인쇄</button>';
+  h += '<button class="btn" data-act="rep-save">이미지로 저장 (PNG)</button>';
+  h += '<button class="btn ghost" data-act="rep-preview">미리보기</button>';
   h += '</div></div>';
   return h;
 }
@@ -8846,6 +9254,13 @@ G.APP = {
   gsDropRecord: gsDropRecord, gsDropTombstone: gsDropTombstone, gsNewestTomb: gsNewestTomb,
   gsScriptText: gsScriptText, gsCopyScript: gsCopyScript, gsShort: gsShort, gsStamp: gsStamp, gsBadgeRender: gsBadgeRender,
   GS_URL_KEY: GS_URL_KEY, GS_AUTO_KEY: GS_AUTO_KEY, GS_LAST_KEY: GS_LAST_KEY, GS_DEL_KEY: GS_DEL_KEY,
+  /* 내 기기 전용 사용 통계 */
+  USAGE_KEY: USAGE_KEY, USAGE_EXPORTS: USAGE_EXPORTS, USAGE_FEATS: USAGE_FEATS,
+  emptyUsage: emptyUsage, readUsage: readUsage, usageData: usageData, writeUsage: writeUsage,
+  usageNewSession: usageNewSession, usageSnap: usageSnap, usageCommit: usageCommit, usageReset: usageReset,
+  usageTotals: usageTotals, usageTopTests: usageTopTests, usageZeroTests: usageZeroTests,
+  usageBodyHTML: usageBodyHTML, usageSummaryText: usageSummaryText, usageRender: usageRender,
+  usageOpen: usageOpen, usageClose: usageClose, usageIsOpen: usageIsOpen,
   REP: REP, REP_SENT: REP_SENT, REP_SENT_TIME: REP_SENT_TIME,
   setState: function (o) { for (var k in o) S[k] = o[k]; }
 };
