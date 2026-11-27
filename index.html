@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" data-theme="light">
+<html lang="ko" data-theme="light" data-step="1">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -17,6 +17,9 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MSKTOOL · 근골격계 임상 추론 & 규범 대조 평가">
 <meta name="twitter:description" content="동일 성별·연령대 규범 대조 평가, 바디차트·임상 문진·가설 우선순위·증상 수정(SSMP/MWM)·회원용 리포트를 한 번에 정리하는 근골격계 평가 웹앱">
+<script>/* ?steps=off(또는 all)면 모바일에서도 네 단계를 한 화면에 이어 보여 준다(점검·테스트용) */
+(function(){try{if(/[?&]steps=(off|all)(?:&|$)/.test(location.search))document.documentElement.setAttribute('data-steps','off');}catch(e){}})();
+</script>
 <link rel="manifest" href="./manifest.webmanifest">
 <meta name="theme-color" content="#f4f6f4" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0b222d" media="(prefers-color-scheme: dark)">
@@ -653,6 +656,9 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
 .pub-notes{margin:11px 0 0;padding:0;list-style:none;display:grid;gap:5px;font-size:12px;line-height:1.55;color:var(--muted)}
 .pub-notes li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px;align-items:start;word-break:keep-all}
 .pub-notes b{font-size:10.5px;font-weight:700;color:var(--ink);background:var(--chip);border:1px solid var(--line);border-radius:6px;padding:1px 6px;line-height:1.55;white-space:nowrap}
+/* 오픈채팅 참여코드 — 채널 알약 바로 아래 한 줄 */
+.pub-code{margin:9px 0 0;font-size:11.6px;font-weight:600;line-height:1.5;color:var(--muted);letter-spacing:-.01em;word-break:keep-all}
+.pub-code b{font-weight:800;color:var(--brand-2);background:var(--soft);border:1px solid color-mix(in srgb,var(--brand) 30%,var(--line));border-radius:6px;padding:1px 7px;letter-spacing:.02em}
 .pub-disc{margin:10px 0 0;padding-top:9px;border-top:1px dashed var(--line);font-size:11.3px;line-height:1.6;color:var(--muted);word-break:keep-all}
 
 @media (max-width:430px){
@@ -825,8 +831,70 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
   .fab{display:none}
 }
 
+/* =======================================================================
+   모바일 단계 전환 (<960px) — 한 화면에 한 단계씩, 좌우로 쓸어서 넘긴다
+   · 넓은 화면(≥960px)과 A4 인쇄(@media print)는 이 블록의 영향을 받지 않는다.
+   · 숨김은 display 만 바꾸므로 입력값·펼침 상태·스크롤 위치를 다시 만들지 않는다.
+   · html[data-steps="off"](?steps=off)면 예전처럼 모든 단계를 한 화면에 이어 보여 준다.
+   ======================================================================= */
+.msteps{display:none}
+.snav{display:none}
+
+@media screen and (max-width:959.98px){
+  /* 지금 단계 하나만 보여 준다(기본값은 1단계) */
+  html:not([data-steps="off"]) .wrap>[data-stp]{display:none}
+  html:not([data-steps="off"])[data-step="1"] .wrap>[data-stp="1"],
+  html:not([data-steps="off"])[data-step="2"] .wrap>[data-stp="2"],
+  html:not([data-steps="off"])[data-step="3"] .wrap>[data-stp="3"],
+  html:not([data-steps="off"])[data-step="4"] .wrap>[data-stp="4"]{display:block}
+  /* 푸터·출처는 마지막 단계에서만 — 앱 화면이 길게 늘어지지 않게 */
+  html:not([data-steps="off"]):not([data-step="4"]) footer{display:none}
+
+  /* 상단 고정 단계 탭 — 화면 폭을 꽉 채우는 앱 헤더 */
+  html[data-steps="off"] .msteps{display:none}
+  .msteps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;
+    position:sticky;top:0;z-index:45;margin:0 -16px 12px;padding:6px 10px;
+    background:color-mix(in srgb,var(--bg) 97%,transparent);border-bottom:1px solid var(--line);
+    box-shadow:0 3px 12px rgba(16,33,31,.06);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+  .msteps button{display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;
+    border:0;background:transparent;color:var(--muted);font:inherit;font-size:12.4px;font-weight:700;
+    letter-spacing:-.02em;padding:8px 2px;border-radius:12px;cursor:pointer;white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis;transition:background .15s,color .15s}
+  .msteps button i{display:inline-flex;align-items:center;justify-content:center;flex:none;
+    width:17px;height:17px;border-radius:50%;background:var(--chip);color:var(--muted);
+    font-style:normal;font-size:10.5px;font-weight:800;line-height:1}
+  .msteps button.on{background:var(--brand);color:#fff;box-shadow:0 2px 7px rgba(15,118,110,.28)}
+  .msteps button.on i{background:rgba(255,255,255,.26);color:#fff}
+  /* 다크 모드의 --brand 는 밝은 민트라 흰 글씨가 흐려진다 — 진한 글자로 */
+  [data-theme="dark"] .msteps button.on{color:#0a1f1c;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+  [data-theme="dark"] .msteps button.on i{background:rgba(0,0,0,.16);color:#0a1f1c}
+  .msteps button:active{transform:scale(.98)}
+  .msteps button:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
+
+  /* 단계 끝의 작은 안내 — 버튼 대신 쓸어서 넘기는 방법을 알려 준다 */
+  html:not([data-steps="off"]) .snav{display:block;margin:16px 0 2px;text-align:center;
+    font-size:11.5px;font-weight:600;letter-spacing:-.01em;color:var(--muted);opacity:.8;word-break:keep-all}
+
+  /* 넘기는 동안 지금 단계가 손끝을 따라 움직인다(JS 가 transform·transition 을 건다) */
+  .wrap>.swiping{will-change:transform;touch-action:pan-y}
+  .wrap>.stp-in-r{animation:stpInR .26s cubic-bezier(.22,.8,.24,1) both}
+  .wrap>.stp-in-l{animation:stpInL .26s cubic-bezier(.22,.8,.24,1) both}
+}
+@keyframes stpInR{from{opacity:.35;transform:translateX(34px)}to{opacity:1;transform:none}}
+@keyframes stpInL{from{opacity:.35;transform:translateX(-34px)}to{opacity:1;transform:none}}
+/* 홈 화면 앱(standalone)에서는 상태 표시줄·노치 아래로 내려앉게 */
+@media (display-mode: standalone){
+  .msteps{top:0;padding-top:calc(6px + env(safe-area-inset-top,0px))}
+}
+/* 좁은 화면의 .wrap 좌우 여백(12px)에 맞춰 단계 탭도 화면 폭을 꽉 채운다 */
+@media screen and (max-width:430px){
+  .msteps{margin-left:-12px;margin-right:-12px;padding-left:8px;padding-right:8px}
+}
+
 @media (max-width:375px){
   .gs-bar{column-gap:6px;padding:8px 9px}
+  .msteps button{font-size:11.6px;gap:4px;padding:8px 1px}
+  .msteps button i{width:15px;height:15px;font-size:9.8px}
   .gs-t{font-size:12px}
   .gs-badge{font-size:10.2px;padding:2px 6px;letter-spacing:-.01em;max-width:62vw}
 }
@@ -853,7 +921,15 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
     <button class="icon-btn" id="themeBtn" aria-label="화면 밝기 바꾸기">🌙</button>
   </header>
 
-  <section class="card s1">
+  <!-- 모바일 전용 단계 탭 — 좁은 화면에서만 보이고(넓은 화면은 2단 전체 보기), 눌러서도 바로 이동한다 -->
+  <nav class="msteps noprint" id="mSteps" aria-label="단계 이동">
+    <button type="button" data-steptab="1" aria-current="step"><i aria-hidden="true">1</i>정보</button>
+    <button type="button" data-steptab="2"><i aria-hidden="true">2</i>부위·가설</button>
+    <button type="button" data-steptab="3"><i aria-hidden="true">3</i>검사</button>
+    <button type="button" data-steptab="4"><i aria-hidden="true">4</i>결과</button>
+  </nav>
+
+  <section class="card s1" data-stp="1">
     <div class="step"><span>1</span>고객 정보
       <em class="noprint" style="display:flex;gap:6px">
         <button class="btn ghost" data-act="demo" style="padding:6px 11px;font-size:12.5px;border-radius:9px">예시로 채우기</button>
@@ -893,9 +969,10 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
       <div class="fld"><label for="weight">체중</label><div class="inp"><input id="weight" type="number" inputmode="decimal" placeholder="56"><span class="u">kg</span></div></div>
       <div class="bmi"><div class="lbl">BMI</div><div class="val"><span id="bmiVal">-</span><span class="cat" id="bmiCat"></span></div></div>
     </div>
+    <p class="snav noprint">← 좌우로 쓸어서 단계를 넘겨요 →</p>
   </section>
 
-  <section class="card s2">
+  <section class="card s2" data-stp="2">
     <!-- PC 넓은 화면에서만 좌(부위 선택·몸 그림) / 우(임상 문진)로 나뉜다. 모바일에서는 두 상자가 display:contents 라 예전과 똑같이 이어진다. -->
     <div class="s2-left">
       <div class="step"><span>2</span>개선하고 싶은 부위·동작</div>
@@ -938,14 +1015,16 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
       </div>
     </div>
     <label class="switch"><input type="checkbox" id="hiEnd"><i class="tg" aria-hidden="true"></i><span>고가 장비 검사(HHD·포스플레이트·등속성·CPX)도 표시</span></label>
+    <p class="snav noprint">← 좌우로 쓸어서 단계를 넘겨요 →</p>
   </section>
 
-  <section id="testSection">
+  <section id="testSection" data-stp="3">
     <div class="step"><span>3</span>추천 검사</div>
     <div id="testList"></div>
+    <p class="snav noprint">← 좌우로 쓸어서 단계를 넘겨요 →</p>
   </section>
 
-  <section id="resultSection">
+  <section id="resultSection" data-stp="4">
     <div class="step"><span>4</span>결과
       <em class="noprint"><a href="#testSection" style="color:var(--muted);text-decoration:none;font-size:12.5px">↑ 검사 입력</a></em>
     </div>
@@ -965,6 +1044,7 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
     </div>
     <div id="results"></div>
     <div id="repPreview" class="repprev noprint" hidden></div>
+    <p class="snav noprint">← 오른쪽으로 쓸어서 검사로 돌아가요</p>
   </section>
 
   <footer>
@@ -979,10 +1059,11 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
         <div class="pub-links">
           <a class="pub-link" href="https://blog.naver.com/pt-lsj" target="_blank" rel="noopener">블로그 · 물리치료사 이성재</a>
           <a class="pub-link" href="https://www.instagram.com/delight_s_jae/" target="_blank" rel="noopener">인스타 · @delight_s_jae</a>
-          <a class="pub-link pub-talk" href="https://open.kakao.com/o/gzNdrMYi" target="_blank" rel="noopener">오픈채팅 · 피드백·소통</a>
+          <a class="pub-link pub-talk" href="https://open.kakao.com/o/gzNdrMYi" target="_blank" rel="noopener" title="오픈채팅 참여코드: MSKTOOL">오픈채팅 · 피드백·소통</a>
           <a class="pub-link pub-form" href="https://docs.google.com/forms/d/e/1FAIpQLSfi-pw8PiD__ac4vH2FRhzCnU1potP-Tqbdg-jUwznxffuqxw/viewform" target="_blank" rel="noopener">개선 의견 · 오류 제보</a>
         </div>
       </div>
+      <p class="pub-code">오픈채팅 참여코드 <b>MSKTOOL</b></p>
       <ul class="pub-notes">
         <li><b>기록</b><span>모든 기록은 내 기기에 저장되며(타인과 섞이지 않음), 구글 시트 동기화는 선택 시에만 연결됩니다.</span></li>
         <li><b>설치</b><span>휴대폰 앱으로 쓰려면 크롬(안드로이드) '앱 설치' 또는 사파리(아이폰) '공유 → 홈 화면에 추가'를 누르세요.</span></li>
@@ -3513,9 +3594,162 @@ function wideScreen() {
   try { return typeof window !== 'undefined' && !!window.matchMedia && window.matchMedia('(min-width:960px)').matches; }
   catch (e) { return false; }
 }
+
+/* ---------- 모바일 단계 전환(1 정보 → 2 부위·가설 → 3 검사 → 4 결과) ----------
+   · 넓은 화면(≥960px)은 지금처럼 네 단계를 한 화면에 펼친다(2단 레이아웃).
+   · 좁은 화면에서만 지금 단계 하나를 보여 주고, 좌우 스와이프·상단 탭으로 넘긴다.
+   · 화면 전환은 `data-step`(CSS display)만 바꾼다 — 다시 그리지 않아 입력값·펼침 상태가 그대로 남는다.
+   · ?steps=off(html[data-steps="off"])면 단계 나눔을 끄고 예전처럼 모두 이어 보여 준다(점검용). */
+var STEP_MAX = 4;
+var STEP = 1;
+function stepsOn() {
+  try {
+    if (!hasDom() || !document.documentElement || !document.documentElement.getAttribute) return false;
+    if (document.documentElement.getAttribute('data-steps') === 'off') return false;
+    if (!window.matchMedia) return false;
+    return !window.matchMedia('(min-width:960px)').matches;
+  } catch (e) { return false; }
+}
+function stepEl(n) {
+  try { return document.querySelector('.wrap>[data-stp="' + n + '"]'); } catch (e) { return null; }
+}
+/* 상단 단계 탭의 켜짐 표시와 data-step 을 맞춘다 */
+function syncSteps() {
+  if (!hasDom()) return;
+  var root = document.documentElement;
+  if (root && root.setAttribute) root.setAttribute('data-step', String(STEP));
+  var tabs = document.querySelectorAll ? document.querySelectorAll('[data-steptab]') : [];
+  Array.prototype.forEach.call(tabs, function (b) {
+    var n = parseInt(b.getAttribute('data-steptab'), 10);
+    var on = (n === STEP);
+    if (b.classList) b.classList.toggle('on', on);
+    if (on) { if (b.setAttribute && b.getAttribute('aria-current') !== 'step') b.setAttribute('aria-current', 'step'); }
+    else if (b.removeAttribute && b.getAttribute('aria-current') !== null) b.removeAttribute('aria-current');
+  });
+}
+/* 단계를 바꾼다 — opt.scroll:false 면 맨 위로 올리지 않고, opt.anim:false 면 미끄러짐 없이 */
+function setStep(n, opt) {
+  opt = opt || {};
+  n = parseInt(n, 10);
+  if (!(n >= 1 && n <= STEP_MAX)) n = 1;
+  var prev = STEP;
+  STEP = n;
+  syncSteps();
+  if (prev !== n) {
+    if (opt.scroll !== false) { try { window.scrollTo(0, 0); } catch (e) {} }
+    if (opt.anim !== false) stepSlide(n, n > prev ? 1 : -1);
+    if (typeof updateFab === 'function') updateFab();
+  }
+  return STEP;
+}
+function stepSlide(n, dir) {
+  var el = stepEl(n);
+  if (!el || !el.classList || !el.style) return;
+  el.classList.remove('stp-in-r', 'stp-in-l');
+  el.style.transition = ''; el.style.transform = '';
+  void el.offsetWidth; /* 같은 방식으로 두 번 넘겨도 애니메이션이 처음부터 다시 돌게 */
+  el.classList.add(dir > 0 ? 'stp-in-r' : 'stp-in-l');
+  setTimeout(function () { if (el.classList) el.classList.remove('stp-in-r', 'stp-in-l'); }, 340);
+}
+
+/* ---------- 좌우 스와이프 ----------
+   세로 스크롤 중 실수로 넘어가지 않도록
+   ① 가로 이동이 먼저고(10px 넘음) 세로보다 큰지 확인한 뒤에만 스와이프로 잡고,
+   ② 손을 뗄 때 가로 이동 > 60px 이고 세로 이동의 1.5배를 넘을 때만 단계를 바꾼다.
+   입력칸·가로 스크롤 영역·바디차트·단계 탭 위에서는 가로채지 않는다. */
+var SWI = null, SWALLOW = 0;
+function swipeBlocked(t) {
+  if (!t || !t.closest) return true;
+  /* 입력칸·단계 탭·가로 스크롤 영역·바디차트의 누를 수 있는 부위(패드·이름표) 위에서는 가로채지 않는다.
+     차트의 빈 배경(그림 바깥)은 조작 대상이 아니라서 스와이프를 그대로 받는다. */
+  if (t.closest('input,textarea,select,option,[contenteditable="true"],[data-no-swipe],.msteps,.gs-code')) return true;
+  if (t.closest('[data-region],[data-bcdel],.bcpill')) return true;
+  var e = t, guard = 0;
+  while (e && e.nodeType === 1 && guard++ < 40) {
+    if (e.scrollWidth > e.clientWidth + 2) {
+      var ox = '';
+      try { ox = window.getComputedStyle(e).overflowX; } catch (err) {}
+      if (ox === 'auto' || ox === 'scroll' || ox === 'hidden') return true;
+    }
+    e = e.parentElement;
+  }
+  return false;
+}
+function onSwipeStart(ev) {
+  SWI = null;
+  if (!stepsOn() || SWALLOW) return;
+  if (!ev.touches || ev.touches.length !== 1) return;
+  if (swipeBlocked(ev.target)) return;
+  var x = ev.touches[0].clientX, y = ev.touches[0].clientY;
+  if (x < 24) return; /* 화면 가장자리는 브라우저 뒤로 가기 제스처에 양보 */
+  SWI = { x: x, y: y, dx: 0, dy: 0, lock: false, dead: false, el: stepEl(STEP) };
+}
+function onSwipeMove(ev) {
+  if (!SWI || SWI.dead || !ev.touches || ev.touches.length !== 1) return;
+  var dx = ev.touches[0].clientX - SWI.x, dy = ev.touches[0].clientY - SWI.y;
+  if (!SWI.lock) {
+    if (Math.abs(dy) > 10 && Math.abs(dy) >= Math.abs(dx)) { SWI.dead = true; return; } /* 세로 스크롤 */
+    if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 1.2) SWI.lock = true;
+    else return;
+  }
+  if (ev.cancelable) ev.preventDefault();
+  SWI.dx = dx; SWI.dy = dy;
+  var el = SWI.el;
+  if (!el || !el.style) return;
+  var edge = (STEP <= 1 && dx > 0) || (STEP >= STEP_MAX && dx < 0);
+  var px = dx * (edge ? 0.22 : 0.5);
+  var maxp = Math.min((el.offsetWidth || 320) * 0.32, 110);
+  if (px > maxp) px = maxp;
+  if (px < -maxp) px = -maxp;
+  el.style.transition = 'none';
+  el.style.transform = 'translateX(' + px.toFixed(1) + 'px)';
+  if (el.classList) el.classList.add('swiping');
+}
+function onSwipeEnd() {
+  var st = SWI;
+  SWI = null;
+  if (!st) return;
+  var el = st.el, dx = st.dx || 0, dy = st.dy || 0;
+  var far = st.lock && Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5;
+  var to = !far ? 0 : (dx < 0 ? STEP + 1 : STEP - 1);
+  if (to >= 1 && to <= STEP_MAX) {
+    if (el && el.style) { el.style.transition = ''; el.style.transform = ''; }
+    if (el && el.classList) el.classList.remove('swiping');
+    SWALLOW = 1; setTimeout(function () { SWALLOW = 0; }, 420); /* 손을 튼 뒤 따라오는 클릭은 무시 */
+    setStep(to);
+    return;
+  }
+  if (st.lock) { SWALLOW = 1; setTimeout(function () { SWALLOW = 0; }, 420); }
+  if (el && el.style) { /* 제자리로 부드럽게 */
+    el.style.transition = 'transform .2s cubic-bezier(.22,.8,.24,1)';
+    el.style.transform = 'translateX(0)';
+    setTimeout(function () {
+      if (el.style) { el.style.transition = ''; el.style.transform = ''; }
+      if (el.classList) el.classList.remove('swiping');
+    }, 230);
+  } else if (el && el.classList) el.classList.remove('swiping');
+}
+/* 단계 탭·단계 안의 #앵커("↑ 검사 입력") 클릭 */
+function onStepClick(ev) {
+  var t = ev.target;
+  if (!t || !t.closest) return;
+  var tab = t.closest('[data-steptab]');
+  if (tab) {
+    if (ev.preventDefault) ev.preventDefault();
+    setStep(parseInt(tab.getAttribute('data-steptab'), 10));
+    return;
+  }
+  if (!stepsOn()) return;
+  var a = t.closest('a[href^="#"]');
+  if (!a) return;
+  var map = { testSection: 3, resultSection: 4 };
+  var id = String(a.getAttribute('href') || '').slice(1);
+  if (map[id]) { if (ev.preventDefault) ev.preventDefault(); setStep(map[id]); }
+}
 /* 검사 카드를 펼쳐 화면 가운데로 — 부위별 임상 패널의 연결 검사·증상 수정의 SSMP 링크가 함께 쓴다 */
 function openTestCard(id) {
   if (!id || !testById(id)) return false;
+  if (stepsOn() && STEP !== 3) setStep(3); /* 모바일에서는 검사 단계로 먼저 넘어가야 카드가 보인다 */
   S.open[id] = true;
   var seen = hasDom() ? document.querySelector('details.test[data-id="' + id + '"]') : null;
   if (!seen) { /* 지금 보기에 없으면 전체 검사 보기로 바꿔 꺼낸다 */
@@ -5120,7 +5354,8 @@ function updateFab() {
   var fab = $('fab'), btn = $('fabBtn');
   if (!fab || !btn) return;
   var n = evaluateAll().items.length;
-  if (!n || S.clinicOpen) { fab.hidden = true; return; } /* 문진을 펼친 동안은 화면을 가리지 않는다 */
+  /* 모바일에서는 결과가 마지막 단계(4)에 있으므로 그 단계에서는 숨긴다 */
+  if (!n || S.clinicOpen || (stepsOn() && STEP >= STEP_MAX)) { fab.hidden = true; return; } /* 문진을 펼친 동안은 화면을 가리지 않는다 */
   fab.hidden = false;
   btn.innerHTML = '결과 보기 <span>' + n + '개</span>';
 }
@@ -5871,6 +6106,7 @@ function demo() {
   ['age', 'height', 'weight'].forEach(function (k) { var el = $(k); if (el) el.value = S[k]; });
   if ($('hiEnd')) $('hiEnd').checked = !!S.hiEnd;
   renderChips(); renderAll(); saveState();
+  if (stepsOn()) { setStep(STEP_MAX); return; } /* 모바일은 결과 단계로 */
   var sec = $('results');
   if (sec && sec.scrollIntoView) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -5892,6 +6128,7 @@ function resetState() {
   ['age', 'height', 'weight'].forEach(function (k) { var el = $(k); if (el) el.value = ''; });
   if ($('hiEnd')) $('hiEnd').checked = false;
   clearReportPreview(); renderChips(); renderAll(); saveState(); syncClientBar();
+  if (stepsOn()) setStep(1, { anim: false }); /* 새 고객은 1단계부터 */
 }
 function copyText(txt) {
   var done = function () { alert('복사했어요. 카카오톡이나 문자에 붙여 넣으세요.'); };
@@ -5925,6 +6162,25 @@ function init() {
   /* PC 넓은 화면에서는 임상 문진을 처음부터 펼쳐 둔다 — 오른쪽 2단 패널이 빈 채로 남지 않게 */
   if (!S.clinicOpen && wideScreen()) S.clinicOpen = true;
   buildChips(); buildClinic(); renderChips(); renderAll();
+  /* 모바일 단계 전환 — 첫 화면은 1단계, 좌우 스와이프·상단 탭으로 넘어간다 */
+  try {
+    var ds = parseInt((document.documentElement.getAttribute('data-step') || '1'), 10);
+    STEP = (ds >= 1 && ds <= STEP_MAX) ? ds : 1;
+  } catch (e) { STEP = 1; }
+  syncSteps();
+  document.addEventListener('touchstart', onSwipeStart, { passive: true });
+  document.addEventListener('touchmove', onSwipeMove, { passive: false });
+  document.addEventListener('touchend', onSwipeEnd, { passive: true });
+  document.addEventListener('touchcancel', onSwipeEnd, { passive: true });
+  /* 단계를 넘긴 손을 튼 뒤 따라오는 클릭은 한 번 삼킨다(카드·칩이 잘못 눌리지 않게) */
+  document.addEventListener('click', function (ev) {
+    if (!SWALLOW) return;
+    SWALLOW = 0;
+    if (ev.preventDefault) ev.preventDefault();
+    if (ev.stopPropagation) ev.stopPropagation();
+  }, true);
+  document.addEventListener('click', onStepClick, true);
+  updateFab();
   $('sources').innerHTML = renderSourcesHTML();
   syncClientBar();
   gsLoadCfg(); gsRender();
@@ -6164,6 +6420,7 @@ function init() {
     if (act === 'gs-copy') { gsCopyScript(); return; }
     if (act === 'gs-code') { gsToggleCode(); return; }
     if (act === 'goto') {
+      if (stepsOn()) { setStep(STEP_MAX); return; }
       var sec = $('resultSection');
       if (sec && sec.scrollIntoView) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
       return;
@@ -7261,6 +7518,8 @@ G.APP = {
   symResultHTML: symResultHTML, symGuideHTML: symGuideHTML, renderSym: renderSym, renderSymPanel: renderSymPanel,
   toggleSymStrat: toggleSymStrat, symAdd: symAdd, symDel: symDel, symSetField: symSetField, cleanNum10: cleanNum10,
   measureOf: measureOf, openTestCard: openTestCard,
+  /* 모바일 단계 전환 */
+  stepsOn: stepsOn, setStep: setStep, stepNow: function () { return STEP; }, STEP_MAX: STEP_MAX, syncSteps: syncSteps,
   /* 영역별 요약 */
   areaSummary: areaSummary, areaHTML: areaHTML, areaGrade: areaGrade, areaLevel: areaLevel, areaInk: areaInk,
   changeSummary: changeSummary, changeHTML: changeHTML, changeLabel: changeLabel,

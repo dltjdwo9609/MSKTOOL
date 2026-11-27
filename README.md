@@ -29,7 +29,7 @@
 
 - 블로그: <https://blog.naver.com/pt-lsj>
 - 인스타그램: <https://www.instagram.com/delight_s_jae/>
-- 오픈채팅 피드백방: <https://open.kakao.com/o/gzNdrMYi>
+- 오픈채팅 피드백방: <https://open.kakao.com/o/gzNdrMYi> (참여코드: MSKTOOL)
 - 개선 의견 · 오류 제보(구글 폼): <https://docs.google.com/forms/d/e/1FAIpQLSfi-pw8PiD__ac4vH2FRhzCnU1potP-Tqbdg-jUwznxffuqxw/viewform>
 
 ## 안내 · 면책
