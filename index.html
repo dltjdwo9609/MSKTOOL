@@ -304,6 +304,26 @@ details.pcbox[open] .pc-ar{transform:rotate(-90deg)}
 .viewseg button{font-size:13.5px;padding:9px 4px}
 .chips.cat{gap:6px}
 .chips.cat .chip{padding:6px 12px;font-size:13px}
+/* 부하(난이도) 칩 — 저부하 → 중부하 → 고부하 */
+.chips.loadchips{align-items:center;gap:6px;margin-top:8px}
+.chips.loadchips .chiplbl{font-size:11.3px;font-weight:800;color:var(--muted);margin-right:1px;letter-spacing:-.01em}
+.chips.loadchips .chip{padding:6px 11px;font-size:12.6px;display:inline-flex;align-items:center;gap:5px}
+.chips.loadchips .chip.lvl::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--muted);flex:none}
+.chips.loadchips .chip.lvl-low::before{background:var(--good)}
+.chips.loadchips .chip.lvl-mid::before{background:var(--low)}
+.chips.loadchips .chip.lvl-high::before{background:var(--warn)}
+.chips.loadchips .chip em{font-style:normal;font-size:10.6px;font-weight:800;color:var(--muted);margin-left:1px}
+.chips.loadchips .chip.on::before{background:currentColor}
+.chips.loadchips .chip.on em{color:inherit;opacity:.8}
+/* 부하 묶음 머리 — 카드 묶음이 어디서 바뀌는지 알리는 한 줄 */
+p.loadgrp{display:flex;align-items:center;gap:7px;margin:16px 2px 9px;font-size:12px;color:var(--muted);word-break:keep-all}
+p.loadgrp i{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none}
+p.loadgrp b{font-size:12.8px;font-weight:800;color:var(--ink);letter-spacing:-.01em;flex:none}
+p.loadgrp em{font-style:normal;font-size:11.3px;color:var(--muted);flex:none}
+p.loadgrp::after{content:"";flex:1;height:1px;background:var(--line);min-width:12px}
+p.loadgrp[data-lvl="low"] i{background:var(--good)}
+p.loadgrp[data-lvl="mid"] i{background:var(--low)}
+p.loadgrp[data-lvl="high"] i{background:var(--warn)}
 .chips.tendchips{align-items:center;margin-top:7px}
 .chips.tendchips .chip.tend{background:var(--soft);border-color:color-mix(in srgb,var(--brand) 35%,var(--line));color:var(--brand-2);font-weight:700;padding:6px 12px;font-size:13px}
 .chips.tendchips .chip.tend.on{background:var(--brand);border-color:var(--brand);color:#fff}
@@ -337,6 +357,18 @@ details.test[open]>summary::after{transform:translateY(-50%) rotate(-90deg)}
 .t-badge.ok{background:var(--soft);color:var(--brand-2)}
 .t-badge.ref{background:var(--chip);color:var(--muted)}
 .t-badge.fit{background:var(--chip);color:var(--warn);font-weight:600}
+/* 부하(난이도) 배지 — 점 색만 등급을 나르고 바탕은 차분하게(뜻이 다른 배지와 섞이지 않게) */
+.t-badge.lv{display:inline-flex;align-items:center;gap:5px;background:var(--card);color:var(--ink);border:1px solid var(--line);font-weight:700}
+.t-badge.lv::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--muted);flex:none}
+.t-badge.lv-low::before{background:var(--good)}
+.t-badge.lv-mid::before{background:var(--low)}
+.t-badge.lv-high::before{background:var(--warn)}
+/* 320~379px: 배지 세 개가 한 카드에 붙어도 줄이 덜 늘어나도록 조금 줄인다 */
+@media screen and (max-width:379.98px){
+  .t-badge{font-size:10.9px;padding:2px 6px;border-radius:6px}
+  .t-badge.lv{gap:4px}
+  .t-badge.lv::before{width:6px;height:6px}
+}
 .tbwrap{margin-left:auto;display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}
 .tbwrap .t-badge{margin-left:0}
 details.test>summary .t-badge+.t-badge{margin-left:0}
@@ -810,7 +842,7 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
   #testSection{grid-column:1/-1;grid-row:5;margin:26px 0 0}
   #testList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px;row-gap:10px;align-items:start}
   #testList>details.test{margin:0}
-  #testList>:is(.clinic-warn,.rfwarn,.pclin,details.sym,.routine,.browse,.hint,.bnote,h2.sec,.empty,details.heldgrp){grid-column:1/-1}
+  #testList>:is(.clinic-warn,.rfwarn,.pclin,details.sym,.routine,.browse,.hint,.bnote,h2.sec,.empty,details.heldgrp,p.loadgrp){grid-column:1/-1}
   .browse .viewseg{max-width:560px}
   /* 관절 증상 수정 — 전체 폭 안에서 동작 기록 두 줄을 나란히 */
   #testList>details.sym .sym-body{display:grid;grid-template-columns:1fr 1fr;column-gap:14px;align-items:start}
@@ -3118,7 +3150,7 @@ function doPost(e) {
 var S = {
   sex: 'F', age: '', height: '', weight: '',
   parts: [], moves: [], hiEnd: false,
-  view: 'rec', cat: '', tend: false,
+  view: 'rec', cat: '', tend: false, loadSel: '', /* loadSel: 부하(난이도) 칩으로 고른 단계('' = 전체) */
   values: {}, prev: {}, variant: {}, open: {},
   member: '', center: '', memo: '', homet: '', /* 회원 이름·한마디·홈트 포인트는 세션에만, 센터명은 localStorage로 */
   routine: '', /* 지금 고른 루틴 세트(빈 값이면 일반 보기) */
@@ -3760,6 +3792,31 @@ function loadOf(t) { return (t && t.load) || 'mid'; }
 function isHighLoad(t) { return loadOf(t) === 'high'; }
 function isLowLoad(t) { return loadOf(t) === 'low'; }
 function loadRank(t) { return loadOf(t) === 'low' ? 0 : (loadOf(t) === 'high' ? 2 : 1); }
+/* 부하(난이도) 이름 — 카드 배지·묶음 머리·필터 칩이 같은 말을 쓴다.
+   저부하(기초·일상) → 중부하(기능·근력) → 고부하(러닝·점프·고강도) 순서로 읽는다. */
+var LOAD_LEVELS = ['low', 'mid', 'high'];
+var LOAD_KO = {
+  low: { badge: '저부하 · 기초', chip: '저부하', head: '저부하 · 기초', desc: '기초·일상 움직임' },
+  mid: { badge: '중부하 · 기능', chip: '중부하', head: '중부하 · 기능', desc: '기능·근력' },
+  high: { badge: '고부하 · 스포츠', chip: '고부하', head: '고부하 · 스포츠', desc: '러닝·점프·고강도' }
+};
+function loadKo(t) { var lv = loadOf(t); return LOAD_KO[lv] || LOAD_KO.mid; }
+/* 검사 카드 제목 옆 부하 배지 — 점 색만 등급을 나르고 바탕은 차분하게 둔다(다른 뜻 배지와 섞이지 않게) */
+function loadBadgeHTML(t) {
+  var lv = loadOf(t), ko = loadKo(t);
+  return '<span class="t-badge lv lv-' + lv + '" title="부하(난이도) ' + esc(ko.badge) + ' — ' + esc(ko.desc) + '">' + esc(ko.badge) + '</span>';
+}
+/* 저부하 → 중부하 → 고부하로 나눠 담는다(같은 단계 안의 순서는 그대로 둔다) */
+function sortByLoad(list) {
+  var b = { low: [], mid: [], high: [] };
+  (list || []).forEach(function (t) { b[loadOf(t)].push(t); });
+  return b.low.concat(b.mid, b.high);
+}
+function loadCounts(list) {
+  var c = { low: 0, mid: 0, high: 0 };
+  (list || []).forEach(function (t) { c[loadOf(t)] += 1; });
+  return c;
+}
 function clinicHasData() {
   if (!S) return false;
   if ((S.body || []).length || S.pain || S.irrit) return true;
@@ -4416,7 +4473,7 @@ function openTestCard(id) {
   var seen = hasDom() ? document.querySelector('details.test[data-id="' + id + '"]') : null;
   if (!seen) { /* 지금 보기에 없으면 전체 검사 보기로 바꿔 꺼낸다 */
     if (S.routine) clearRoutine();
-    S.view = 'all'; S.tend = false; S.cat = '';
+    S.view = 'all'; S.tend = false; S.cat = ''; S.loadSel = '';
   }
   renderAll(); saveState();
   var card = hasDom() ? document.querySelector('details.test[data-id="' + id + '"]') : null;
@@ -4514,18 +4571,16 @@ function recommend() {
     list.push({ t: t, score: score, mv: mv });
   });
   list.sort(function (a, b) {
-    /* 고른 동작·조건에 맞는 검사를 먼저 세운다(부위만 골라도 동작을 고르면 그 검사가 맨 위로) */
+    /* 부하(난이도)가 목록의 뼈대다 — 저부하(기초·일상) → 중부하(기능·근력) → 고부하(러닝·점프) */
+    var la = loadRank(a.t), lb = loadRank(b.t);
+    if (la !== lb) return la - lb;
+    /* 같은 부하 안에서는 고른 동작·조건에 맞는 검사를 먼저 세운다 */
     if (a.mv !== b.mv) return b.mv - a.mv;
-    /* 과민성 높음이면 저부하·등척성·안정화 검사를 먼저 세운다(같은 등급끼리는 관련도 순) */
-    if (S.irrit === 'high') {
-      var la = loadRank(a.t), lb = loadRank(b.t);
-      if (la !== lb) return la - lb;
-    }
     return b.score - a.score;
   });
   var main = [], ref = [], held = [];
   list.forEach(function (x) {
-    var t = x.t;
+    var t = x.t; /* 목록은 부하 순으로 이미 정렬돼 있다 */
     var usable = (age !== null) && !t.refOnly && testHasNorm(t, age, S.sex);
     /* 과민성 높음: 고부하 검사는 기본 목록에서 빼서 접힌 ‘고부하 검사’ 목록으로 모은다 */
     if (S.irrit === 'high' && isHighLoad(t)) held.push(t);
@@ -4557,9 +4612,17 @@ function visibleTests() {
     if (useHeld && S.irrit === 'high' && isHighLoad(t)) { held.push(t); return; }
     (usable ? main : ref).push(t);
   });
-  return { main: main, ref: ref, held: held, ordered: ordered, total: main.length + ref.length };
+  /* 부하(난이도) 순서로 묶는다 — 세트(고른 순서)·건병증 보기는 그대로 둔다 */
+  if (!sets && !S.tend) { main = sortByLoad(main); ref = sortByLoad(ref); }
+  /* 부하 칩의 개수는 거르기 전 목록으로 센다(‘고부하’에는 과민성 높음으로 제외된 검사도 포함) */
+  var counts = loadCounts(main.concat(ref, held));
+  if (S.loadSel && !sets) { /* 칩으로 고른 부하 단계만 보여 준다(세트는 고른 검사 묶음이라 거르지 않음) */
+    var keep = function (t) { return loadOf(t) === S.loadSel; };
+    main = main.filter(keep); ref = ref.filter(keep); held = held.filter(keep);
+  }
+  return { main: main, ref: ref, held: held, ordered: ordered, counts: counts, total: main.length + ref.length };
 }
-function browseBar(noCat) {
+function browseBar(noCat, counts) {
   var h = '<div class="browse">';
   h += '<div class="seg viewseg">' +
     '<button data-view="rec" aria-pressed="' + (S.view === 'all' ? 'false' : 'true') + '" class="' + (S.view === 'all' ? '' : 'on') + '">맞춤 추천만 보기</button>' +
@@ -4572,6 +4635,7 @@ function browseBar(noCat) {
     h += '<div class="chips cat tendchips">' +
       '<button class="chip tend' + (S.tend ? ' on' : '') + '" data-tend="1" aria-pressed="' + (S.tend ? 'true' : 'false') + '">건병증 재활</button>' +
       '<span class="chipnote">' + TESTS.filter(function (t) { return t.tend; }).length + '종</span></div>';
+    h += loadChipsHTML(counts);
     if (S.view !== 'all' && !S.tend) {
       var band = ageBandOf(parseNum(S.age));
       h += '<p class="bnote">' + (band === 'senior'
@@ -4583,6 +4647,20 @@ function browseBar(noCat) {
   return h + '</div>';
 }
 
+/* 부하(난이도) 필터 칩 — 고객 목표에 맞춰 저부하·중부하·고부하만 따로 본다 */
+function loadChipsHTML(counts) {
+  var c = counts || visibleTests().counts;
+  var h = '<div class="chips loadchips"><span class="chiplbl">부하</span>';
+  h += '<button class="chip lvall' + (S.loadSel ? '' : ' on') + '" data-load="" aria-pressed="' + (S.loadSel ? 'false' : 'true') + '">전체</button>';
+  LOAD_LEVELS.forEach(function (lv) {
+    var ko = LOAD_KO[lv], n = c[lv] || 0;
+    h += '<button class="chip lvl lvl-' + lv + (S.loadSel === lv ? ' on' : '') + '" data-load="' + lv + '"' +
+      ' aria-pressed="' + (S.loadSel === lv ? 'true' : 'false') + '" aria-label="' + esc(ko.badge) + ' 검사만 보기"' +
+      (n ? ' title="' + esc(ko.badge) + ' — ' + esc(ko.desc) + '"' : ' title="지금 보기에는 이 부하 검사가 없어요"') + '>' +
+      esc(ko.chip) + (n ? '<em>' + n + '</em>' : '') + '</button>';
+  });
+  return h + '</div>';
+}
 function hasAnyValue(t) {
   for (var i = 0; i < t.measures.length; i++) {
     var m = t.measures[i];
@@ -4737,22 +4815,41 @@ function renderTest(t, mode) {
 
   var badge = mode === 'main' ? '<span class="t-badge ok">연령대 비교</span>' : '<span class="t-badge ref">참고용</span>';
   if (!fits) badge = '<span class="t-badge fit">권장 ' + esc(ageFitText(t.ageFit)) + '</span>' + badge;
-  if (S.irrit === 'high' && isHighLoad(t)) badge = '<span class="t-badge load" title="과민성 높음 — 오늘은 저부하부터">고부하 주의</span>' + badge;
+  /* 부하(난이도) 배지는 늘 맨 앞 — 카드마다 같은 자리에 와서 눈으로 훑을 수 있다 */
+  var badges = loadBadgeHTML(t);
+  if (S.irrit === 'high' && isHighLoad(t)) badges += '<span class="t-badge load" title="과민성 높음 — 오늘은 저부하부터">고부하 주의</span>';
+  badges += badge;
   /* 고른 동작·조건과 맞는 검사 — 왜 이 검사가 추천됐는지 카드에서 바로 보이게 */
   var mvHit = t.moves.filter(function (m) { return S.moves.indexOf(m) >= 0; });
   if (mvHit.length) {
     var mvCond = mvHit.length === 1 && mvHit[0] === MOVE_COND;
-    badge = '<span class="t-badge mv" title="2단계에서 고른 동작·조건과 연결된 검사">' +
-      (mvCond ? '조건 매칭: ' : '동작 매칭: ') + esc(mvHit.join('·')) + '</span>' + badge;
+    badges = '<span class="t-badge mv" title="2단계에서 고른 동작·조건과 연결된 검사">' +
+      (mvCond ? '조건 매칭: ' : '동작 매칭: ') + esc(mvHit.join('·')) + '</span>' + badges;
   }
   var open = S.open[t.id] ? ' open' : '';
-  return '<details class="test" data-id="' + t.id + '"' + open + '>' +
+  return '<details class="test" data-id="' + t.id + '" data-lvl="' + loadOf(t) + '"' + open + '>' +
     '<summary><span class="t-name">' + esc(t.name) + '</span>' +
     (gd ? '<button type="button" class="t-guide' + (gOpen ? ' on' : '') + '" data-act="guide" data-gid="' + esc(t.id) + '"' +
       ' aria-expanded="' + (gOpen ? 'true' : 'false') + '" aria-controls="gd-' + esc(t.id) + '"' +
       ' title="관찰 포인트·회원 설명 예시" aria-label="' + esc(t.name + ' 관찰 포인트와 회원 설명 보기') + '">?</button>' : '') +
-    '<span class="t-eq">' + esc(t.equip) + '</span><span class="tbwrap">' + badge + '</span></summary>' +
+    '<span class="t-eq">' + esc(t.equip) + '</span><span class="tbwrap">' + badges + '</span></summary>' +
     '<div class="t-body">' + body + '</div></details>';
+}
+/* 부하 단계 머리 — 카드 묶음이 어디서 바뀌는지 한 줄로 알린다 */
+function loadHeadHTML(lv, n) {
+  var ko = LOAD_KO[lv] || LOAD_KO.mid;
+  return '<p class="loadgrp" data-lvl="' + lv + '"><i aria-hidden="true"></i><b>' + esc(ko.head) + '</b>' +
+    '<em>' + n + '종 · ' + esc(ko.desc) + '</em></p>';
+}
+/* 부하 순으로 놓고, 단계가 바뀔 때마다 머리를 끼운다 */
+function loadListHTML(list, mode) {
+  var h = '', cur = null, cnt = loadCounts(list);
+  (list || []).forEach(function (t) {
+    var lv = loadOf(t);
+    if (lv !== cur) { h += loadHeadHTML(lv, cnt[lv]); cur = lv; }
+    h += renderTest(t, mode);
+  });
+  return h;
 }
 function refReason(t) {
   if (!t) return REF_NOTES.noAge;
@@ -4766,7 +4863,7 @@ function renderTestsHTML() {
   var r = visibleTests();
   var set = routineTests();
   var setName = set ? (findPreset(S.routine) || {}).name : '';
-  var h = clinicBannersHTML() + redFlagHTML() + partClinHTML() + symPanelHTML() + routineBar() + browseBar(!!set);
+  var h = clinicBannersHTML() + redFlagHTML() + partClinHTML() + symPanelHTML() + routineBar() + browseBar(!!set, r.counts);
   if (set) {
     h += '<div class="hint rt-hint">' + (set.length
       ? '‘' + esc(setName) + '’ 세트 ' + set.length + '종만 보여드려요. 카드를 펼쳐 숫자를 넣으면 결과에 바로 반영됩니다.'
@@ -4779,8 +4876,10 @@ function renderTestsHTML() {
     h += '<div class="hint">' + esc(NOTE_VIEW_REC) + '</div>';
   } else if (r.total === 0) {
     h += '<div class="hint">' + (r.held && r.held.length
-      ? '이 분류의 검사는 모두 고부하라 아래 ‘고부하 검사’ 목록에 모아 두었어요.'
-      : '이 분류에는 보여줄 검사가 없어요. 분류를 ‘전체’로 바꾸거나 ‘전체 검사 보기’로 바꿔 보세요.') + '</div>';
+      ? (S.cat ? '이 분류의 검사는 모두 고부하라 아래 ‘고부하 검사’ 목록에 모아 두었어요.'
+        : '이 부하 검사는 과민성 높음으로 아래 ‘고부하 검사’ 목록에 모아 두었어요.')
+      : (S.loadSel ? '이 부하 단계에는 지금 보여줄 검사가 없어요. 부하 칩에서 ‘전체’를 눌러 보세요.'
+        : '이 분류에는 보여줄 검사가 없어요. 분류를 ‘전체’로 바꾸거나 ‘전체 검사 보기’로 바꿔 보세요.')) + '</div>';
   }
   if (effParts().indexOf('목') >= 0) {
     h += '<p class="bnote">목 부위는 연령대 규범 검사가 없어요 — 경추 ROM·증상 유발 체크(참고용)와 신경학적 선별을 함께 쓰고, 5Ds &amp; 3Ns는 검사 전에 확인하세요.</p>';
@@ -4799,11 +4898,13 @@ function renderTestsHTML() {
     h += r.ordered.map(function (t) { return renderTest(t, usableTest(t, ageNow) ? 'main' : 'ref'); }).join('');
     return h;
   }
-  var emptyMsg = (parseNum(S.age) === null) ? NOTE_AGE : '이 연령대에서 비교 기준이 확인된 검사가 없어요.';
-  h += r.main.length ? r.main.map(function (t) { return renderTest(t, 'main'); }).join('') : '<div class="empty">' + emptyMsg + '</div>';
+  var emptyMsg = (parseNum(S.age) === null) ? NOTE_AGE
+    : (S.loadSel ? '이 부하 단계에는 연령대 비교 검사가 없어요. 부하 칩에서 ‘전체’를 눌러 보세요.'
+      : '이 연령대에서 비교 기준이 확인된 검사가 없어요.');
+  h += r.main.length ? loadListHTML(r.main, 'main') : '<div class="empty">' + emptyMsg + '</div>';
   if (r.ref.length) {
     h += '<h2 class="sec">참고용 (연령대 기준 없음)</h2>' +
-      r.ref.map(function (t) { return renderTest(t, 'ref'); }).join('');
+      loadListHTML(r.ref, 'ref');
   }
   /* 과민성 높음 — 고부하 검사는 기본 목록에서 빼서 접힌 목록에 (고부하 주의 배지는 그대로) */
   if (r.held && r.held.length) {
@@ -6709,7 +6810,7 @@ function loadState() {
     if (raw) {
       var o = JSON.parse(raw);
       if (o && typeof o === 'object') {
-        ['sex', 'age', 'height', 'weight', 'parts', 'moves', 'hiEnd', 'view', 'cat', 'tend', 'values', 'prev', 'variant', 'open', 'routine',
+        ['sex', 'age', 'height', 'weight', 'parts', 'moves', 'hiEnd', 'view', 'cat', 'tend', 'loadSel', 'values', 'prev', 'variant', 'open', 'routine',
           'body', 'pain', 'irrit', 'hv', 'hyStatus', 'sym', 'neuro', 'pqrst', 'hypo', 'plan', 'guide', 'bcView', 'pclin'].forEach(function (k) {
           if (o[k] !== undefined && o[k] !== null) S[k] = o[k];
         });
@@ -6765,13 +6866,14 @@ function normalizeClinicState() {
   S.symOpen = !!S.symOpen;
   S.symGuide = !!S.symGuide;
   S.tend = !!S.tend;
+  S.loadSel = LOAD_KO[S.loadSel] ? S.loadSel : ''; /* 부하 칩으로 고른 단계('' = 전체) */
 }
 
 function demoState() {
   S.sex = 'F'; S.age = '45'; S.height = '162'; S.weight = '56';
   S.parts = ['무릎', '발목', '고관절', '허리', '전신']; S.moves = ['앉고 일어서기', '균형·착지', '걷고 달리기'];
   S.hiEnd = false; S.variant = { pushup: 'std', ybal: 'tape' }; S.open = {};
-  S.view = 'rec'; S.cat = ''; S.tend = false;
+  S.view = 'rec'; S.cat = ''; S.tend = false; S.loadSel = '';
   /* 임상 문진 예시(접힌 채로 한 줄 요약만 보임) */
   S.body = ['front_knee_R', 'back_lumbar_C']; S.pain = 'nociceptive'; S.irrit = 'moderate';
   S.bcView = 'front';
@@ -6833,7 +6935,7 @@ function demo() {
 function resetState() {
   S.sex = 'F'; S.age = ''; S.height = ''; S.weight = '';
   S.parts = []; S.moves = []; S.hiEnd = false;
-  S.view = 'rec'; S.cat = ''; S.tend = false;
+  S.view = 'rec'; S.cat = ''; S.tend = false; S.loadSel = '';
   S.values = {}; S.prev = {}; S.variant = {}; S.open = {};
   S.member = ''; S.memo = ''; S.homet = ''; /* 센터·담당자명은 다음 회원에게도 그대로 */
   applyClinic(null); S.bcView = 'front'; S.clinicOpen = false; S.pclin = {};
@@ -6941,7 +7043,7 @@ function init() {
   });
 
   document.addEventListener('click', function (ev) {
-    var el = ev.target.closest ? ev.target.closest('[data-sex],[data-part],[data-move],[data-view],[data-cat],[data-tend],[data-act],[data-routine],[data-region],[data-pain],[data-irrit],[data-bcview],[data-bcdel],[data-partdel],[data-test]') : null;
+    var el = ev.target.closest ? ev.target.closest('[data-sex],[data-part],[data-move],[data-view],[data-cat],[data-load],[data-tend],[data-act],[data-routine],[data-region],[data-pain],[data-irrit],[data-bcview],[data-bcdel],[data-partdel],[data-test]') : null;
     if (!el) return;
     /* 부위별 임상 패널의 연결 검사 — 그 카드를 펼쳐 화면 가운데로 */
     if (el.hasAttribute('data-test')) {
@@ -6993,6 +7095,11 @@ function init() {
       var c = el.getAttribute('data-cat') || '';
       S.tend = false;
       S.cat = (S.cat === c) ? '' : c;
+      renderAll(); saveState(); return;
+    }
+    if (el.hasAttribute('data-load')) { /* 부하(난이도) 칩 — 같은 칩을 다시 누르면 전체 */
+      var lv = el.getAttribute('data-load') || '';
+      S.loadSel = (S.loadSel === lv) ? '' : lv;
       renderAll(); saveState(); return;
     }
     if (el.hasAttribute('data-part')) {
@@ -8224,6 +8331,8 @@ G.APP = {
   clinicSummary: clinicSummary, clinicState: clinicState, cleanClinic: cleanClinic, clinicHasData: clinicHasData,
   clinicReportData: clinicReportData, isHighLoad: isHighLoad, PAIN_LABEL: PAIN_LABEL, IRR_LABEL: IRR_LABEL,
   loadOf: loadOf, loadRank: loadRank, isLowLoad: isLowLoad,
+  LOAD_KO: LOAD_KO, LOAD_LEVELS: LOAD_LEVELS, loadBadgeHTML: loadBadgeHTML, loadListHTML: loadListHTML,
+  loadCounts: loadCounts, loadChipsHTML: loadChipsHTML, loadHeadHTML: loadHeadHTML,
   NEURO_ITEMS: NEURO_ITEMS, neuroPainOn: neuroPainOn, neuroFindings: neuroFindings, neuroHasData: neuroHasData,
   PAIN_EASY: PAIN_EASY, IRR_EASY: IRR_EASY, clinicBannersHTML: clinicBannersHTML, clinicPanelHTML: clinicPanelHTML,
   bodySVG: bodySVG, renderClinic: renderClinic, normalizeClinicState: normalizeClinicState, applyClinic: applyClinic,
