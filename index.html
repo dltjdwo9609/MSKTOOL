@@ -934,6 +934,10 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
 .mvl-say span{display:inline-block;font-size:10px;font-weight:800;color:var(--muted);background:var(--card);border-radius:5px;padding:1px 5px;margin-right:4px;vertical-align:1px}
 .mvl-subs{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 7px}
 .mvl-subs span{font-size:10.8px;font-weight:600;color:var(--brand-2);background:var(--card);border:1px solid color-mix(in srgb,var(--brand) 22%,var(--line));border-radius:999px;padding:2px 7px}
+.mvl-point{margin:0 0 5px;font-size:12.2px;line-height:1.5;color:var(--ink);word-break:keep-all}
+.mvl-point span,.mvl-train span{display:inline-block;font-size:10px;font-weight:800;color:var(--brand-2);background:var(--soft);border-radius:5px;padding:1px 5px;margin-right:5px;vertical-align:1px}
+.mvl-train{margin:0 0 8px;font-size:12px;line-height:1.5;color:var(--ink);background:var(--card);border:1px dashed color-mix(in srgb,var(--brand) 32%,var(--line));border-radius:9px;padding:6px 8px;word-break:keep-all}
+.mvl-train span{background:color-mix(in srgb,var(--brand) 12%,var(--card))}
 .mvl-btns{display:flex;flex-wrap:wrap;gap:5px}
 .mvl-t{flex:none;display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:6px 9px;font:inherit;font-size:11.8px;font-weight:600;cursor:pointer;text-align:left;line-height:1.3}
 .mvl-t:hover{border-color:var(--brand);color:var(--brand-2)}
@@ -1150,61 +1154,85 @@ const MOVE_CHIPS = MOVES.concat([MOVE_COND]);
 const MOVE_INFO = {
   '앉고 일어서기': {
     say: '의자에서 일어날 때, 쪼그려 앉을 때, 바닥에서 일어날 때',
+    point: '일어서는 순간 팔 짚기·앞으로 숙이기 같은 보상이 나오는지, 통증이 앉기/일어서기 어디에 몰리는지 봅니다. 30초·1분 일어서기 횟수와 SRT 점수로 하체 힘과 바닥 전이를 함께 확인하세요.',
+    train: '의자에서 3초 앉기 → 3초 일어서기로 등척성·원심성부터 올리고, 발목·고관절 가동성과 둔근 조절을 함께 넣습니다.',
     subs: ['의자', '쪼그려 앉기', '바닥 전이(침대 포함)'],
     tests: ['chair30', 'sts5', 'sts1', 'srt', 'slsts', 'deepsquat']
   },
   '오르내리기': {
     say: '계단을 오르내릴 때, 언덕·턱을 넘을 때',
+    point: '내려갈 때 무릎이 안쪽으로 무너지는지(스텝다운), 오르기 시간이 늘었는지, 통증이 오르기·내리기 중 어디에 몰리는지 봅니다.',
+    train: '낮은 박스 스텝다운으로 원심성 조절(무릎 정렬·골반)부터, 발목 배측굴곡 가동성과 중둔근 조절을 함께 올립니다.',
     subs: ['오르기', '내리기', '경사'],
     tests: ['stepdown', 'stairclimb', 'step2']
   },
   '걷고 달리기': {
     say: '걸을 때, 오래 걸을 때, 뛸 때, 방향을 바꿀 때',
+    point: '보행속도와 6분·2분 걷기 거리, 방향 전환에서 무너지는지 봅니다. 걸을 때 통증이 늘고 쉬면 주는지(간헐적 파행)도 함께 확인하세요.',
+    train: '보행속도를 기준선으로 뒤꿈치 들기·한발 서기로 발목·둔근 지구력을 올리고, 통증이 3점 이하면 방향 전환·달리기로 진행합니다.',
     subs: ['보행', '달리기', '방향전환'],
     tests: ['gaitspeed', 'tug', 'walk6', 'walk2', 'walk1mile', 'heelraise', 'ttest', 'run15', 'run20m', 'run10m', 'eight', 'cod505']
   },
   '균형·착지': {
     say: '한 발로 설 때 흔들려요, 발목이 삐끗해요, 점프하고 착지할 때',
+    point: '한발 서기 유지 시간과 좌우 차이, 착지에서 무릎 안쪽 무너짐(LESS)을 봅니다. 발목을 접질린 뒤라면 삐끗하는 방향과 불안감을 함께 기록하세요.',
+    train: '정적 균형(한발 서기) → 동적 균형(Y-밸런스) → 3홉·착지 순서로 올리고, 발목·둔근 안정화를 먼저 넣습니다.',
     subs: ['한 발 서기', '점프', '착지'],
     tests: ['sls', 'ybalance', 'vjump', 'hoptest', 'less', 'hop', 'forceplate']
   },
   '숙이고 들어올리기': {
     say: '허리를 굽힐 때, 바닥 물건을 들 때, 세수할 때',
+    point: '굽힐 때 허리만 굽고 엉덩이를 뒤로 빼지 못하는지(힙 힌지), 통증이 굽히는 끝 범위에 몰리는지, 체간 지구력이 버티는지 봅니다.',
+    train: '힙 힌지 패턴을 다시 익히고(등척성 → 원심성), 체간 지구력(Sørensen·사이드 브리지)과 고관절·흉추 가동성을 함께 올립니다.',
     subs: ['굽히기', '바닥에서 들기', '펴기'],
     tests: ['sorensen', 'trunkflex', 'sidebridge', 'plank', 'ffd', 'sitreach', 'situp', 'floorlift']
   },
   '팔 올리고 뻗기': {
     say: '머리 위 물건을 꺼낼 때, 뒤로 손을 뻗을 때',
+    point: '올릴 때 견갑골이 먼저 들리는지, 어느 각도에서 통증이 시작되는지, 등 뒤로 손이 닿는 범위(Hand Behind Back)를 봅니다.',
+    train: '견갑 안정(하부 승모·전거근)과 어깨 가동성부터, 통증 없는 범위의 등척성 → 원심성 순서로 부하를 올립니다.',
     subs: ['거상', '뒤로 뻗기'],
     tests: ['shrom', 'hbb', 'ckcuest', 'ssmp']
   },
   '밀기': {
     say: '문을 밀 때, 푸시업할 때',
+    point: '푸시업 자세에서 견갑·몸통이 무너지지 않는지, 팔꿈치·어깨 앞쪽 통증이 어느 각도에서 나는지 봅니다.',
+    train: '벽·무릎 푸시업으로 등척성 → 원심성부터 시작해 표준 푸시업으로 올리고, 견갑 안정과 흉추 신전을 함께 봅니다.',
     subs: ['수평 밀기', '위로 밀기'],
     tests: ['pushup', 'proneiyt']
   },
   '당기기·매달리기': {
     say: '문을 당길 때, 매달릴 때',
+    point: '악력과 매달리기 시간, 당길 때 어깨가 으쓱 들리는지(견갑 하강 조절)를 봅니다. 손가락·손목 통증이 먼저 오는지도 확인하세요.',
+    train: '악력·매달리기 지구력을 기준선으로, 밴드 로우 → 인버티드 로우 순서로 견갑 하강·후인 조절을 올립니다.',
     subs: ['수평 당기기', '수직 당기기', '매달리기'],
     tests: ['grip', 'deadhang', 'invrow']
   },
   '들고 이동하기': {
     say: '장바구니를 들고 걸을 때',
+    point: '한 손·양손으로 들고 걸을 때 몸이 기우는지, 악력이 먼저 떨어지는지, 허리 통증이 생기는지 봅니다.',
+    train: '악력과 편측 캐리(몸통 기울기 조절)를 함께 올리고, 무게는 자세가 유지되는 범위에서 조금씩 늘립니다.',
     subs: ['한 손 들기', '양손 들기', '악력'],
     tests: ['grip', 'farmers', 'unicarry']
   },
   '돌리고 비틀기': {
     say: '뒤돌아볼 때, 스윙할 때',
+    point: '서서 좌우로 돌아보는 범위와 차이, 흉추 회전이 막혀 허리·골반으로 보상하는지 봅니다. 앉아서 재는 흉추 회전은 기존 흉추 가동성 검사로 봐요.',
+    train: '흉추 회전 가동성(오픈북)과 체간 회전 조절(anti-rotation)을 먼저, 필요하면 둔근·골반 안정화를 더합니다.',
     subs: ['체간 회전', '비틀기'],
     tests: ['trunkrot', 'openbook', 'fmsrot', 'thorrom']
   },
   '목 움직임': {
     say: '고개를 돌릴 때, 젖힐 때, 숙일 때',
+    point: '5Ds & 3Ns가 없는지 먼저 확인하고, 회전·굴곡·신전 각도와 증상이 시작되는 방향을 봅니다.',
+    train: '심부 목 굴곡근 지구력과 흉추 가동성부터, 통증 없는 범위의 등척성 → 가동 범위 운동 순서로 올립니다.',
     subs: ['회전', '굴곡', '신전'],
     tests: ['cervrom', 'dnfe']
   },
   '자세 지속': {
     say: '오래 앉으면, 오래 서 있으면',
+    point: '증상이 나타나기까지의 시간과 15분 간격 통증 변화를 봅니다. 앉기·서기·쪼그리기 중 어떤 자세가 문제인지 나눠 기록하세요.',
+    train: '증상이 나타나는 자세를 15~20분마다 바꾸는 습관부터, 둔근·코어 지구력과 가슴·고관절 가동성을 함께 올립니다.',
     subs: ['앉기', '서기', '쪼그리기'],
     tests: ['postol']
   }
@@ -1969,17 +1997,16 @@ const TESTS = [
   ]
 },
 {
-  id: 'hoptest', name: '홉 테스트(단일·3홉·크로스오버)', parts: ['무릎', '발목', '고관절'], moves: ['균형·착지'], equip: '줄자·테이프', cat: '근력·지구력', refOnly: true, load: 'high',
-  guide: { watch: '착지에서 무릎이 안쪽으로 무너지지 않는지, 손을 뒤로 두는지, 같은 신발·같은 거리 기준으로 재는지 보세요. 통증이 오르면 다음 홉은 쉬게 하세요.', say: '한 발로 뛰어 얼마나 멀리 가는지, 좌우 차이가 얼마나 나는지 봤어요. 다리 힘과 착지 조절을 함께 보는 검사예요.' },
+  id: 'hoptest', name: '3홉·크로스오버 홉 테스트', parts: ['무릎', '발목', '고관절'], moves: ['균형·착지'], equip: '줄자·테이프', cat: '근력·지구력', refOnly: true, load: 'high',
+  guide: { watch: '착지에서 무릎이 안쪽으로 무너지지 않는지, 손을 뒤로 두는지, 같은 신발·같은 거리 기준으로 재는지 보세요. 통증이 오르면 다음 홉은 쉬게 하세요.', say: '한 발로 연속해서 뛰었을 때 얼마나 멀리 가는지, 좌우 차이가 얼마나 나는지 봤어요. 다리 힘과 착지 조절을 함께 보는 검사예요.' },
   protocol: [
-    '한 발로 서서 ① 단일 홉(한 번 멀리) ② 3홉(연속 세 번) ③ 크로스오버 홉(안쪽으로 세 번) 거리를 잽니다.',
+    '한 발로 서서 ① 3홉(같은 방향으로 연속 세 번) ② 크로스오버 홉(안쪽으로 연속 세 번) 거리를 잽니다.',
     '각 동작을 좌·우 2회씩 재어 좋은 기록을 cm로 적고, 착지 후 2초 이상 버티지 못한 기록은 버립니다.',
     '좌우 비율(작은 값 ÷ 큰 값 × 100)은 자동으로 계산되고, 목표는 90% 이상입니다.'
   ],
   tip: '통증이 3점을 넘거나 착지에서 무릎이 무너지면 홉 수를 줄이세요. 같은 신발·같은 바닥에서 재세요.',
-  note: '※ 규범 없음 — 일반인 성별·연령 규범이 확인되지 않아 좌우 비율(90% 목표)과 이전 기록으로 봅니다.',
+  note: '단일 홉(한 번 멀리뛰기)은 기존 한발 멀리뛰기 검사로 재고, 여기서는 연속 홉의 좌우 비율만 봅니다. ※ 규범 없음 — 일반인 성별·연령 규범이 확인되지 않아 좌우 비율(90% 목표)과 이전 기록으로 봅니다.',
   measures: [
-    { k: 'one', sides: true, lsi: true, unit: 'cm', fmt: 'dec1', label: '단일 홉' },
     { k: 'tri', sides: true, lsi: true, unit: 'cm', fmt: 'dec1', label: '3홉' },
     { k: 'cross', sides: true, lsi: true, unit: 'cm', fmt: 'dec1', label: '크로스오버 홉' }
   ]
@@ -2154,16 +2181,15 @@ const TESTS = [
   ]
 },
 {
-  id: 'trunkrot', name: '체간 회전 가동범위', parts: ['흉추', '허리'], moves: ['돌리고 비틀기'], equip: '의자·각도계(선택)', cat: '유연성', refOnly: true, load: 'low',
-  variant: { key: 'pos', opts: [{ v: 'sit', label: '앉아서' }, { v: 'stand', label: '서서' }] },
-  guide: { watch: '골반을 고정하고 흉추만 돌리는지, 무릎이 벌어지거나 발이 따라 도는지 보세요. 좌·우를 같은 자세로 재세요.', say: '몸통을 좌우로 얼마나 돌릴 수 있는지 쟀어요. 뒤돌아보기·스윙·운전할 때 몸을 돌리는 동작과 연결돼요.' },
+  id: 'trunkrot', name: '선 자세 체간 회전', parts: ['흉추', '허리'], moves: ['돌리고 비틀기'], equip: '각도계(선택)', cat: '유연성', refOnly: true, load: 'low',
+  guide: { watch: '발과 골반이 따라 돌지 않게 고정하고 몸통만 돌리는지 보세요. 좌·우를 같은 자세로 재고, 무릎이 굽거나 발뒤꿈치가 들리면 다시 하게 하세요.', say: '서서 몸통을 좌우로 얼마나 돌릴 수 있는지 쟀어요. 뒤돌아보기·스윙·운전할 때처럼 체중을 실은 채 몸을 돌리는 동작과 연결돼요.' },
   protocol: [
-    '의자에 앉아(또는 서서) 골반을 고정하고, 팔을 가슴에 겹친 채 몸통을 한쪽으로 최대한 돌립니다.',
+    '두 발을 어깨너비로 벌리고 서서, 팔을 가슴에 겹친 채 몸통을 한쪽으로 최대한 돌립니다.',
     '같은 자세로 반대쪽도 돌려 좌·우 회전 각도를 잽니다.',
-    '골반이 따라 돌거나 무릎이 벌어지면 그 지점을 관찰 소견으로 적고, 통증 점수(0~10)를 함께 적습니다.'
+    '골반·발이 따라 돌면 그 지점을 관찰 소견으로 적고, 통증 점수(0~10)를 함께 적습니다.'
   ],
-  tip: '골반 고정이 핵심입니다. 앉아서와 서서 값은 서로 바꿔 읽지 마세요.',
-  note: '※ 규범 없음 — 좌우 차이와 같은 자세(앉아서/서서)로 잰 이전 기록으로 봅니다.',
+  tip: '골반 고정이 핵심입니다. 앉아서 재는 흉추 회전은 기존 흉추 가동성·TOS 검사로 재세요.',
+  note: '앉아서 재는 흉추 회전은 기존 흉추 가동성·TOS 유발 검사가 이미 재고 있어, 이 검사는 선 자세만 봅니다. ※ 규범 없음 — 좌우 차이와 같은 자세로 잰 이전 기록으로 봅니다.',
   measures: [
     { k: 'rot', sides: true, unit: '°', fmt: 'int', label: '회전' },
     { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' }
@@ -5561,6 +5587,8 @@ function moveLinksHTML() {
       '<div class="mvl-h"><b>' + esc(m) + '</b><span class="mvl-k">' + (cond ? '조건' : '동작') + '</span></div>' +
       '<p class="mvl-say"><span>고객 표현</span>“' + esc(info.say) + '”</p>' +
       '<div class="mvl-subs">' + (info.subs || []).map(function (s) { return '<span>' + esc(s) + '</span>'; }).join('') + '</div>' +
+      (info.point ? '<p class="mvl-point"><span>핵심 평가 포인트</span>' + esc(info.point) + '</p>' : '') +
+      (info.train ? '<p class="mvl-train"><span>보강 운동 방향</span>' + esc(info.train) + '</p>' : '') +
       '<div class="mvl-btns">' + moveLinkTests(info) + '</div>' +
       '<p class="mvl-note">검사 버튼을 누르면 3단계에서 그 검사가 펼쳐져요 · <b>참고용</b>은 확인된 연령대 규범이 없어 기록으로 비교해요</p>' +
       '</div>';
