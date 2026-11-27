@@ -903,6 +903,52 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
   .gs-t{font-size:11.5px}
 }
 
+/* ===== 2단계 동작·조건 12범주 (v23) =====
+   11개 동작 칩과 '자세 지속'(조건) 칩을 구분해 보여 주고, 고르면 칩 아래에
+   선택한 동작별 연관 테스트 안내 카드가 열린다. */
+.movgrp{margin:2px 0 12px}
+.movgrp h3{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.mv-h{font-size:11px;font-weight:500;color:var(--muted)}
+.mv-row{display:flex;gap:8px;align-items:flex-start;margin:0 0 8px}
+.mv-row:last-of-type{margin-bottom:2px}
+.mv-lbl{flex:none;font-size:11px;font-weight:700;color:var(--muted);background:var(--chip);border:1px solid var(--line);border-radius:8px;padding:4px 7px;margin-top:5px;white-space:nowrap;letter-spacing:-.2px}
+.mv-row .chips{gap:6px}
+.chip.mv{padding:7px 11px;font-size:13px;letter-spacing:-.2px}
+.mv-row.cond{margin-top:2px;padding-top:9px;border-top:1px dashed var(--line)}
+.mv-row.cond .mv-lbl{color:var(--brand-2);border-color:color-mix(in srgb,var(--brand) 35%,var(--line));background:var(--soft)}
+.chip.cond{border-style:dashed;border-color:color-mix(in srgb,var(--brand) 45%,var(--line));color:var(--brand-2);padding:6px 12px;font-size:13px;font-weight:600}
+.chip.cond.on{background:var(--brand);border-style:solid;border-color:var(--brand);color:#fff}
+[data-theme="dark"] .chip.cond.on{color:#06201c}
+
+.movelinks{margin:10px 0 2px;border:1px solid color-mix(in srgb,var(--brand) 30%,var(--line));border-radius:14px;background:var(--card);padding:10px 11px 12px}
+.movelinks[hidden]{display:none}
+.mvl-head{font-size:12.5px;font-weight:800;color:var(--brand-2);margin:0 -2px 8px;display:flex;align-items:center;gap:6px}
+.mvl-head:before{content:"";width:3px;height:13px;border-radius:2px;background:var(--brand);display:inline-block}
+.mvl{padding:8px 9px 9px;border:1px solid var(--line);border-radius:11px;background:var(--chip);margin:0 0 8px}
+.mvl:last-child{margin-bottom:0}
+.mvl.cond{background:var(--soft);border-color:color-mix(in srgb,var(--brand) 35%,var(--line))}
+.mvl-t{display:flex;align-items:center;gap:7px;margin:0 0 3px}
+.mvl-t b{font-size:13.5px;color:var(--ink)}
+.mvl-k{font-size:10px;font-weight:800;color:var(--brand-2);background:var(--card);border:1px solid color-mix(in srgb,var(--brand) 35%,var(--line));border-radius:999px;padding:1px 7px}
+.mvl-say{margin:0 0 6px;font-size:12.2px;color:var(--ink);line-height:1.45;word-break:keep-all}
+.mvl-say span{display:inline-block;font-size:10px;font-weight:800;color:var(--muted);background:var(--card);border-radius:5px;padding:1px 5px;margin-right:4px;vertical-align:1px}
+.mvl-subs{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 7px}
+.mvl-subs span{font-size:10.8px;font-weight:600;color:var(--brand-2);background:var(--card);border:1px solid color-mix(in srgb,var(--brand) 22%,var(--line));border-radius:999px;padding:2px 7px}
+.mvl-btns{display:flex;flex-wrap:wrap;gap:5px}
+.mvl-t{flex:none;display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:6px 9px;font:inherit;font-size:11.8px;font-weight:600;cursor:pointer;text-align:left;line-height:1.3}
+.mvl-t:hover{border-color:var(--brand);color:var(--brand-2)}
+.mvl-t:active{background:var(--soft)}
+.mvl-t i{font-style:normal;font-size:9.6px;font-weight:700;color:var(--muted);background:var(--chip);border-radius:4px;padding:1px 4px}
+.mvl-t.ref{border-style:dashed}
+.mvl-note{margin:7px 0 0;font-size:10.8px;color:var(--muted);line-height:1.45;word-break:keep-all}
+.t-badge.mv{background:color-mix(in srgb,var(--brand) 16%,var(--card));color:var(--brand-2);font-weight:800;border:1px solid color-mix(in srgb,var(--brand) 30%,var(--line))}
+@media (max-width:420px){
+  .mv-row{flex-direction:column;gap:5px}
+  .mv-lbl{margin-top:0}
+  .mvl{padding:7px 8px 8px}
+  .mvl-t{font-size:11.4px;padding:6px 8px}
+}
+
 
 /* PWA: 홈 화면 앱(standalone)에서 상태 표시줄·노치 영역만큼 위를 비운다 */
 @media (display-mode: standalone){
@@ -998,9 +1044,17 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
           <div class="chips" id="partChips"></div>
         </div>
       </div>
-      <div class="group">
-        <h3>동작</h3>
-        <div class="chips" id="moveChips"></div>
+      <div class="group movgrp" id="moveGroup">
+        <h3>동작 <span class="mv-h">고객이 불편해하는 움직임을 고르면 연관 검사가 올라와요</span></h3>
+        <div class="mv-row">
+          <span class="mv-lbl">동작 (1~11)</span>
+          <div class="chips" id="moveChips"></div>
+        </div>
+        <div class="mv-row cond">
+          <span class="mv-lbl">조건 (동작 아님)</span>
+          <div class="chips" id="moveCondChips"></div>
+        </div>
+        <div class="movelinks noprint" id="moveLinks" hidden></div>
       </div>
     </div>
     <div class="s2-right">
@@ -1083,7 +1137,84 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
 /* ===== 검사 정의 (프로토콜·팁·태그) — 숫자는 data.json에서 주입 ===== */
 /* 부위 칩 — 몸 그림(BODY_REGIONS)과 같은 순서로 위에서 아래(목→전신) */
 const PARTS = ['목', '어깨', '팔꿈치', '손목', '흉추', '허리', '고관절', '무릎', '발목', '전신'];
-const MOVES = ['앉기', '걷기', '달리기', '한발 서기', '밀기', '당기기', '점프'];
+/* ===== 동작·조건 12범주 (2026-11-27, 성재님이 정리한 고객 호소 기준) =====
+   11개 동작 + 1개 조건('자세 지속'). 고객이 "어떤 움직임에서 불편한지"를 먼저 고르면
+   그 동작과 연결된 검사가 3단계 추천 맨 위로 올라오고, 2단계 칩 아래에
+   고객 표현·하위 상황·연관 테스트 안내 카드가 열린다(app.js `renderMoveLinks`).
+   ※ `MOVE_INFO`가 동작↔검사 연결의 유일한 출처다. 각 검사의 `moves`는 아래 TESTS 뒤
+     `syncMoveTags()`가 이 목록에서 다시 계산해 덮어쓰므로, 검사 정의의 moves 값을 손으로 맞추지 않아도 된다. */
+const MOVES = ['앉고 일어서기', '오르내리기', '걷고 달리기', '균형·착지', '숙이고 들어올리기', '팔 올리고 뻗기',
+  '밀기', '당기기·매달리기', '들고 이동하기', '돌리고 비틀기', '목 움직임'];
+const MOVE_COND = '자세 지속';            /* 동작이 아니라 조건 — 칩을 따로 구분해 보여 준다 */
+const MOVE_CHIPS = MOVES.concat([MOVE_COND]);
+const MOVE_INFO = {
+  '앉고 일어서기': {
+    say: '의자에서 일어날 때, 쪼그려 앉을 때, 바닥에서 일어날 때',
+    subs: ['의자', '쪼그려 앉기', '바닥 전이(침대 포함)'],
+    tests: ['chair30', 'sts5', 'sts1', 'srt', 'slsts', 'deepsquat']
+  },
+  '오르내리기': {
+    say: '계단을 오르내릴 때, 언덕·턱을 넘을 때',
+    subs: ['오르기', '내리기', '경사'],
+    tests: ['stepdown', 'stairclimb', 'step2']
+  },
+  '걷고 달리기': {
+    say: '걸을 때, 오래 걸을 때, 뛸 때, 방향을 바꿀 때',
+    subs: ['보행', '달리기', '방향전환'],
+    tests: ['gaitspeed', 'tug', 'walk6', 'walk2', 'walk1mile', 'heelraise', 'ttest', 'run15', 'run20m', 'run10m', 'eight', 'cod505']
+  },
+  '균형·착지': {
+    say: '한 발로 설 때 흔들려요, 발목이 삐끗해요, 점프하고 착지할 때',
+    subs: ['한 발 서기', '점프', '착지'],
+    tests: ['sls', 'ybalance', 'vjump', 'hoptest', 'less', 'hop', 'forceplate']
+  },
+  '숙이고 들어올리기': {
+    say: '허리를 굽힐 때, 바닥 물건을 들 때, 세수할 때',
+    subs: ['굽히기', '바닥에서 들기', '펴기'],
+    tests: ['sorensen', 'trunkflex', 'sidebridge', 'plank', 'ffd', 'sitreach', 'situp', 'floorlift']
+  },
+  '팔 올리고 뻗기': {
+    say: '머리 위 물건을 꺼낼 때, 뒤로 손을 뻗을 때',
+    subs: ['거상', '뒤로 뻗기'],
+    tests: ['shrom', 'hbb', 'ckcuest', 'ssmp']
+  },
+  '밀기': {
+    say: '문을 밀 때, 푸시업할 때',
+    subs: ['수평 밀기', '위로 밀기'],
+    tests: ['pushup', 'proneiyt']
+  },
+  '당기기·매달리기': {
+    say: '문을 당길 때, 매달릴 때',
+    subs: ['수평 당기기', '수직 당기기', '매달리기'],
+    tests: ['grip', 'deadhang', 'invrow']
+  },
+  '들고 이동하기': {
+    say: '장바구니를 들고 걸을 때',
+    subs: ['한 손 들기', '양손 들기', '악력'],
+    tests: ['grip', 'farmers', 'unicarry']
+  },
+  '돌리고 비틀기': {
+    say: '뒤돌아볼 때, 스윙할 때',
+    subs: ['체간 회전', '비틀기'],
+    tests: ['trunkrot', 'openbook', 'fmsrot', 'thorrom']
+  },
+  '목 움직임': {
+    say: '고개를 돌릴 때, 젖힐 때, 숙일 때',
+    subs: ['회전', '굴곡', '신전'],
+    tests: ['cervrom', 'dnfe']
+  },
+  '자세 지속': {
+    say: '오래 앉으면, 오래 서 있으면',
+    subs: ['앉기', '서기', '쪼그리기'],
+    tests: ['postol']
+  }
+};
+/* 예전 기록·저장 상태의 옛 동작 이름 → 새 범주 (하위 호환) */
+const MOVE_LEGACY = { '앉기': '앉고 일어서기', '걷기': '걷고 달리기', '달리기': '걷고 달리기', '한발 서기': '균형·착지', '점프': '균형·착지', '당기기': '당기기·매달리기' };
+function migMove(m) {
+  if (MOVE_CHIPS.indexOf(m) >= 0) return m;
+  return MOVE_LEGACY[m] || '';
+}
 const CATS = ['근력·지구력', '균형·안정', '유연성', '심폐·민첩'];
 
 /* ===== 힘줄(건병증) 부하 진행 순서 =====
@@ -1102,12 +1233,12 @@ const TEND_LOAD_NOTE = '건병증은 다른 관절로 부하를 분산하면 통
      'mid'  — 그 사이(반복 지구력·중간 부하). 값을 비워 두면 mid로 본다.
    `load:'high'` 검사는 과민성 높음에서 맞춤 추천 목록에서 빠져 ‘고부하 검사’ 접힌 목록으로 모이고,
    `load:'low'` 검사는 추천 목록 맨 위로 올라간다(app.js `loadRank`).
-   45종 전수: high 10 · low 19 · mid 16.
+   70종 전수(v23): high 16 · low 28 · mid 26. 신규 동작 범주 검사도 high(홉·질주·한발 일어서기·계단 오르기·LESS·인버티드 로우)와 low(가동범위·등척성 유지)로 나눠 넣었다.
    ※ 점프·홉 계열(vjump·hop·shotput)과 질주 계열(run10m·run20m·run15·ttest)은 빠짐없이 high다. */
 
 /* ===== 권장 연령대(ageFit) =====
    `ageFit: [최소, 최대]` 만 나이. 값이 없으면 전 연령(성인·시니어 공통)을 뜻한다.
-   data.json의 규범 연령 범위와 검사 성격을 28종 전수 확인해 정했다.
+   data.json의 규범 연령 범위와 검사 성격을 전수 확인해 정했다(규범이 있는 45종 + v23 신규 25종은 참고용·연령 제한 없음).
 
    시니어(60세+) 중심 — `ageFit: [60, 200]`
      tug(규범 65~90) · eight(65+) · chair30(60~64 Rikli, 65+ 국민체력100) · step2(60~64 Rikli, 65+ 국민체력100)
@@ -1131,7 +1262,7 @@ const TEND_LOAD_NOTE = '건병증은 다른 관절로 부하를 분산하면 통
 
 const TESTS = [
 {
-  id: 'grip', name: '악력', parts: ['전신', '어깨'], moves: ['당기기', '밀기'], equip: '악력계', cat: '근력·지구력', core: true, load: 'low',
+  id: 'grip', name: '악력', parts: ['전신', '어깨'], moves: ['당기기·매달리기', '들고 이동하기'], equip: '악력계', cat: '근력·지구력', core: true, load: 'low',
   guide: { watch: '팔을 몸에서 떼고 15° 벌린 채 5초를 버티는지, 악력계가 옷·몸에 닿지 않는지 보세요. 좌·우 2회씩 같은 순서로.', say: '손 힘은 물건을 들고 문을 열고 난간을 잡는 힘이에요. 오늘 값은 같은 연령대와 비교해서 보여 드릴게요.' },
   protocol: [
     '전자 악력계 손잡이를 손가락 둘째 마디에 걸치게 잡고 조절나사로 손에 맞춥니다.',
@@ -1146,7 +1277,7 @@ const TESTS = [
   ]
 },
 {
-  id: 'situp', name: '교차 윗몸일으키기', parts: ['허리', '전신', '고관절'], moves: [], equip: '매트·스톱워치', cat: '근력·지구력', ageFit: [19, 59], load: 'mid',
+  id: 'situp', name: '교차 윗몸일으키기', parts: ['허리', '전신', '고관절'], moves: ['숙이고 들어올리기'], equip: '매트·스톱워치', cat: '근력·지구력', ageFit: [19, 59], load: 'mid',
   guide: { watch: '반동으로 목을 당기는지, 등이 바닥에 닿은 뒤 올라오는지 보세요. 팔꿈치가 허벅지에 닿은 횟수만 세세요.', say: '1분 동안 배 근육이 몸통을 일으킨 횟수예요. 배에 힘이 생기면 오래 앉아 있어도 허리가 덜 피곤해져요.' },
   protocol: [
     '무릎을 굽혀 눕고 두 발을 엉덩이에서 30cm 정도 떨어뜨립니다.',
@@ -1157,7 +1288,7 @@ const TESTS = [
   measures: [{ k: 'n', norm: 'situp', unit: '회', fmt: 'int' }]
 },
 {
-  id: 'sitreach', name: '앉아 윗몸 앞으로 굽히기', parts: ['허리', '고관절', '무릎'], moves: [], equip: '측정기 또는 줄자', cat: '유연성', core: true, load: 'low',
+  id: 'sitreach', name: '앉아 윗몸 앞으로 굽히기', parts: ['허리', '고관절', '무릎'], moves: ['숙이고 들어올리기'], equip: '측정기 또는 줄자', cat: '유연성', core: true, load: 'low',
   guide: { watch: '무릎이 굽는지, 양손이 같은 속도로 가는지 보세요. 발바닥을 수직면에 완전히 붙이고 반동 없이 2초 유지.', say: '허리와 뒤쪽 허벅지가 얼마나 부드럽게 늘어나는지 본 거예요. 양말 신기, 바닥에서 물건 줍기가 편해지는 값이에요.' },
   protocol: [
     '신발을 벗고 양발바닥을 측정기 수직면에 완전히 붙이고 무릎을 폅니다.',
@@ -1169,7 +1300,7 @@ const TESTS = [
   measures: [{ k: 'cm', norm: 'sitreach', unit: 'cm', fmt: 'dec1' }]
 },
 {
-  id: 'chair30', name: '30초 의자에서 일어서기', parts: ['무릎', '고관절'], moves: ['앉기'], equip: '의자·스톱워치', cat: '근력·지구력', core: true, ageFit: [60, 200], load: 'low',
+  id: 'chair30', name: '30초 의자에서 일어서기', parts: ['무릎', '고관절'], moves: ['앉고 일어서기'], equip: '의자·스톱워치', cat: '근력·지구력', core: true, ageFit: [60, 200], load: 'low',
   guide: { watch: '팔로 의자를 짚지 않는지, 무릎이 안쪽으로 모이지 않는지 보세요. 의자 높이(65세 이상 40cm)를 매번 같게 하세요.', say: '30초 동안 일어섰다 앉은 횟수예요. 계단 오르기, 버스에서 일어나기처럼 생활 속 힘과 바로 이어져요.' },
   protocol: [
     '팔걸이 없는 의자를 벽에 받쳐 고정합니다. 65세 이상은 40cm, 60~64세는 43cm 의자를 씁니다(각 규범의 표준).',
@@ -1181,7 +1312,7 @@ const TESTS = [
   measures: [{ k: 'n', norm: 'chair30', unit: '회', fmt: 'int' }]
 },
 {
-  id: 'sts5', name: '5회 앉았다 일어서기', parts: ['무릎', '고관절'], moves: ['앉기'], equip: '의자·스톱워치', cat: '근력·지구력', ageFit: [50, 200], load: 'high',
+  id: 'sts5', name: '5회 앉았다 일어서기', parts: ['무릎', '고관절'], moves: ['앉고 일어서기'], equip: '의자·스톱워치', cat: '근력·지구력', ageFit: [50, 200], load: 'high',
   guide: { watch: '팔을 가슴에 교차한 채인지, 다섯 번 내내 속도가 같은지 보세요. 완전히 일어선 순간에 멈추고 옆에서 보조하세요.', say: '다섯 번 일어나는 데 걸린 시간이에요. 짧아질수록 일상에서 몸을 일으키는 힘이 좋아진 거예요.' },
   protocol: [
     '등받이 의자에 앉아 양팔을 가슴에 교차합니다.',
@@ -1192,7 +1323,7 @@ const TESTS = [
   measures: [{ k: 's', norm: 'sts5', unit: '초', fmt: 'dec1' }]
 },
 {
-  id: 'sts1', name: '1분 앉았다 일어서기', parts: ['무릎', '고관절'], moves: ['앉기'], equip: '의자·스톱워치', cat: '근력·지구력', core: true, load: 'mid',
+  id: 'sts1', name: '1분 앉았다 일어서기', parts: ['무릎', '고관절'], moves: ['앉고 일어서기'], equip: '의자·스톱워치', cat: '근력·지구력', core: true, load: 'mid',
   guide: { watch: '팔로 미는지, 엉덩이가 의자에 닿았다가 완전히 서는지 세세요. 46cm 의자를 쓰고 30초·15초 남은 시점을 알려 주세요.', say: '1분 동안 앉았다 일어난 횟수예요. 하체 힘과 지구력을 함께 보는 값이라 계단·장보기 같은 일상과 연결돼요.' },
   protocol: [
     '팔걸이 없는 의자(높이 46cm)에 앉아 발을 골반 너비로 벌립니다.',
@@ -1203,7 +1334,7 @@ const TESTS = [
   measures: [{ k: 'n', norm: 'sts1', unit: '회', fmt: 'int' }]
 },
 {
-  id: 'heelraise', name: '한발 힐라이즈', parts: ['발목', '무릎'], moves: ['걷기', '달리기', '점프', '한발 서기'], equip: '경사판(계단)·벽', cat: '근력·지구력', load: 'mid',
+  id: 'heelraise', name: '한발 힐라이즈', parts: ['발목', '무릎'], moves: ['걷고 달리기'], equip: '경사판(계단)·벽', cat: '근력·지구력', load: 'mid',
   guide: { watch: '무릎이 굽거나 반동을 쓰는지, 발뒤꿈치를 끝까지 올리는지 보세요. 지친 뒤 어정쩡한 동작은 빼고, 세는 기준을 매번 같게 하세요.', say: '발뒤꿈치를 몇 번까지 올릴 수 있는지 봤어요. 걷고 뛸 때 발이 바닥을 미는 힘이라 종아리 힘이 중요해요.' },
   protocol: [
     '10° 경사판(또는 계단 모서리)에 한 발 앞부분을 걸치고 섭니다.',
@@ -1227,7 +1358,7 @@ const TESTS = [
   measures: [{ k: 'n', norm: 'pushup', unit: '회', fmt: 'int' }]
 },
 {
-  id: 'sls', name: '한발 서기', parts: ['발목', '고관절', '무릎'], moves: ['한발 서기'], equip: '스톱워치', cat: '균형·안정', core: true, load: 'low',
+  id: 'sls', name: '한발 서기', parts: ['발목', '고관절', '무릎'], moves: ['균형·착지'], equip: '스톱워치', cat: '균형·안정', core: true, load: 'low',
   guide: { watch: '드는 발이 디딤발에 닿거나 팔을 쓰면 끝이에요. 눈 뜨고/감고를 구분하고 45초 상한, 3회 평균으로 적으세요.', say: '한 발로 얼마나 오래 버티는지예요. 균형은 발목과 엉덩이가 같이 만들기 때문에 넘어짐을 줄이는 힘과 이어져요.' },
   protocol: [
     '맨발로 원하는 쪽 다리로 서고, 든 발은 반대쪽 발목에 닿지 않게 둡니다.',
@@ -1241,7 +1372,7 @@ const TESTS = [
   ]
 },
 {
-  id: 'step2', name: '2분 제자리 걷기', parts: ['전신', '고관절'], moves: ['걷기'], equip: '스톱워치·벽', cat: '심폐·민첩', ageFit: [60, 200], load: 'mid',
+  id: 'step2', name: '2분 제자리 걷기', parts: ['전신', '고관절'], moves: ['오르내리기'], equip: '스톱워치·벽', cat: '심폐·민첩', ageFit: [60, 200], load: 'mid',
   guide: { watch: '뛰지 않고 제자리 걷기인지, 무릎이 표시 높이까지 오는지 세세요. 한쪽 무릎 기준인지 양쪽 합계인지 방식을 늘 같게.', say: '2분 동안 무릎을 얼마나 많이 올렸는지예요. 숨이 차는 정도와 다리 움직임을 함께 보는 값이에요.' },
   protocol: [
     '벽에 장골능과 슬개골 중간 높이를 표시합니다.',
@@ -1252,7 +1383,7 @@ const TESTS = [
   measures: [{ k: 'n', norm: 'step2', unit: '회', fmt: 'int' }]
 },
 {
-  id: 'walk6', name: '6분 걷기', parts: ['전신', '무릎', '고관절', '발목'], moves: ['걷기'], equip: '스톱워치·콘·줄자', cat: '심폐·민첩', ageFit: [60, 200], load: 'mid',
+  id: 'walk6', name: '6분 걷기', parts: ['전신', '무릎', '고관절', '발목'], moves: ['걷고 달리기'], equip: '스톱워치·콘·줄자', cat: '심폐·민첩', ageFit: [60, 200], load: 'mid',
   guide: { watch: '달리기로 바뀌지 않는지, 모서리에서 거리를 줄이지 않는지 보세요. 쉬는 시간도 6분에 포함되고 3분·2분 남은 때를 알려 주세요.', say: '6분 동안 걸은 거리예요. 오래 걷는 힘은 장보기, 여행, 산책을 끝까지 이어 가는 체력과 연결돼요.' },
   protocol: [
     '20m×5m 직사각형 코스(총 50m)를 만들고 모서리에 콘을 둡니다.',
@@ -1263,7 +1394,7 @@ const TESTS = [
   measures: [{ k: 'm', norm: 'walk6', unit: 'm', fmt: 'int' }]
 },
 {
-  id: 'run15', name: '1.5마일 달리기', parts: ['전신', '무릎', '발목'], moves: ['달리기'], equip: '트랙·스톱워치', cat: '심폐·민첩', ageFit: [19, 59], load: 'high',
+  id: 'run15', name: '1.5마일 달리기', parts: ['전신', '무릎', '발목'], moves: ['걷고 달리기'], equip: '트랙·스톱워치', cat: '심폐·민첩', ageFit: [19, 59], load: 'high',
   guide: { watch: '초반에 몰아 달렸다가 무너지지 않는지, 완주 시간을 분:초로 정확히 적는지 보세요. 통증·어지럼이 있으면 바로 중단.', say: '1.5마일을 끝까지 달린 시간으로 심폐 체력을 본 거예요. 다음 평가에서 이 기록과 나란히 놓고 보면 돼요.' },
   protocol: [
     '평탄한 1.5마일(2.4km) 코스를 준비합니다(400m 트랙 6바퀴 + 15야드).',
@@ -1278,7 +1409,7 @@ const TESTS = [
   ]
 },
 {
-  id: 'walk1mile', name: '1마일 걷기', parts: ['전신'], moves: ['걷기'], equip: '트랙·스톱워치·심박계', cat: '심폐·민첩', core: true, load: 'mid',
+  id: 'walk1mile', name: '1마일 걷기', parts: ['전신'], moves: ['걷고 달리기'], equip: '트랙·스톱워치·심박계', cat: '심폐·민첩', core: true, load: 'mid',
   guide: { watch: '두 발이 동시에 떨어지면 무효예요. 결승선에서 10~15초 안에 심박계로 심박수를 읽고 시간과 함께 적으세요.', say: '빠르게 걸었을 때 심장이 얼마나 뛰는지로 몸이 산소를 쓰는 힘을 본 거예요. 특별한 장비 없이 잴 수 있어요.' },
   protocol: [
     '정확히 1마일 코스를 잽니다(¼마일 트랙 4바퀴). 평지여야 합니다.',
@@ -1295,7 +1426,7 @@ const TESTS = [
   ]
 },
 {
-  id: 'run20m', name: '20m 왕복오래달리기', parts: ['전신', '무릎', '발목'], moves: ['달리기'], equip: '20m 공간·신호음', cat: '심폐·민첩', ageFit: [19, 59], load: 'high',
+  id: 'run20m', name: '20m 왕복오래달리기', parts: ['전신', '무릎', '발목'], moves: ['걷고 달리기'], equip: '20m 공간·신호음', cat: '심폐·민첩', ageFit: [19, 59], load: 'high',
   guide: { watch: '신호음 전에 도착했는지 정확히 판정하고 두 번 실패하면 끝내세요. 방향 전환에서 발을 헛디디지 않는지도 보세요.', say: '신호가 점점 빨라지는 걸 따라간 횟수예요. 오래 뛰며 버티는 힘, 즉 심폐 지구력을 본 거예요.' },
   protocol: [
     '20m 간격으로 두 줄을 긋고 점증 신호음(PACER)을 준비합니다.',
@@ -1306,7 +1437,7 @@ const TESTS = [
   measures: [{ k: 'n', norm: 'run20m', unit: '회', fmt: 'int' }]
 },
 {
-  id: 'run10m', name: '10m 왕복달리기', parts: ['전신', '무릎', '발목'], moves: ['달리기'], equip: '10m 공간·스톱워치', cat: '심폐·민첩', ageFit: [19, 59], load: 'high',
+  id: 'run10m', name: '10m 왕복달리기', parts: ['전신', '무릎', '발목'], moves: ['걷고 달리기'], equip: '10m 공간·스톱워치', cat: '심폐·민첩', ageFit: [19, 59], load: 'high',
   guide: { watch: '출발 신호를 매번 똑같이 주고, 콘을 돌 때 발이 미끄러지지 않는지 보세요. 최고 기록을 쓰는지 평균인지 방식을 고정하세요.', say: '짧은 거리를 얼마나 빨리 돌아오는지 본 거예요. 방향을 바꾸며 달리는 힘은 운동할 때 안정성과도 관계가 있어요.' },
   protocol: [
     '10m 간격으로 콘을 세우고 출발선에 섭니다.',
@@ -1317,7 +1448,7 @@ const TESTS = [
   measures: [{ k: 's', norm: 'run10', unit: '초', fmt: 'dec1' }]
 },
 {
-  id: 'vjump', name: '수직점프(벽 터치)', parts: ['무릎', '발목', '고관절'], moves: ['점프'], equip: '벽·줄자', cat: '근력·지구력', ageFit: [19, 59], load: 'high',
+  id: 'vjump', name: '수직점프(벽 터치)', parts: ['무릎', '발목', '고관절'], moves: ['균형·착지'], equip: '벽·줄자', cat: '근력·지구력', ageFit: [19, 59], load: 'high',
   guide: { watch: '한 발이 바닥에 붙은 채인지, 팔을 위로 뻗어 표시하는지 보세요. 착지에서 무릎이 안쪽으로 무너지지 않는지도 확인.', say: '제자리에서 얼마나 높이 뛰는지예요. 다리가 순간적으로 내는 힘은 계단·달리기·점프 동작과 이어져요.' },
   protocol: [
     '벽에 줄자를 붙이고 옆으로 서서, 한 팔을 최대한 들어 표준 도달점을 표시합니다.',
@@ -1328,7 +1459,7 @@ const TESTS = [
   measures: [{ k: 'cm', norm: 'vjump', unit: 'cm', fmt: 'dec1' }]
 },
 {
-  id: 'tug', name: '3m 표적 돌아오기(TUG)', parts: ['전신', '무릎', '고관절', '발목'], moves: ['걷기', '앉기'], equip: '의자·콘·스톱워치', cat: '균형·안정', ageFit: [60, 200], load: 'mid',
+  id: 'tug', name: '3m 표적 돌아오기(TUG)', parts: ['전신', '무릎', '고관절', '발목'], moves: ['걷고 달리기'], equip: '의자·콘·스톱워치', cat: '균형·안정', ageFit: [60, 200], load: 'mid',
   guide: { watch: '의자에 완전히 앉아야 끝이에요. 돌 때 넘어지지 않게 옆에서 보조하고, 2회 중 좋은 기록을 쓰세요.', say: '일어나서 3m를 돌아 다시 앉는 시간이에요. 짧을수록 일상에서 넘어질 위험이 적다는 뜻이에요.' },
   protocol: [
     '팔걸이 의자에 앉아 3m 앞에 콘을 둡니다.',
@@ -1339,7 +1470,7 @@ const TESTS = [
   measures: [{ k: 's', norm: 'tug', unit: '초', fmt: 'dec1' }]
 },
 {
-  id: 'eight', name: '8자보행', parts: ['전신', '발목', '고관절'], moves: ['걷기'], equip: '콘 2개·스톱워치', cat: '균형·안정', ageFit: [60, 200], load: 'mid',
+  id: 'eight', name: '8자보행', parts: ['전신', '발목', '고관절'], moves: ['걷고 달리기'], equip: '콘 2개·스톱워치', cat: '균형·안정', ageFit: [60, 200], load: 'mid',
   guide: { watch: '코스를 줄이지 않는지, 두 콘을 모두 도는지 보세요. 코스 배치와 시작 위치를 매번 같게 하세요.', say: '8자를 그리며 걸은 시간이에요. 몸을 돌리고 방향을 바꾸는 능력은 넘어짐과 밀접하게 이어져요.' },
   protocol: [
     '콘 2개로 8자 코스를 만듭니다.',
@@ -1350,7 +1481,7 @@ const TESTS = [
   measures: [{ k: 's', norm: 'eight', unit: '초', fmt: 'dec1' }]
 },
 {
-  id: 'ckcuest', name: 'CKCUEST(상지 안정성)', parts: ['어깨', '전신'], moves: ['밀기'], equip: '테이프·스톱워치', cat: '균형·안정', load: 'mid',
+  id: 'ckcuest', name: 'CKCUEST(상지 안정성)', parts: ['어깨', '전신'], moves: ['팔 올리고 뻗기'], equip: '테이프·스톱워치', cat: '균형·안정', load: 'mid',
   guide: { watch: '엉덩이가 흔들리거나 몸통이 돌아가면 횟수가 부풀어요. 36인치 간격, 15초, 3회 평균을 지키세요.', say: '한 손으로 바닥을 짚는 동안 몸통이 얼마나 버티는지 본 거예요. 어깨와 코어가 같이 일하는 힘이에요.' },
   protocol: [
     '바닥에 36인치(약 91cm) 간격으로 테이프 두 줄을 붙입니다.',
@@ -1361,7 +1492,7 @@ const TESTS = [
   measures: [{ k: 'n', norm: 'ckcuest', unit: '회', fmt: 'int' }]
 },
 {
-  id: 'ybalance', name: 'Y-밸런스(테이프)', parts: ['발목', '무릎', '고관절'], moves: ['한발 서기'], equip: '테이프·줄자', cat: '균형·안정', refOnly: true, load: 'mid',
+  id: 'ybalance', name: 'Y-밸런스(테이프)', parts: ['발목', '무릎', '고관절'], moves: ['균형·착지'], equip: '테이프·줄자', cat: '균형·안정', refOnly: true, load: 'mid',
   guide: { watch: '뒤꿈치가 뜨거나 손이 골반에서 떨어지면 무효예요. 다리 길이는 ASIS에서 안쪽 복사뼈까지 매번 다시 재세요.', say: '한 발로 서서 세 방향으로 얼마나 멀리 뻗는지 봤어요. 좌우 차이가 크면 균형과 발목 안정성을 함께 살펴봐요.' },
   protocol: [
     '다리 길이를 잽니다 — 전상장골극(ASIS)에서 안쪽 복사뼈까지, cm.',
@@ -1382,7 +1513,7 @@ const TESTS = [
   ]
 },
 {
-  id: 'sidebridge', name: '사이드 브릿지', parts: ['허리', '전신', '고관절'], moves: [], equip: '매트·스톱워치', cat: '근력·지구력', refOnly: true, load: 'low',
+  id: 'sidebridge', name: '사이드 브릿지', parts: ['허리', '전신', '고관절'], moves: ['숙이고 들어올리기'], equip: '매트·스톱워치', cat: '근력·지구력', refOnly: true, load: 'low',
   guide: { watch: '엉덩이가 바닥에 닿거나 몸이 굽으면 종료예요. 좌·우 같은 자세로 재고 어느 쪽이 먼저 무너지는지 보세요.', say: '옆구리로 몸을 지탱한 시간이에요. 허리 옆 힘이 약하면 오래 앉거나 걸을 때 허리가 쉽게 피로해져요.' },
   protocol: [
     '옆으로 누워 팔꿈치와 발 옆면으로 몸을 지지합니다.',
@@ -1394,7 +1525,7 @@ const TESTS = [
   measures: [{ k: 's', sides: true, lsi: true, unit: '초', fmt: 'dec1' }]
 },
 {
-  id: 'plank', name: '플랭크 유지시간', parts: ['허리', '전신', '어깨'], moves: [], equip: '매트·스톱워치', cat: '근력·지구력', refOnly: true, load: 'low',
+  id: 'plank', name: '플랭크 유지시간', parts: ['허리', '전신', '어깨'], moves: ['숙이고 들어올리기'], equip: '매트·스톱워치', cat: '근력·지구력', refOnly: true, load: 'low',
   guide: { watch: '허리 처짐이나 엉덩이 상승이 나오면 바로 끝내세요. 호흡을 참는지 확인하고 같은 자세로만 비교하세요.', say: '엎드린 자세로 몸통을 버틴 시간이에요. 배와 등이 함께 버티는 힘이 허리를 지켜 줘요.' },
   protocol: [
     '팔꿈치와 발끝으로 엎드려 몸을 일직선으로 유지합니다.',
@@ -1405,7 +1536,7 @@ const TESTS = [
   measures: [{ k: 's', unit: '초', fmt: 'dec1' }]
 },
 {
-  id: 'ttest', name: '민첩성 T-test', parts: ['전신', '무릎', '발목'], moves: ['달리기'], equip: '콘 4개·스톱워치', cat: '심폐·민첩', refOnly: true, ageFit: [19, 59], load: 'high',
+  id: 'ttest', name: '민첩성 T-test', parts: ['전신', '무릎', '발목'], moves: ['걷고 달리기'], equip: '콘 4개·스톱워치', cat: '심폐·민첩', refOnly: true, ageFit: [19, 59], load: 'high',
   guide: { watch: '콘을 터치하지 않거나 발이 교차하면 무효예요. 최고 기록을 쓰고 방향 전환에서 미끄러지지 않게 하세요.', say: 'T자로 달리며 방향을 바꾼 시간이에요. 빠르게 방향을 바꾸는 힘은 운동할 때 안정성과 관계가 있어요.' },
   protocol: [
     '콘 4개로 T자 코스를 만듭니다(전진 9.14m, 좌우 4.57m).',
@@ -1417,7 +1548,7 @@ const TESTS = [
   measures: [{ k: 's', dir: -1, unit: '초', fmt: 'dec1' }]
 },
 {
-  id: 'heelraise2', name: '양측 힐라이즈', parts: ['발목', '무릎'], moves: ['걷기', '점프'], equip: '벽', cat: '근력·지구력', refOnly: true, load: 'mid',
+  id: 'heelraise2', name: '양측 힐라이즈', parts: ['발목', '무릎'], moves: [], equip: '벽', cat: '근력·지구력', refOnly: true, load: 'mid',
   guide: { watch: '양발을 동시에 올리는지, 반동으로 튕기지 않는지 보세요. 한발 힐라이즈 값과는 섞어 비교하지 마세요.', say: '양발로 발뒤꿈치를 몇 번 올릴 수 있는지 봤어요. 한 발로 하는 검사와는 다른 기준으로 비교해요.' },
   protocol: [
     '양발을 어깨 너비로 벌리고 평평한 바닥에 섭니다.',
@@ -1429,7 +1560,7 @@ const TESTS = [
   measures: [{ k: 'n', unit: '회', fmt: 'int' }]
 },
 {
-  id: 'hhd', name: 'HHD(휴대용 근력계)', parts: ['어깨', '무릎', '고관절'], moves: ['밀기', '당기기'], equip: '휴대용 근력계', cat: '근력·지구력', refOnly: true, hiEnd: true, load: 'mid',
+  id: 'hhd', name: 'HHD(휴대용 근력계)', parts: ['어깨', '무릎', '고관절'], moves: [], equip: '휴대용 근력계', cat: '근력·지구력', refOnly: true, hiEnd: true, load: 'mid',
   guide: { watch: '관절 각도·고정 위치·검사자 손 위치를 매번 똑같이 하고, 좌·우를 같은 순서로 재세요. 검사자가 힘을 보태면 안 돼요.', say: '근육이 낼 수 있는 힘을 기계로 잰 값이에요. 같은 자세로 다시 재서 늘었는지를 보면 돼요.' },
   protocol: [
     '휴대용 근력계로 주요 근육군의 최대 등척성 힘을 잽니다.',
@@ -1440,7 +1571,7 @@ const TESTS = [
   measures: [{ k: 'kg', sides: true, lsi: true, unit: 'kg', fmt: 'dec1' }]
 },
 {
-  id: 'forceplate', name: '포스플레이트(점프·착지)', parts: ['발목', '무릎', '고관절'], moves: ['점프', '한발 서기'], equip: '포스플레이트', cat: '근력·지구력', refOnly: true, hiEnd: true, load: 'mid',
+  id: 'forceplate', name: '포스플레이트(점프·착지)', parts: ['발목', '무릎', '고관절'], moves: ['균형·착지'], equip: '포스플레이트', cat: '근력·지구력', refOnly: true, hiEnd: true, load: 'mid',
   guide: { watch: '착지할 때 무릎이 안쪽으로 무너지는지, 좌우에 힘이 고르게 걸리는지 보세요. 같은 장비·같은 점프로만 비교하세요.', say: '점프하고 착지할 때 다리에 걸리는 힘을 잰 거예요. 양쪽 다리가 비슷하게 힘을 쓰는지가 중요해요.' },
   protocol: [
     '포스플레이트 위에서 점프하거나 한발로 착지합니다.',
@@ -1460,7 +1591,7 @@ const TESTS = [
   measures: [{ k: 'nm', sides: true, lsi: true, unit: 'N·m', fmt: 'int' }]
 },
 {
-  id: 'cpx', name: 'CPX(심폐운동검사)', parts: ['전신'], moves: ['달리기', '걷기'], equip: 'CPX 장비', cat: '심폐·민첩', refOnly: true, hiEnd: true, load: 'mid',
+  id: 'cpx', name: 'CPX(심폐운동검사)', parts: ['전신'], moves: [], equip: 'CPX 장비', cat: '심폐·민첩', refOnly: true, hiEnd: true, load: 'mid',
   guide: { watch: '의료 감독 아래 진행하고 흉통·어지럼·이상한 심박이 나오면 바로 멈추세요. 장비·프로토콜을 매번 같게 하세요.', say: '운동하면서 산소를 얼마나 쓰는지 끝까지 본 검사예요. 심폐 체력을 가장 정확하게 보는 기준이에요.' },
   protocol: [
     '트레드밀 또는 사이클에서 점증 부하로 검사합니다.',
@@ -1488,7 +1619,7 @@ const TESTS = [
   ]
 },
 {
-  id: 'hop', name: '한발 멀리뛰기', parts: ['무릎', '발목'], moves: ['점프'], equip: '줄자·테이프', cat: '근력·지구력', refOnly: true, tend: true, load: 'high',
+  id: 'hop', name: '한발 멀리뛰기', parts: ['무릎', '발목'], moves: ['균형·착지'], equip: '줄자·테이프', cat: '근력·지구력', refOnly: true, tend: true, load: 'high',
   guide: { watch: '착지 뒤 1~2초 균형을 지킨 시도만 인정하세요. 무릎이 무너진 시도는 빼고, 좌·우 최고 거리를 비교하세요.', say: '한 발로 얼마나 멀리 뛰는지 봤어요. 좌우 차이가 작을수록 양쪽 다리가 비슷하게 힘을 쓴다는 뜻이에요.' },
   protocol: [
     '테이프로 출발선을 긋고 한 발로 서서 팔을 뒤로 준비합니다.',
@@ -1500,7 +1631,7 @@ const TESTS = [
   measures: [{ k: 'cm', sides: true, lsi: true, unit: 'cm', fmt: 'int' }]
 },
 {
-  id: 'sls30', name: '30초 한발 서기 통증 검사', parts: ['고관절'], moves: ['한발 서기'], equip: '스톱워치·벽', cat: '균형·안정', refOnly: true, tend: true, load: 'low',
+  id: 'sls30', name: '30초 한발 서기 통증 검사', parts: ['고관절'], moves: [], equip: '스톱워치·벽', cat: '균형·안정', refOnly: true, tend: true, load: 'low',
   guide: { watch: '통증 때문에 멈춘 경우만 양성으로 보고, 균형을 잃어 발이 닿은 것은 따로 적으세요. 통증 없이 30초면 30초로 기록.', say: '한 발로 서 있는 동안 평소 그 부위 통증이 올라오는지 본 거예요. 통증 없이 버티는 시간이 늘면 좋아지고 있는 거예요.' },
   protocol: [
     '벽 옆에서 통증이 있는 쪽 다리로 서고, 반대쪽 무릎을 90° 굽혀 듭니다. 균형을 위해 손끝만 벽에 댑니다.',
@@ -1542,7 +1673,7 @@ const TESTS = [
   measures: [{ k: 'n', sides: true, lsi: true, unit: '회', fmt: 'int' }]
 },
 {
-  id: 'ssmp', name: '어깨 증상 조절 검사(SSMP)', parts: ['어깨'], moves: ['밀기', '당기기'], equip: '테이프·가벼운 밴드(선택)', cat: '균형·안정', refOnly: true, tend: true, load: 'low',
+  id: 'ssmp', name: '어깨 증상 조절 검사(SSMP)', parts: ['어깨'], moves: ['팔 올리고 뻗기'], equip: '테이프·가벼운 밴드(선택)', cat: '균형·안정', refOnly: true, tend: true, load: 'low',
   guide: { watch: '통증을 가장 잘 재현하는 동작을 먼저 한 줄로 적고(예: 외전 90° 거상, 손 등 뒤로), 단계마다 같은 동작으로 다시 재세요. 통증은 0~10 점수만 적고, 어떤 단계에서 얼마나 줄었는지 남기세요. 회전근개 건병증이 의심되면 증상이 줄어든 것과 힘줄이 적응한 것은 다르므로, ' + TEND_LOAD_TEXT + ' 순서로 부하를 올려요.', say: '자세를 바꾸거나 힘을 주는 방법에 따라 통증이 얼마나 줄어드는지 본 거예요. 잘 줄어드는 방법을 운동에 그대로 쓰면 돼요.' },
   protocol: [
     '통증을 가장 잘 재현하는 동작(예: 팔 들어올리기, 손 등 뒤로)을 하나 정해 아래 `통증 유발 동작` 칸에 적고, 그때의 통증을 0~10 점수로 적습니다.',
@@ -1562,7 +1693,7 @@ const TESTS = [
   ]
 },
 {
-  id: 'pset', name: '후면 어깨 지구력 검사(PSET)', parts: ['어깨'], moves: ['당기기'], equip: '아령(체중 2%)·스톱워치', cat: '근력·지구력', refOnly: true, tend: true, load: 'mid',
+  id: 'pset', name: '후면 어깨 지구력 검사(PSET)', parts: ['어깨'], moves: [], equip: '아령(체중 2%)·스톱워치', cat: '근력·지구력', refOnly: true, tend: true, load: 'mid',
   guide: { watch: '허리를 젖히거나 반대 어깨로 버티면 종료예요. 체중 2% 무게, 같은 자세, 좌·우 충분한 휴식으로 재세요.', say: '엎드려 팔을 든 자세로 얼마나 버티는지 봤어요. 어깨 뒤쪽 힘이 오래 버티는지 보는 검사예요.' },
   protocol: [
     '엎드려 누워 검사할 팔을 테이블 밖으로 내밀고, 어깨를 90° 벌린 채 팔꿈치를 펴고 엄지를 위로 돌립니다(팔이 가슴 높이와 수평).',
@@ -1574,7 +1705,7 @@ const TESTS = [
   measures: [{ k: 's', sides: true, lsi: true, unit: '초', fmt: 'dec1' }]
 },
 {
-  id: 'shotput', name: '앉아 한손 메디신볼 던지기', parts: ['어깨', '전신'], moves: ['밀기'], equip: '2kg 메디신볼·줄자', cat: '근력·지구력', refOnly: true, tend: true, load: 'high',
+  id: 'shotput', name: '앉아 한손 메디신볼 던지기', parts: ['어깨', '전신'], moves: [], equip: '2kg 메디신볼·줄자', cat: '근력·지구력', refOnly: true, tend: true, load: 'high',
   guide: { watch: '야구처럼 던지지 말고 밀어내는지, 허리를 젖히지 않는지 보세요. 2kg 공과 앉은 자세를 같게 하고 좌·우 최고값을 쓰세요.', say: '앉아서 공을 얼마나 멀리 미는지 봤어요. 어깨가 힘을 빠르게 내는 능력을 보는 거예요.' },
   protocol: [
     '팔걸이 없는 의자에 앉아(또는 벽에 등 대고 길게 앉아) 등을 곧게 하고, 던지지 않는 손은 가슴에 둡니다.',
@@ -1633,7 +1764,7 @@ const TESTS = [
   ]
 },
 {
-  id: 'wblt', name: '체중부하 런지 검사(무릎-벽 거리)', parts: ['발목'], moves: ['걷기', '달리기'], equip: '줄자·벽', cat: '유연성', refOnly: true, clin: true, load: 'low',
+  id: 'wblt', name: '체중부하 런지 검사(무릎-벽 거리)', parts: ['발목'], moves: [], equip: '줄자·벽', cat: '유연성', refOnly: true, clin: true, load: 'low',
   guide: { watch: 'Foot flat과 Toes on wall 중 하나를 정해 계속 같은 방법으로 재세요. 발뒤꿈치가 뜨면 그 전 거리로 적으세요.', say: '발목이 무릎을 앞으로 얼마나 보낼 수 있는지 잰 거예요. 발목이 뻣뻣하면 쪼그려 앉거나 계단 내려갈 때 무릎이 더 힘들어요.' },
   protocol: [
     '발끝을 벽에 대고 섭니다. 두 가지 방법 중 하나를 정합니다 — ① 발바닥을 바닥에 완전히 붙이고(Foot flat) ② 발가락만 벽에 대고(Toes on wall).',
@@ -1665,7 +1796,7 @@ const TESTS = [
   ]
 },
 {
-  id: 'pfgs', name: '통증 없는 최대 악력(PFGS)', parts: ['팔꿈치', '손목'], moves: ['당기기'], equip: '악력계', cat: '근력·지구력', refOnly: true, clin: true, load: 'low',
+  id: 'pfgs', name: '통증 없는 최대 악력(PFGS)', parts: ['팔꿈치', '손목'], moves: [], equip: '악력계', cat: '근력·지구력', refOnly: true, clin: true, load: 'low',
   guide: { watch: '통증이 나기 직전 세기를 값으로 쓰고 통증 점수도 함께 적으세요. 좌·우 2회씩 같은 자세로 재세요.', say: '아프지 않은 범위에서 얼마나 세게 쥘 수 있는지 봤어요. 통증 없이 힘이 늘면 팔·손목이 견디는 힘이 좋아진 거예요.' },
   protocol: [
     '악력계 손잡이를 손에 맞추고, 팔을 곧게 편 자세에서 통증이 생기기 직전까지 힘을 냅니다.',
@@ -1680,7 +1811,7 @@ const TESTS = [
   ]
 },
 {
-  id: 'wristrom', name: '손목 ROM · 저항 검사', parts: ['손목'], moves: ['당기기', '밀기'], equip: '각도계(선택)', cat: '유연성', refOnly: true, clin: true, load: 'low',
+  id: 'wristrom', name: '손목 ROM · 저항 검사', parts: ['손목'], moves: [], equip: '각도계(선택)', cat: '유연성', refOnly: true, clin: true, load: 'low',
   guide: { watch: '중립 자세에서 굴곡·신전을 재고, 저항은 같은 방향·같은 세기로 주세요. 통증이 나는 방향을 꼭 기록하세요.', say: '손목이 얼마나 꺾이는지, 힘을 줄 때 아픈지 본 거예요. 손목을 많이 쓰는 일에서 무리가 되는 방향을 알 수 있어요.' },
   protocol: [
     '손목을 중립에 두고 굴곡·신전 각도를 잽니다(각도계가 없으면 손등·손바닥이 만드는 각을 눈으로 어림).',
@@ -1696,7 +1827,7 @@ const TESTS = [
   ]
 },
 {
-  id: 'cervrom', name: '경추 ROM · 증상 유발 체크', parts: ['목'], moves: [], equip: '각도계(선택)', cat: '유연성', refOnly: true, clin: true, load: 'low',
+  id: 'cervrom', name: '경추 ROM · 증상 유발 체크', parts: ['목'], moves: ['목 움직임'], equip: '각도계(선택)', cat: '유연성', refOnly: true, clin: true, load: 'low',
   guide: { watch: '5Ds & 3Ns를 먼저 확인하고 증상이 시작되는 각도에서 멈추세요. 어지럼이 생기면 바로 중단하고 흉추 가동성부터 보세요.', say: '목을 얼마나 돌리고 숙일 수 있는지, 어느 동작에서 불편한지 본 거예요. 목이 뻣뻣하면 어깨와 두통에도 영향을 줘요.' },
   protocol: [
     '5Ds & 3Ns(어지럼·복시·구음장애·연하곤란·낙상발작·안진·오심·저림)를 먼저 확인합니다. 하나라도 있으면 검사를 하지 않습니다.',
@@ -1713,7 +1844,7 @@ const TESTS = [
   ]
 },
 {
-  id: 'thorrom', name: '흉추 가동성 · TOS 유발 체크', parts: ['흉추'], moves: ['밀기', '당기기'], equip: '의자·각도계(선택)', cat: '유연성', refOnly: true, clin: true, load: 'low',
+  id: 'thorrom', name: '흉추 가동성 · TOS 유발 체크', parts: ['흉추'], moves: ['돌리고 비틀기'], equip: '의자·각도계(선택)', cat: '유연성', refOnly: true, clin: true, load: 'low',
   guide: { watch: '골반을 고정하고 흉추만 돌리는지 보세요. EAST 3분간 증상이 나타난 시간을 재고, 팔이 창백해지거나 맥박이 약하면 바로 중단하세요.', say: '등 위쪽이 얼마나 돌아가는지, 팔을 들고 있을 때 저림이 생기는지 본 거예요.' },
   protocol: [
     '의자에 앉아 골반을 고정하고 흉추 좌·우 회전 각도를 잽니다.',
@@ -1726,8 +1857,407 @@ const TESTS = [
     { k: 'rot', sides: true, lsi: true, unit: '°', fmt: 'int', label: '흉추 회전' },
     { k: 'tos', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: 'TOS 유발 증상' }
   ]
+},
+/* ======================= 동작·조건 12범주 신규 검사 (2026-11-27) =======================
+   모두 확인된 연령·성별 규범이 없어 `refOnly`(참고용)로 둔다 — 없는 규범 수치를 만들지 않는다.
+   성재님이 적어 준 참고 상태(규범값 약함 / 예측 근거 엇갈림 / 규범 없음)는 note·REF_CRIT에 그대로 살린다. */
+{
+  id: 'srt', name: '앉기-일어서기 검사(SRT)', parts: ['전신', '고관절', '무릎', '허리'], moves: ['앉고 일어서기'], equip: '매트·옆에서 준비할 사람', cat: '균형·안정', refOnly: true, load: 'mid',
+  guide: { watch: '바닥에 앉았다 일어날 때 손·무릎·팔꿈치·옆 사람을 짚는지, 몸이 옆으로 기우는지 보세요. 넘어질 수 있어 옆에서 반드시 준비하고, 무릎·허리 통증이 크면 하지 마세요.', say: '바닥에 앉았다가 다시 일어나는 동작이 얼마나 자연스러운지 점수로 봤어요. 일상에서 몸을 낮추고 일어서는 힘과 균형을 함께 보는 검사예요.' },
+  protocol: [
+    '매트 위에 서서 도움 없이 바닥에 앉았다가 다시 일어섭니다. 신발은 벗고 옆에서 넘어짐을 대비합니다.',
+    '앉는 동작 5점·일어서는 동작 5점으로 나눠 채점하고, 손·무릎·팔꿈치·손바닥·옆 사람을 짚을 때마다 1점씩 빼고 균형이 크게 흔들리면 0.5점을 더 뺍니다.',
+    '두 점수를 더해 0~10점으로 적고, 통증이 있으면 그때의 통증 점수(0~10)를 함께 적습니다.'
+  ],
+  tip: '한 번에 한 동작으로 채점하고, 무릎·허리가 아프면 깊이 앉지 않아도 됩니다. 넘어짐 위험이 있으면 시행하지 마세요.',
+  note: '※ 규범 없음 — 성별·연령 규범표를 만들지 않고 같은 방법으로 잰 이전 기록과 비교합니다.',
+  measures: [
+    { k: 'score', rng: [0, 10], unit: '점', fmt: 'int', label: 'SRT 점수' },
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' }
+  ]
+},
+{
+  id: 'slsts', name: '한 발 의자 일어서기', parts: ['무릎', '고관절', '전신'], moves: ['앉고 일어서기'], equip: '의자·스톱워치', cat: '근력·지구력', refOnly: true, ageFit: [19, 59], load: 'high',
+  guide: { watch: '무릎이 안쪽으로 무너지는지, 반대발이 바닥을 밀지 않는지, 의자 높이(무릎 90°)가 매번 같은지 보세요. 통증이 3점을 넘으면 양발 일어서기로 바꿉니다.', say: '한 발만으로 의자에서 일어나는 힘을 본 거예요. 계단·달리기처럼 한쪽 다리에 체중이 실리는 동작과 이어져요.' },
+  protocol: [
+    '의자 높이를 무릎 90°가 되게 맞추고, 한 발은 바닥에 두고 반대발은 살짝 들어 팔 없이 일어섭니다.',
+    '완전히 선 자세까지 올라갔다 내려오는 것을 1회로 세어, 좌·우 각각 지칠 때까지(또는 30초 동안) 반복합니다.',
+    '무릎이 안쪽으로 무너지거나 반대발이 바닥을 밀면 그 회는 세지 않고, 통증 점수(0~10)를 함께 적습니다.'
+  ],
+  tip: '상위 기능 회원에게만 씁니다. 무릎 통증이 있거나 균형이 불안하면 표준 양발 일어서기로 바꾸세요.',
+  note: '※ 규범 없음 — 젊은 성인·상위 기능 회원의 좌우 비교용입니다. 같은 의자 높이로 잰 이전 기록과 비교하세요.',
+  measures: [
+    { k: 'n', sides: true, lsi: true, unit: '회', fmt: 'int', label: '반복' },
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' }
+  ]
+},
+{
+  id: 'deepsquat', name: '깊은 쪼그려 앉기 관찰', parts: ['고관절', '무릎', '발목'], moves: ['앉고 일어서기'], equip: '줄자(선택)', cat: '균형·안정', refOnly: true, load: 'mid',
+  guide: { watch: '발뒤꿈치가 들리는지, 무릎이 안쪽으로 모이는지, 골반이 뒤로 감기는지 보세요. 엉덩이 높이를 매번 같은 지점에서 재세요.', say: '쪼그려 앉는 자세를 보면서 발목이 얼마나 접히는지, 체중이 어디로 쏠리는지 확인했어요. 쪼그려 앉기·바닥 작업이 편해지는 방향과 함께 봐요.' },
+  protocol: [
+    '두 발을 어깨너비로 벌리고 서서, 발뒤꿈치를 바닥에 붙인 채 가능한 깊이 쪼그려 앉습니다.',
+    '가장 낮은 자세에서 엉덩이(대퇴 뒤) 높이를 cm로 재고, 발뒤꿈치 들림·무릎 안쪽 모임·골반 뒤로 감김 여부를 관찰합니다.',
+    '그 자세에서 통증 점수(0~10)와 관찰 소견을 적습니다.'
+  ],
+  tip: '발뒤꿈치를 억지로 붙이려 하지 말고, 들리면 들린 채로 기록해 원인(발목 가동성·체중 이동)을 찾는 데 씁니다.',
+  note: '※ 규범 없음 — 자세·깊이·증상을 그대로 기록해 같은 방법으로 잰 이전 기록과 비교합니다.',
+  measures: [
+    { k: 'h', unit: 'cm', fmt: 'dec1', label: '최저 엉덩이 높이' },
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' },
+    { k: 'obs', inputOnly: true, txt: true, noPrev: true, unit: '', label: '관찰 소견', ph: '예: 발뒤꿈치 들림, 무릎 안쪽 모임, 골반 뒤로 감김' }
+  ]
+},
+{
+  id: 'stepdown', name: '스텝다운 관찰', parts: ['무릎', '고관절', '발목'], moves: ['오르내리기'], equip: '15~20cm 박스·거울(선택)', cat: '균형·안정', refOnly: true, load: 'mid',
+  guide: { watch: '내려가는 다리의 무릎이 안쪽으로 무너지는지, 반대쪽 골반이 떨어지는지, 발이 지면에 닿을 때 무게가 실리는지 보세요. 박스 높이를 매번 같게 하세요.', say: '계단을 내려갈 때 다리가 어떻게 버티는지 보는 검사예요. 무릎과 골반이 버티는 힘을 확인해요.' },
+  protocol: [
+    '15~20cm 박스 앞에 서서 한 발을 박스 위에 올리고, 다른 발은 공중에 둡니다.',
+    '박스 위 발로 체중을 지지한 채 반대발 뒤꿈치를 바닥에 살짝 대었다가 다시 올리는 동작을 좌·우 5회씩 합니다.',
+    '무릎 정렬을 3(정상)~0(수행 어려움)으로 적고, 통증 점수(0~10)와 관찰 소견을 함께 적습니다.'
+  ],
+  tip: '박스 높이를 낮춰도 무릎이 무너지면 평가를 멈추고 골반·발목 조절부터 확인하세요.',
+  note: '※ 규범 없음 — 정렬 등급(3~0)과 통증을 같은 박스 높이에서 잰 이전 기록과 비교합니다.',
+  measures: [
+    { k: 'nrs', sides: true, dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' },
+    { k: 'grade', sides: true, rng: [0, 3], unit: '점', fmt: 'int', label: '정렬 등급(3=정상)' },
+    { k: 'obs', inputOnly: true, txt: true, noPrev: true, unit: '', label: '관찰 소견', ph: '예: 오른쪽 무릎 안쪽 무너짐, 골반 하강' }
+  ]
+},
+{
+  id: 'stairclimb', name: '계단 오르기 시간', parts: ['무릎', '고관절', '전신'], moves: ['오르내리기'], equip: '계단(9~12칸)·스톱워치', cat: '근력·지구력', refOnly: true, load: 'high',
+  guide: { watch: '손잡이를 잡았는지, 계단을 한 칸씩 오르는지, 무릎이 안쪽으로 무너지지 않는지 보세요. 같은 계단·같은 손잡이 사용 여부로 다시 재세요.', say: '계단을 오르는 데 걸리는 시간을 쟀어요. 계단 오르기는 오래 걷기와 함께 일상에서 힘든 동작이에요.' },
+  protocol: [
+    '9~12칸(계단참 하나) 계단을 골라, 손잡이는 잡지 않고 가능한 한 빠르게 오릅니다.',
+    '두 발이 마지막 계단에 모두 올라선 순간까지를 0.1초 단위로 재고, 2회 중 좋은 기록을 적습니다.',
+    '무릎 통증·숨참이 있으면 그때의 통증 점수(0~10)와 멈춘 이유를 함께 적습니다.'
+  ],
+  tip: '난간이 있는 계단에서 하고, 어지럼·가슴 통증이 있으면 바로 멈추세요. 계단 수를 바꾸면 이전 기록과 비교할 수 없습니다.',
+  note: '※ 규범 없음 — 계단 수·손잡이 사용 여부가 다른 표본이라 규범을 만들지 않고 같은 계단으로 잰 이전 기록과 비교합니다.',
+  measures: [
+    { k: 's', dir: -1, rng: [0, 120], unit: '초', fmt: 'dec1', label: '계단 오르기 시간' },
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' }
+  ]
+},
+{
+  id: 'gaitspeed', name: '보행속도(4m·10m)', parts: ['전신', '고관절', '무릎', '발목', '허리'], moves: ['걷고 달리기'], equip: '줄자·콘·스톱워치', cat: '균형·안정', refOnly: true, load: 'low',
+  variant: { key: 'dist', opts: [{ v: '4m', label: '4m 구간' }, { v: '10m', label: '10m 구간' }] },
+  guide: { watch: '가속·감속 구간을 빼고 가운데 구간만 재는지, 평소 속도인지 최대 속도인지 일정하게 하는지 보세요. 보조기·신발도 매번 같게 하세요.', say: '평소 걷는 속도를 쟀어요. 걷는 속도는 장보기·횡단보도·여행을 무리 없이 해내는 힘과 연결돼요.' },
+  protocol: [
+    '평평한 복도에 출발·도착 표시(4m는 앞뒤 2m 여유, 10m는 앞뒤 3m 여유)를 만들고, 평소 속도로 걷게 합니다.',
+    '가운데 구간만 스톱워치로 재고, 2회 중 좋은 기록을 0.1초 단위로 적습니다.',
+    '보조기·신발·속도 지시(평소/최대)를 적어 두어 다음 평가에서도 같은 조건으로 잽니다.'
+  ],
+  tip: '4m와 10m 기록은 서로 바꿔 읽지 마세요. 같은 구간 길이로 다시 재야 비교가 됩니다.',
+  note: '※ 규범 없음 — 구간 길이·속도 지시가 다른 자료라 규범을 만들지 않고, 같은 구간·같은 지시로 잰 이전 기록과 비교합니다.',
+  measures: [
+    { k: 's', dir: -1, rng: [0, 120], unit: '초', fmt: 'dec1', label: '구간 시간' },
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' }
+  ]
+},
+{
+  id: 'cod505', name: '505 방향전환 검사', parts: ['전신', '무릎', '발목'], moves: ['걷고 달리기'], equip: '콘 2개·줄자·스톱워치', cat: '심폐·민첩', refOnly: true, ageFit: [19, 59], load: 'high',
+  guide: { watch: '10m 질주 뒤 5m 구간에서 180° 돌아 나오는 시간만 재는지, 발이 선을 넘는지 보세요. 좌·우 회전을 따로 재고 충분히 쉬게 하세요.', say: '뛰다가 방향을 바꾸는 데 걸리는 시간을 쟀어요. 운동 중 방향 전환에서 무리가 되는 쪽을 찾는 데 씁니다.' },
+  protocol: [
+    '10m 질주 후 5m 구간에 들어서서 180° 돌아 다시 5m를 나오는 시간을 잽니다(회전 발은 반대발이 지면을 넘는 순간까지).',
+    '좌·우 회전을 각각 2회씩 재어 좋은 기록을 0.1초 단위로 적고, 회전 사이에는 충분히 쉽니다.',
+    '무릎·발목 통증이 있으면 그때의 통증 점수(0~10)를 함께 적습니다.'
+  ],
+  tip: '운동선수·스포츠 복귀 평가용입니다. 통증이 있거나 관절이 불안정하면 시행하지 마세요.',
+  note: '※ 규범 없음 — 선수 표본·프로토콜 차이가 커서 규범을 만들지 않고, 좌우 차이와 같은 방법으로 잰 이전 기록으로 봅니다.',
+  measures: [
+    { k: 's', sides: true, dir: -1, rng: [0, 30], unit: '초', fmt: 'dec1', label: '완주 시간' }
+  ]
+},
+{
+  id: 'hoptest', name: '홉 테스트(단일·3홉·크로스오버)', parts: ['무릎', '발목', '고관절'], moves: ['균형·착지'], equip: '줄자·테이프', cat: '근력·지구력', refOnly: true, load: 'high',
+  guide: { watch: '착지에서 무릎이 안쪽으로 무너지지 않는지, 손을 뒤로 두는지, 같은 신발·같은 거리 기준으로 재는지 보세요. 통증이 오르면 다음 홉은 쉬게 하세요.', say: '한 발로 뛰어 얼마나 멀리 가는지, 좌우 차이가 얼마나 나는지 봤어요. 다리 힘과 착지 조절을 함께 보는 검사예요.' },
+  protocol: [
+    '한 발로 서서 ① 단일 홉(한 번 멀리) ② 3홉(연속 세 번) ③ 크로스오버 홉(안쪽으로 세 번) 거리를 잽니다.',
+    '각 동작을 좌·우 2회씩 재어 좋은 기록을 cm로 적고, 착지 후 2초 이상 버티지 못한 기록은 버립니다.',
+    '좌우 비율(작은 값 ÷ 큰 값 × 100)은 자동으로 계산되고, 목표는 90% 이상입니다.'
+  ],
+  tip: '통증이 3점을 넘거나 착지에서 무릎이 무너지면 홉 수를 줄이세요. 같은 신발·같은 바닥에서 재세요.',
+  note: '※ 규범 없음 — 일반인 성별·연령 규범이 확인되지 않아 좌우 비율(90% 목표)과 이전 기록으로 봅니다.',
+  measures: [
+    { k: 'one', sides: true, lsi: true, unit: 'cm', fmt: 'dec1', label: '단일 홉' },
+    { k: 'tri', sides: true, lsi: true, unit: 'cm', fmt: 'dec1', label: '3홉' },
+    { k: 'cross', sides: true, lsi: true, unit: 'cm', fmt: 'dec1', label: '크로스오버 홉' }
+  ]
+},
+{
+  id: 'less', name: '착지 오류 점수(LESS)', parts: ['무릎', '발목', '고관절', '전신'], moves: ['균형·착지'], equip: '30cm 박스·영상 촬영(권장)', cat: '균형·안정', refOnly: true, load: 'high',
+  guide: { watch: '무릎 굽힘 각도·안쪽 무너짐·발목 들림·몸통 기울기를 17개 항목으로 봅니다. 영상으로 찍어 천천히 보면 놓치는 항목이 줄어요.', say: '점프해서 착지할 때 몸이 어떻게 버티는지 항목별로 봤어요. 점수는 낮을수록 착지가 안정적이라는 뜻이에요.' },
+  protocol: [
+    '30cm 박스에서 한 발로 뛰어내려 착지한 뒤 3초간 버팁니다.',
+    '무릎 굽힘 각도·무릎 안쪽 모임·발목 들림·몸통 기울기 등 17개 항목을 0/1로 채점해 총점을 적습니다(낮을수록 좋음).',
+    '우세·비우세 다리 각각 3회 중 대표 기록을 적고, 통증이 있으면 통증 점수(0~10)를 함께 적습니다.'
+  ],
+  tip: '무릎 통증이 있거나 점프가 불안하면 박스 높이를 낮추고, 통증이 3점을 넘으면 시행하지 마세요.',
+  note: '※ 규범 없음 — 점수는 낮을수록 좋고, 같은 박스·같은 촬영 각도로 잰 이전 기록과 비교합니다.',
+  measures: [
+    { k: 'score', dir: -1, rng: [0, 19], unit: '점', fmt: 'int', label: 'LESS 총점(낮을수록 좋음)' },
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' },
+    { k: 'obs', inputOnly: true, txt: true, noPrev: true, unit: '', label: '관찰 소견', ph: '예: 무릎 안쪽 모임 2회, 몸통 앞 기울기' }
+  ]
+},
+{
+  id: 'sorensen', name: 'Sørensen 체간 신전 지구력', parts: ['허리', '전신'], moves: ['숙이고 들어올리기'], equip: '베드·스톱워치', cat: '근력·지구력', refOnly: true, load: 'low',
+  guide: { watch: '골반을 베드에 고정하고 몸통이 수평을 유지하는지, 엉덩이가 들리지 않는지 보세요. 통증이 생기면 바로 멈추게 하세요.', say: '엎드린 채 상체를 든 자세를 얼마나 오래 버티는지 봤어요. 허리를 펴는 근육이 오래 일하는 힘을 보는 검사예요.' },
+  protocol: [
+    '베드에 엎드려 골반(전상장골극)을 베드 끝에 맞추고 상체는 베드 밖으로 내어 놓습니다.',
+    '보조자가 발목과 골반을 고정한 상태에서, 팔을 가슴에 두고 몸통을 수평으로 들어 올려 버팁니다.',
+    '자세가 무너지거나 통증 때문에 멈출 때까지의 시간을 0.1초 단위로 적습니다(상한은 정하지 않고 멈춘 이유를 함께 적음).'
+  ],
+  tip: '허리 통증이 있는 회원은 통증이 3점을 넘으면 멈추고, 다음 날 증상이 올라오지 않는 범위에서만 반복하세요.',
+  note: '※ 규범 없음 — 젊은 성인 표본 위주라 연령·성별 규범을 만들지 않고 같은 자세로 잰 이전 기록과 비교합니다.',
+  measures: [
+    { k: 's', unit: '초', fmt: 'dec1', label: '유지 시간' },
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' }
+  ]
+},
+{
+  id: 'trunkflex', name: '체간 굴곡 지구력', parts: ['허리', '전신'], moves: ['숙이고 들어올리기'], equip: '기구(경사 60°)·스톱워치', cat: '근력·지구력', refOnly: true, load: 'low',
+  guide: { watch: '몸통 각도가 유지되는지, 팔을 앞으로 뻗은 채인지 보세요. 등이 아프면 바로 멈추게 하세요.', say: '몸을 일으킨 자세를 얼마나 오래 버티는지 봤어요. 배 근육이 오래 일하는 힘을 봐요.' },
+  protocol: [
+    '경사 60° 기구(또는 벽에 고정한 경사판)에 앉아 골반과 발을 고정합니다.',
+    '팔을 가슴에 두고 몸통을 일으킨 자세(기구 각도에서 30° 정도 들기)로 버팁니다.',
+    '자세가 5° 이상 무너지거나 통증으로 멈출 때까지의 시간을 0.1초 단위로 적습니다.'
+  ],
+  tip: '허리 통증이 심하거나 급성기면 시행하지 마세요. 통증이 3점을 넘으면 바로 멈춥니다.',
+  note: '※ 규범 없음 — 기구 각도·자세가 연구마다 달라 규범을 만들지 않고 같은 기구로 잰 이전 기록과 비교합니다.',
+  measures: [
+    { k: 's', unit: '초', fmt: 'dec1', label: '유지 시간' },
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' }
+  ]
+},
+{
+  id: 'ffd', name: '전굴 가동범위(손끝-바닥)', parts: ['허리', '고관절'], moves: ['숙이고 들어올리기'], equip: '줄자·박스(선택)', cat: '유연성', refOnly: true, load: 'low',
+  guide: { watch: '무릎이 굽는지, 반동으로 내려가는지, 허리가 아파 멈추는지 보세요. 2초 이상 유지한 값만 적습니다.', say: '서서 앞으로 숙였을 때 손끝이 바닥에 얼마나 가까이 닿는지 쟀어요. 허리와 뒤쪽 허벅지가 얼마나 부드러운지 보는 값이에요.' },
+  protocol: [
+    '맨발로 발을 어깨너비로 벌리고 서서, 무릎을 편 채 천천히 앞으로 숙입니다.',
+    '2초간 유지한 자세에서 손끝(중지)과 바닥 사이 거리를 cm로 잽니다. 바닥에 닿으면 0, 바닥 아래로 지나가면 음수(-)로 적습니다.',
+    '2회 중 좋은 기록을 적고, 허리 통증이 있으면 통증 점수(0~10)를 함께 적습니다.'
+  ],
+  tip: '반동을 쓰지 말고 2초 유지하세요. 허리 통증이 있는 회원은 앉아서 재는 방법(앉아 윗몸 앞으로 굽히기)이 안전할 수 있어요.',
+  note: '※ 규범 없음 — 0은 바닥에 닿음, +는 못 닿은 거리, -는 바닥 아래로 지나간 거리입니다. 같은 방법으로 잰 이전 기록과 비교하세요.',
+  measures: [
+    { k: 'cm', dir: -1, rng: [-25, 40], unit: 'cm', fmt: 'dec1', label: '손끝-바닥 거리' },
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' }
+  ]
+},
+{
+  id: 'floorlift', name: '바닥에서 물건 들기 과제', parts: ['허리', '고관절', '무릎'], moves: ['숙이고 들어올리기'], equip: '바닥에 둘 물건(2~5kg)', cat: '균형·안정', refOnly: true, load: 'mid',
+  guide: { watch: '무릎을 굽히는지, 허리만 굽히는지, 물건을 몸에서 멀리 두고 드는지, 들 때 숨을 참는지 보세요. 통증이 나타나는 지점을 적어 두세요.', say: '바닥에 있는 물건을 드는 방식을 그대로 보는 검사예요. 어떤 자세에서 불편한지 찾는 데 씁니다.' },
+  protocol: [
+    '바닥(또는 발 앞 30cm)에 2~5kg 물건을 두고, 회원이 평소처럼 들어 올리게 합니다.',
+    '허리 굽힘·무릎 굽힘·물건과 몸의 거리·속도·숨 참기 여부를 관찰하고, 통증이 나타난 단계를 적습니다.',
+    '통증 점수(0~10)와 관찰 소견을 적고, 필요하면 같은 물건·같은 위치로 다시 시행합니다.'
+  ],
+  tip: '통증이 4점을 넘거나 다리로 저림이 생기면 멈추고, 물건 무게를 줄여 다시 확인하세요.',
+  note: '※ 규범 없음 — 자세·증상을 그대로 기록해 같은 무게·같은 위치의 이전 기록과 비교합니다.',
+  measures: [
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '들 때 통증 NRS' },
+    { k: 'obs', inputOnly: true, txt: true, noPrev: true, unit: '', label: '관찰 소견', ph: '예: 허리 주도 굽힘, 물건 몸에서 40cm, 들 때 숨 참음' }
+  ]
+},
+{
+  id: 'shrom', name: '어깨 굴곡·외전 가동범위', parts: ['어깨'], moves: ['팔 올리고 뻗기'], equip: '각도계(또는 스마트폰 각도 앱)', cat: '유연성', refOnly: true, load: 'low',
+  guide: { watch: '허리를 젖히거나 견갑골을 들어 올려 각도를 벌지 않는지 보세요. 통증이 나는 범위에서 멈추고, 바로 누워서 재면 보상이 줄어요.', say: '팔을 앞으로 들고 옆으로 드는 범위를 쟀어요. 머리 위 물건을 꺼내거나 옷을 입을 때 편한지와 연결돼요.' },
+  protocol: [
+    '바로 누워(또는 앉아) 허리를 중립에 두고, 팔을 곧게 편 채 앞으로 들어 올려 굴곡 각도를 잽니다.',
+    '같은 자세에서 팔을 옆으로 들어 올려 외전 각도를 잽니다. 견갑골이 먼저 들리면 그 지점을 기록합니다.',
+    '좌·우 각각 재어 적고, 통증이 나타나는 각도와 점수(0~10)를 함께 적습니다.'
+  ],
+  tip: '허리 젖힘·견갑골 거상 같은 보상을 막으려면 벽에 등을 대고 재세요. 통증 각도를 넘겨 밀지 마세요.',
+  note: '※ 규범 없음 — 연령·성별 규범이 확인되지 않아 좌우 차이와 같은 자세로 잰 이전 기록으로 봅니다.',
+  measures: [
+    { k: 'flex', sides: true, unit: '°', fmt: 'int', label: '굴곡' },
+    { k: 'abd', sides: true, unit: '°', fmt: 'int', label: '외전' },
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' }
+  ]
+},
+{
+  id: 'hbb', name: '뒤로 손 닿기(Hand Behind Back)', parts: ['어깨'], moves: ['팔 올리고 뻗기'], equip: '줄자', cat: '유연성', refOnly: true, load: 'low',
+  guide: { watch: '몸을 옆으로 기울이거나 어깨를 으쓱하지 않는지 보세요. 두 손끝 사이 거리를 재고, 통증이 나는 쪽을 따로 적으세요.', say: '한 손은 어깨 위로, 다른 손은 허리 뒤로 보내 손끝이 얼마나 가까운지 쟀어요. 등 뒤로 손을 뻗는 동작이 편한지 보는 검사예요.' },
+  protocol: [
+    '한 손은 어깨 위로 등 뒤에, 다른 손은 허리 뒤에서 위로 올려 두 손끝을 최대한 가깝게 합니다.',
+    '두 손끝(중지) 사이 거리를 cm로 잽니다. 닿으면 0, 못 닿으면 +, 겹치면 -로 적습니다.',
+    '위로 올린 손을 기준으로 좌·우를 따로 재고, 통증 점수(0~10)를 함께 적습니다.'
+  ],
+  tip: '어깨를 으쓱하거나 몸을 비틀지 않게 하고, 통증이 있는 회원은 도달 범위까지만 하세요.',
+  note: '※ 규범 없음 — 좌우 차이와 같은 방법으로 잰 이전 기록으로 봅니다(내회전·신전 가동성 참고).',
+  measures: [
+    { k: 'cm', sides: true, dir: -1, unit: 'cm', fmt: 'dec1', label: '손끝 사이 거리' },
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' }
+  ]
+},
+{
+  id: 'deadhang', name: '매달리기 시간(Dead Hang)', parts: ['어깨', '손목', '전신'], moves: ['당기기·매달리기'], equip: '철봉·스톱워치', cat: '근력·지구력', refOnly: true, load: 'mid',
+  guide: { watch: '어깨가 귀까지 올라가 힘으로 버티는지, 몸이 흔들리는지 보세요. 손에서 미끄러지면 바로 내려오게 하고, 어깨 통증이 있으면 하지 마세요.', say: '철봉에 매달려 얼마나 오래 버티는지 봤어요. 손과 어깨가 체중을 견디는 힘을 보는 검사예요.' },
+  protocol: [
+    '철봉을 어깨너비로 잡고, 발을 땅에서 떼어 매달립니다(그립 종류·손 위치를 적어 둡니다).',
+    '손이 미끄러지거나 내려와야 할 때까지의 시간을 0.1초 단위로 적습니다.',
+    '어깨·손목 통증이 있으면 그때의 점수(0~10)와 멈춘 이유를 함께 적습니다.'
+  ],
+  tip: '어깨를 으쓱해 힘으로 버티지 않게 하고, 통증이 3점을 넘으면 바로 내려오세요. 발판을 준비하세요.',
+  note: '※ 규범 없음 — 그립·자세가 연구마다 달라 규범을 만들지 않고 같은 그립으로 잰 이전 기록과 비교합니다.',
+  measures: [
+    { k: 's', unit: '초', fmt: 'dec1', label: '매달린 시간' },
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' }
+  ]
+},
+{
+  id: 'invrow', name: '인버티드 로우·턱걸이 최대 반복', parts: ['어깨', '전신'], moves: ['당기기·매달리기'], equip: '바·매달릴 곳', cat: '근력·지구력', refOnly: true, ageFit: [19, 59], load: 'high',
+  variant: { key: 'kind', opts: [{ v: 'row', label: '인버티드 로우' }, { v: 'pullup', label: '턱걸이' }] },
+  guide: { watch: '가슴이 바에 닿는지, 반동·발차기를 쓰지 않는지 보세요. 어깨가 으쓱 들리면 그 회는 세지 않고, 통증이 있으면 보조 밴드를 쓰게 하세요.', say: '몸을 당기는 힘을 몇 회 할 수 있는지 봤어요. 문을 당기고 무거운 것을 끌어당기는 힘과 연결돼요.' },
+  protocol: [
+    '인버티드 로우는 바를 허리 높이에 두고, 턱걸이는 바에 매달려 시작합니다.',
+    '가슴이 바에 닿거나 턱이 바를 넘을 때 1회로 세어, 자세가 무너지기 전까지 최대 반복을 적습니다.',
+    '보조 밴드·그립 종류·발 위치를 적어 두어 다음 평가에서도 같은 조건으로 잽니다.'
+  ],
+  tip: '상위 기능 회원용입니다. 어깨 통증이 있거나 어깨가 으쓱 들리면 밴드 보조나 로우로 낮추세요.',
+  note: '※ 규범 없음 — 상위 기능·선수 표본 위주라 규범을 만들지 않고 같은 방법으로 잰 이전 기록과 비교합니다.',
+  measures: [
+    { k: 'n', unit: '회', fmt: 'int', label: '최대 반복' }
+  ]
+},
+{
+  id: 'farmers', name: '파머스 캐리(양손 들고 걷기)', parts: ['전신', '손목', '어깨'], moves: ['들고 이동하기'], equip: '덤벨·케틀벨·줄자', cat: '근력·지구력', refOnly: true, load: 'mid',
+  guide: { watch: '몸이 옆으로 기우는지, 어깨가 으쓱 들리는지, 걸음이 짧아지는지 보세요. 무게와 거리를 매번 같게 해야 비교가 돼요.', say: '양손에 무게를 들고 걸을 때 얼마나 멀리, 얼마나 오래 버티는지 봤어요. 장바구니를 들고 걷는 일상 동작과 비슷해요.' },
+  protocol: [
+    '양손에 같은 무게(예: 각 10kg)를 들고, 정해진 구간(예: 20m 왕복)을 편안한 속도로 걷습니다.',
+    '자세가 무너지거나 손에서 놓을 때까지의 거리(m)와 시간(초)을 적고, 무게를 함께 적습니다.',
+    '통증·숨참이 있으면 멈춘 지점과 통증 점수(0~10)를 적습니다.'
+  ],
+  tip: '무게를 먼저 가볍게 잡고 자세가 유지되는 범위에서 늘리세요. 무게를 바꾸면 이전 기록과 비교할 수 없습니다.',
+  note: '※ 규범값 약함, 개인 내 비교용 — 성별·연령 규범이 확립되지 않아 같은 무게·같은 거리로 잰 이전 기록과만 비교합니다.',
+  measures: [
+    { k: 'm', unit: 'm', fmt: 'dec1', label: '운반 거리' },
+    { k: 'kg', unit: 'kg', fmt: 'dec1', label: '양손 총 무게' },
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' }
+  ]
+},
+{
+  id: 'unicarry', name: '편측 캐리 관찰(한 손 들고 걷기)', parts: ['전신', '허리', '고관절'], moves: ['들고 이동하기'], equip: '덤벨·줄자', cat: '균형·안정', refOnly: true, load: 'mid',
+  guide: { watch: '드는 쪽으로 몸이 얼마나 기우는지, 반대쪽 골반이 떨어지는지, 걸음 폭이 달라지는지 보세요. 좌·우를 따로 관찰하세요.', say: '한 손에만 무게를 들고 걸을 때 몸이 얼마나 기우는지 봤어요. 한쪽으로 무거운 것을 들고 걷는 일상 동작과 연결돼요.' },
+  protocol: [
+    '한 손에만 무게(예: 5~10kg)를 들고 정해진 구간(예: 10m 왕복)을 걷습니다.',
+    '드는 쪽으로의 몸통 기울기·반대쪽 골반 하강·걸음 폭 변화를 관찰하고, 걸린 시간과 무게를 적습니다.',
+    '좌·우를 따로 시행하고, 통증 점수(0~10)와 관찰 소견을 적습니다.'
+  ],
+  tip: '무게를 들었을 때 몸이 크게 기울면 무게를 줄이세요. 같은 무게·같은 거리로 다시 재야 비교가 됩니다.',
+  note: '※ 규범 없음 — 관찰 소견과 걸린 시간을 기록해 같은 조건의 이전 기록과 비교합니다.',
+  measures: [
+    { k: 'm', unit: 'm', fmt: 'dec1', label: '운반 거리' },
+    { k: 'kg', unit: 'kg', fmt: 'dec1', label: '든 무게' },
+    { k: 'obs', inputOnly: true, txt: true, noPrev: true, unit: '', label: '관찰 소견', ph: '예: 오른손 들 때 왼쪽 골반 하강, 걸음 폭 감소' }
+  ]
+},
+{
+  id: 'trunkrot', name: '체간 회전 가동범위', parts: ['흉추', '허리'], moves: ['돌리고 비틀기'], equip: '의자·각도계(선택)', cat: '유연성', refOnly: true, load: 'low',
+  variant: { key: 'pos', opts: [{ v: 'sit', label: '앉아서' }, { v: 'stand', label: '서서' }] },
+  guide: { watch: '골반을 고정하고 흉추만 돌리는지, 무릎이 벌어지거나 발이 따라 도는지 보세요. 좌·우를 같은 자세로 재세요.', say: '몸통을 좌우로 얼마나 돌릴 수 있는지 쟀어요. 뒤돌아보기·스윙·운전할 때 몸을 돌리는 동작과 연결돼요.' },
+  protocol: [
+    '의자에 앉아(또는 서서) 골반을 고정하고, 팔을 가슴에 겹친 채 몸통을 한쪽으로 최대한 돌립니다.',
+    '같은 자세로 반대쪽도 돌려 좌·우 회전 각도를 잽니다.',
+    '골반이 따라 돌거나 무릎이 벌어지면 그 지점을 관찰 소견으로 적고, 통증 점수(0~10)를 함께 적습니다.'
+  ],
+  tip: '골반 고정이 핵심입니다. 앉아서와 서서 값은 서로 바꿔 읽지 마세요.',
+  note: '※ 규범 없음 — 좌우 차이와 같은 자세(앉아서/서서)로 잰 이전 기록으로 봅니다.',
+  measures: [
+    { k: 'rot', sides: true, unit: '°', fmt: 'int', label: '회전' },
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' }
+  ]
+},
+{
+  id: 'openbook', name: '오픈북 회전(흉추 회전)', parts: ['흉추', '어깨'], moves: ['돌리고 비틀기'], equip: '매트·베개', cat: '유연성', refOnly: true, load: 'low',
+  guide: { watch: '골반이 따라 돌지 않게 무릎을 베개로 고정하고, 어깨가 바닥에 닿는 범위를 보세요. 통증이 있으면 팔을 덜 열게 하세요.', say: '옆으로 누워 팔을 열면서 등 위쪽이 얼마나 돌아가는지 본 거예요. 등이 뻣뻣하면 어깨·허리로 보상하기 쉬워요.' },
+  protocol: [
+    '옆으로 누워 무릎을 90° 굽히고 무릎 사이에 베개를 끼워 골반을 고정합니다.',
+    '위쪽 팔을 천천히 뒤로 열어 등이 바닥에 닿는 범위까지 돌리고, 어깨가 바닥에 닿는 순간의 흉추 회전 각도를 잽니다.',
+    '좌·우 각각 재고, 통증이 나타나는 각도와 점수(0~10)를 적습니다.'
+  ],
+  tip: '무릎이 들리면 골반이 따라 도는 것이므로 베개를 더 단단히 고정하세요. 억지로 눌러 내리지 마세요.',
+  note: '※ 규범 없음 — 좌우 차이와 같은 자세로 잰 이전 기록으로 봅니다.',
+  measures: [
+    { k: 'rot', sides: true, unit: '°', fmt: 'int', label: '흉추 회전' },
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' }
+  ]
+},
+{
+  id: 'fmsrot', name: 'FMS 회전 안정성', parts: ['전신', '허리', '흉추'], moves: ['돌리고 비틀기'], equip: '매트·2m 막대', cat: '균형·안정', refOnly: true, load: 'mid',
+  guide: { watch: '허리가 바닥에서 뜨는지, 팔·무릎이 같은 선에 머무는지 보세요. 좌·우 점수를 따로 매기고 낮은 쪽을 기록하세요.', say: '네발 자세에서 팔과 다리를 뻗어 몸통이 얼마나 버티는지 점수로 봤어요. 몸통이 비틀리는 힘을 견디는 능력을 봐요.' },
+  protocol: [
+    '네발 자세에서 같은 쪽 팔과 다리를 어깨·골반 높이로 뻗고, 팔꿈치와 무릎을 2m 막대에 맞춥니다.',
+    '허리가 바닥에서 뜨지 않고 막대가 유지되면 3점, 막대가 떨어지거나 허리가 뜨면 2점, 반대쪽으로 뻗으면 1점, 수행하지 못하면 0점으로 채점합니다.',
+    '좌·우 점수를 따로 적고, 통증이 있으면 통증 점수(0~10)를 함께 적습니다.'
+  ],
+  tip: '통증이 있으면 시행하지 말고, 점수보다 좌우 차이와 변화를 기록하는 데 씁니다.',
+  note: '※ 예측 근거는 엇갈림 — 부상 예측 도구로 쓰기에는 근거가 엇갈려, 점수 자체는 개인 내 변화 추적용 참고 기록입니다.',
+  measures: [
+    { k: 'score', sides: true, rng: [0, 3], unit: '점', fmt: 'int', label: '회전 안정성 점수(0~3)' },
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' }
+  ]
+},
+{
+  id: 'dnfe', name: '심부 목 굴곡근 지구력', parts: ['목'], moves: ['목 움직임'], equip: '매트·스톱워치·커프(선택)', cat: '근력·지구력', refOnly: true, load: 'low',
+  guide: { watch: '턱을 당긴 뒤 목이 길어지는 자세가 유지되는지, 턱이 들리거나 목이 꺾이지 않는지 보세요. 5Ds & 3Ns가 있으면 시행하지 마세요.', say: '목을 길게 만든 자세를 얼마나 오래 버티는지 봤어요. 목 뒤 근육이 오래 일하는 힘을 보는 검사예요.' },
+  protocol: [
+    '바로 누워 머리를 바닥에 두고 턱을 살짝 당겨 목을 길게 만든 뒤, 머리를 2.5cm 정도 들어 올립니다.',
+    '10초에 한 번 턱 당김을 다시 확인하면서, 자세가 무너지거나 통증으로 멈출 때까지의 시간을 0.1초 단위로 적습니다.',
+    '어지럼·두통·저림이 생기면 즉시 멈추고 그 사실을 적습니다.'
+  ],
+  tip: '30° 이상 들면 표층 굴곡근이 개입합니다. 손가락을 목 뒤에 대어 얕은 굴곡이 유지되는지 확인하세요.',
+  note: '※ 규범 없음 — 연령·성별 규범이 확인되지 않아 같은 방법으로 잰 이전 기록과 비교합니다.',
+  measures: [
+    { k: 's', unit: '초', fmt: 'dec1', label: '유지 시간' },
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '증상 NRS' }
+  ]
+},
+{
+  id: 'postol', name: '자세 지속 검사(증상 유발까지)', parts: ['허리', '목', '전신'], moves: ['자세 지속'], equip: '의자·스톱워치', cat: '균형·안정', refOnly: true, load: 'mid',
+  variant: { key: 'pos', opts: [{ v: 'sit', label: '오래 앉기' }, { v: 'stand', label: '오래 서기' }, { v: 'squat', label: '쪼그리기' }] },
+  guide: { watch: '자세를 흐트러뜨리지 않게 하고, 증상이 처음 나타난 시각을 기록하세요. 15분마다 통증 점수를 물어 변화를 적습니다.', say: '오래 앉거나 서 있을 때 언제부터 불편해지는지 시간을 쟀어요. 오래 같은 자세를 유지하는 힘과 자세 습관을 보는 검사예요.' },
+  protocol: [
+    '정한 자세(앉기·서기·쪼그리기)를 유지하고, 스톱워치를 시작합니다.',
+    '증상이 처음 나타난 시간(분)을 적고, 15분마다 통증 점수(0~10)를 물어 기록합니다.',
+    '증상이 5점을 넘거나 자세를 유지할 수 없으면 멈추고, 순 시간과 이유를 적습니다.'
+  ],
+  tip: '통증이 올라오면 참지 않게 하세요. 같은 자세·같은 의자로 다시 재야 비교가 됩니다.',
+  note: '※ 규범 없음, 개인 내 변화 추적용 — 증상이 나타난 시간과 15분 간격 통증 점수를 같은 자세로 잰 이전 기록과 비교합니다.',
+  measures: [
+    { k: 't', unit: '분', fmt: 'dec1', label: '증상 유발까지 시간' },
+    { k: 'n0', inputOnly: true, dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '시작 통증(NPRS)' },
+    { k: 'n15', inputOnly: true, dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '15분 통증' },
+    { k: 'n30', inputOnly: true, dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '30분 통증' },
+    { k: 'n45', inputOnly: true, dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '45분 통증' }
+  ]
+},
+{
+  id: 'walk2', name: '2분 걷기', parts: ['전신', '고관절', '무릎', '발목'], moves: ['걷고 달리기'], equip: '30m 왕복 코스·스톱워치', cat: '균형·안정', refOnly: true, load: 'mid',
+  guide: { watch: '달리지 않고 걷는지, 2분 내내 속도가 비슷한지 보세요. 같은 코스·같은 신발로 재야 비교가 됩니다.', say: '2분 동안 걸은 거리를 쟀어요. 짧은 시간에 얼마나 멀리 걸을 수 있는지 보는 검사예요.' },
+  protocol: [
+    '30m 왕복 코스(양 끝에 콘)를 만들고, 시작 신호에 맞춰 2분 동안 가능한 한 멀리 걷게 합니다.',
+    '2분이 끝난 순간의 총 거리를 m 단위로 적고, 필요하면 심박수·숨참 여부를 함께 적습니다.',
+    '달리기·뛰기가 나오면 무효로 보고 기록하지 않습니다.'
+  ],
+  tip: '심혈관 질환이 있거나 숨참이 심하면 시행하지 마세요. 6분 걷기와 수치를 바꿔 읽지 마세요.',
+  note: '※ 규범 없음 — 코스·지시가 다른 자료라 규범을 만들지 않고 같은 코스로 잰 이전 기록과 비교합니다.',
+  measures: [
+    { k: 'm', unit: 'm', fmt: 'dec1', label: '2분 걸은 거리' },
+    { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' }
+  ]
 }
 ];
+
+/* 검사 ↔ 동작 범주 연결은 MOVE_INFO 한 곳에서 만든다(검사 정의의 moves 값은 덮어쓴다). */
+(function syncMoveTags() {
+  var byTest = {};
+  MOVE_CHIPS.forEach(function (m) {
+    (MOVE_INFO[m].tests || []).forEach(function (id) { (byTest[id] = byTest[id] || []).push(m); });
+  });
+  TESTS.forEach(function (t) { t.moves = (byTest[t.id] || []).slice(); });
+})();
 
 /* ===== 규범 출처 (접힌 치료사용 섹션) ===== */
 const SOURCES = {
@@ -1873,7 +2403,33 @@ const REF_NOTES = {
   pfgs: '통증 없는 악력의 성별×연령 규범이 확인되지 않아 참고용입니다. 같은 자세·같은 악력계로 잰 이전 값과 비교하세요.',
   wristrom: '손목 관절가동범위의 성별×연령 규범이 확인되지 않아 참고용입니다. 같은 자세·같은 측정 방법으로 다시 재세요.',
   cervrom: '경추 가동범위 규범은 연령·성별 구간이 세분화되어 있지 않아 참고용입니다. 같은 자세의 이전 값과 비교하세요.',
-  thorrom: '흉추 회전·TOS 유발 검사의 성별×연령 규범이 없어 참고용입니다. 같은 자세·같은 시간으로 다시 재세요.'
+  thorrom: '흉추 회전·TOS 유발 검사의 성별×연령 규범이 없어 참고용입니다. 같은 자세·같은 시간으로 다시 재세요.',
+  /* 동작·조건 12범주 신규 검사 — 모두 확인된 규범이 없어 참고용 */
+  srt: '앉기-일어서기 검사 점수의 성별×연령 규범이 확인되지 않아 참고용입니다. 넘어짐 위험을 확인하며 시행하고 같은 채점 방식으로 잰 이전 기록과 비교하세요.',
+  slsts: '한발 의자 일어서기 횟수의 성별×연령 규범이 확인되지 않아 참고용입니다(젊은 성인·선수 표본 위주). 같은 의자 높이로 잰 이전 값과 비교하세요.',
+  deepsquat: '깊은 쪼그려 앉기의 성별×연령 규범이 없어 참고용입니다. 깊이·발뒤꿈치 들림·통증을 같은 방법으로 기록해 이전 값과 비교하세요.',
+  stepdown: '스텝다운 정렬 등급의 성별×연령 규범이 없어 참고용입니다. 같은 박스 높이의 이전 기록과 비교하세요.',
+  stairclimb: '계단 오르기 시간의 성별×연령 규범이 확인되지 않아 참고용입니다(계단 수·프로토콜 차이). 같은 계단으로 잰 이전 값과 비교하세요.',
+  gaitspeed: '보행속도의 성별×연령 규범을 이 앱에서는 만들지 않았습니다(구간 길이·속도 지시 차이). 같은 구간·같은 지시로 잰 이전 값과 비교하세요.',
+  cod505: '505 방향전환 검사의 성별×연령 규범이 확인되지 않아 참고용입니다(선수 표본). 좌우 차이와 같은 방법으로 잰 이전 값으로 봅니다.',
+  hoptest: '홉 테스트의 성별×연령 규범이 확인되지 않아 참고용입니다(활동적 성인·선수 표본). 좌우 90% 기준과 이전 기록으로 봅니다.',
+  less: '착지 오류 점수(LESS)의 성별×연령 규범이 없고 기준값 연구도 엇갈려 참고용입니다. 같은 박스·같은 촬영 각도의 이전 점수와 비교하세요.',
+  sorensen: 'Sørensen 체간 신전 지구력의 성별×연령 규범이 확인되지 않아 참고용입니다(젊은 성인 표본 위주). 같은 자세의 이전 값과 비교하세요.',
+  trunkflex: '체간 굴곡 지구력의 성별×연령 규범이 확인되지 않았고 기구·자세가 연구마다 달라 참고용입니다. 같은 기구의 이전 값과 비교하세요.',
+  ffd: '전굴 손끝-바닥 거리의 성별×연령 규범을 이 앱에서는 만들지 않았습니다. 같은 방법으로 잰 이전 값과 비교하세요.',
+  floorlift: '바닥에서 물건 들기 과제의 성별×연령 규범이 없어 참고용입니다. 같은 무게·같은 위치의 이전 기록과 비교하세요.',
+  shrom: '어깨 굴곡·외전 가동범위의 성별×연령 규범이 확인되지 않아 참고용입니다. 좌우 차이와 같은 자세의 이전 값으로 봅니다.',
+  hbb: '뒤로 손 닿기 거리의 성별×연령 규범이 확인되지 않아 참고용입니다. 좌우 차이와 이전 값으로 봅니다.',
+  deadhang: '매달리기 시간의 성별×연령 규범이 확인되지 않았고 그립·자세가 연구마다 달라 참고용입니다. 같은 그립의 이전 값과 비교하세요.',
+  invrow: '인버티드 로우·턱걸이 최대 반복의 성별×연령 규범이 확인되지 않아 참고용입니다(상위 기능·선수 표본). 같은 방법의 이전 값과 비교하세요.',
+  farmers: '파머스 캐리 규범값이 약해 개인 내 비교용으로만 씁니다. 같은 무게·같은 거리로 잰 이전 값과 비교하세요.',
+  unicarry: '편측 캐리 과제의 성별×연령 규범이 없어 참고용입니다. 관찰 소견과 걸린 시간을 같은 조건에서 비교하세요.',
+  trunkrot: '체간 회전 가동범위의 성별×연령 규범이 확인되지 않아 참고용입니다. 같은 자세(앉아서/서서)의 이전 값과 비교하세요.',
+  openbook: '오픈북 흉추 회전 각도의 성별×연령 규범이 없어 참고용입니다. 같은 자세의 좌우·이전 값과 비교하세요.',
+  fmsrot: 'FMS 회전 안정성은 부상 예측 근거가 엇갈려 점수 자체를 참고 기록으로만 씁니다. 좌우 차이와 이전 점수를 비교하세요.',
+  dnfe: '심부 목 굴곡근 지구력의 성별×연령 규범이 확인되지 않아 참고용입니다(젊은 성인 표본 위주). 같은 방법의 이전 값과 비교하세요.',
+  postol: '규범 없음 — 개인 내 변화 추적용입니다. 증상이 나타난 시간과 15분 간격 통증 점수를 같은 자세로 잰 이전 기록과 비교하세요.',
+  walk2: '2분 걷기 거리의 성별×연령 규범을 이 앱에서는 만들지 않았습니다(코스·지시 차이). 같은 코스의 이전 값과 비교하세요.',
 };
 
 /* 결과 카드·회원 레포트에 쓰는 짧은 참고 기준 (쉬운 말, 논문명 없음) */
@@ -1894,7 +2450,32 @@ const REF_CRIT = {
   pfgs: '통증 없는 악력이 좌우 90% 이상인지, 재평가에서 늘었는지 봐요.',
   wristrom: '가동 범위가 늘고 통증 없이 버티는 세기가 세지면 좋아진 것으로 봐요.',
   cervrom: '같은 동작에서 증상이 시작되는 각도가 커지고 통증 점수가 줄면 좋아진 것으로 봐요.',
-  thorrom: '3분 동안 증상이 재현되지 않고 회전 범위가 늘면 좋아진 것으로 봐요.'
+  thorrom: '3분 동안 증상이 재현되지 않고 회전 범위가 늘면 좋아진 것으로 봐요.',
+  srt: '같은 채점 방식으로 다시 재서 점수가 올라가고 통증이 줄면 좋아진 것으로 봐요.',
+  slsts: '같은 의자 높이로 다시 재서 반복이 늘고 좌우 차이가 줄면 좋아진 것으로 봐요.',
+  deepsquat: '같은 자세에서 더 깊이 앉아도 발뒤꿈치가 들리지 않고 통증이 줄면 좋아진 것으로 봐요.',
+  stepdown: '같은 박스 높이에서 무릎 정렬 등급이 올라가고 통증이 줄면 좋아진 것으로 봐요.',
+  stairclimb: '같은 계단에서 시간이 줄고 통증이 줄면 좋아진 것으로 봐요.',
+  gaitspeed: '같은 구간에서 시간이 줄면 더 빨라진 것으로 봐요(같은 속도 지시로 다시 재야 해요).',
+  cod505: '같은 방법으로 다시 재서 시간이 줄고 좌우 차이가 줄면 좋아진 것으로 봐요.',
+  hoptest: '같은 신발·같은 바닥에서 다시 재서 거리가 늘고 좌우 90% 이상에 가까워지면 좋아진 것으로 봐요.',
+  less: '같은 박스·같은 촬영 각도로 다시 재서 점수가 낮아지면 착지가 안정된 것으로 봐요.',
+  sorensen: '같은 자세로 다시 재서 버틴 시간이 늘고 통증이 줄면 좋아진 것으로 봐요.',
+  trunkflex: '같은 기구 각도로 다시 재서 버틴 시간이 늘면 좋아진 것으로 봐요.',
+  ffd: '손끝이 바닥에 더 가까워지면 좋아진 것으로 봐요(같은 방법으로 다시 재요).',
+  floorlift: '같은 무게로 다시 들었을 때 허리 대신 무릎·엉덩이를 쓰고 통증이 줄면 좋아진 것으로 봐요.',
+  shrom: '같은 자세에서 각도가 늘고 좌우 차이가 줄면 좋아진 것으로 봐요.',
+  hbb: '손끝 사이 거리가 줄고 좌우 차이가 줄면 좋아진 것으로 봐요.',
+  deadhang: '같은 그립으로 다시 재서 매달린 시간이 늘면 좋아진 것으로 봐요.',
+  invrow: '같은 방법으로 다시 재서 반복이 늘고 어깨가 으쓱 들리지 않으면 좋아진 것으로 봐요.',
+  farmers: '※ 규범값 약함 — 같은 무게·같은 거리로 다시 재서 거리·시간이 늘고 통증이 줄면 좋아진 것으로 봐요(개인 내 비교).',
+  unicarry: '같은 무게로 다시 걸었을 때 몸통 기울기·골반 하강이 줄면 좋아진 것으로 봐요.',
+  trunkrot: '같은 자세에서 회전 각도가 늘고 좌우 차이가 줄면 좋아진 것으로 봐요.',
+  openbook: '같은 자세에서 흉추 회전 각도가 늘고 통증이 줄면 좋아진 것으로 봐요.',
+  fmsrot: '※ 예측 근거는 엇갈림 — 점수는 좌우 차이와 이전 점수 변화로만 봐요.',
+  dnfe: '같은 방법으로 다시 재서 유지 시간이 늘면 좋아진 것으로 봐요.',
+  postol: '※ 규범 없음, 개인 내 변화 추적용 — 증상이 나타나는 시간이 늘고 같은 시점의 통증 점수가 줄면 좋아진 것으로 봐요.',
+  walk2: '같은 코스로 다시 재서 2분 동안 걸은 거리가 늘면 좋아진 것으로 봐요.',
 };
 
 /* 건병증·어깨 재활 검사의 문헌 출처 (치료사용 패널) */
@@ -3849,15 +4430,17 @@ function recommend() {
     if (!testFitsAge(t, age)) return; /* 연령대가 맞지 않는 검사는 맞춤 추천에서 뺀다(전체 보기에서는 보임) */
     if (t.tend && !tendPartPicked(t)) return; /* 건병증 검사는 해당 부위를 골랐을 때만 */
     if (t.clin && !tendPartPicked(t)) return; /* 부위별 임상 검사도 그 부위를 골랐을 때만 */
-    var score = 0, i;
+    var score = 0, mv = 0, i;
     for (i = 0; i < t.parts.length; i++) if (parts.indexOf(t.parts[i]) >= 0) score += 2;
-    for (i = 0; i < t.moves.length; i++) if (S.moves.indexOf(t.moves[i]) >= 0) score += 1;
+    for (i = 0; i < t.moves.length; i++) if (S.moves.indexOf(t.moves[i]) >= 0) { score += 2; mv += 1; }
     if (sel.length === 0) { if (!t.core) return; score = 1; }
     if (t.always) score = Math.max(score, 1);
     if (score <= 0) return;
-    list.push({ t: t, score: score });
+    list.push({ t: t, score: score, mv: mv });
   });
   list.sort(function (a, b) {
+    /* 고른 동작·조건에 맞는 검사를 먼저 세운다(부위만 골라도 동작을 고르면 그 검사가 맨 위로) */
+    if (a.mv !== b.mv) return b.mv - a.mv;
     /* 과민성 높음이면 저부하·등척성·안정화 검사를 먼저 세운다(같은 등급끼리는 관련도 순) */
     if (S.irrit === 'high') {
       var la = loadRank(a.t), lb = loadRank(b.t);
@@ -4080,6 +4663,13 @@ function renderTest(t, mode) {
   var badge = mode === 'main' ? '<span class="t-badge ok">연령대 비교</span>' : '<span class="t-badge ref">참고용</span>';
   if (!fits) badge = '<span class="t-badge fit">권장 ' + esc(ageFitText(t.ageFit)) + '</span>' + badge;
   if (S.irrit === 'high' && isHighLoad(t)) badge = '<span class="t-badge load" title="과민성 높음 — 오늘은 저부하부터">고부하 주의</span>' + badge;
+  /* 고른 동작·조건과 맞는 검사 — 왜 이 검사가 추천됐는지 카드에서 바로 보이게 */
+  var mvHit = t.moves.filter(function (m) { return S.moves.indexOf(m) >= 0; });
+  if (mvHit.length) {
+    var mvCond = mvHit.length === 1 && mvHit[0] === MOVE_COND;
+    badge = '<span class="t-badge mv" title="2단계에서 고른 동작·조건과 연결된 검사">' +
+      (mvCond ? '조건 매칭: ' : '동작 매칭: ') + esc(mvHit.join('·')) + '</span>' + badge;
+  }
   var open = S.open[t.id] ? ' open' : '';
   return '<details class="test" data-id="' + t.id + '"' + open + '>' +
     '<summary><span class="t-name">' + esc(t.name) + '</span>' +
@@ -4941,9 +5531,48 @@ function bmiText() {
 }
 
 function buildChips() {
-  var ph = $('partChips'), mh = $('moveChips');
+  var ph = $('partChips'), mh = $('moveChips'), mc = $('moveCondChips');
   if (ph) ph.innerHTML = PARTS.map(function (p) { return '<button class="chip" data-part="' + p + '">' + p + '</button>'; }).join('');
-  if (mh) mh.innerHTML = MOVES.map(function (m) { return '<button class="chip" data-move="' + m + '">' + m + '</button>'; }).join('');
+  if (mh) mh.innerHTML = MOVES.map(function (m) { return '<button class="chip mv" data-move="' + m + '">' + m + '</button>'; }).join('');
+  if (mc) mc.innerHTML = '<button class="chip cond" data-move="' + MOVE_COND + '">' + MOVE_COND + '</button>';
+}
+
+/* ---------- 선택한 동작별 연관 테스트 카드 (2단계, 칩 바로 아래) ----------
+   각 동작의 고객 표현·하위 상황·연관 테스트를 보여 주고, 검사 버튼을 누르면
+   3단계 그 카드로 바로 가서 펼친다(모바일이면 3단계로 먼저 넘어간다 — openTestCard). */
+function moveLinkTests(info) {
+  return (info.tests || []).map(function (id) {
+    var t = testById(id);
+    if (!t) return '';
+    return '<button type="button" class="mvl-t' + (t.refOnly ? ' ref' : '') + '" data-act="movetest" data-id="' + esc(id) + '"' +
+      ' aria-label="' + esc(t.name + ' 검사 카드로 이동') + '">' + esc(t.name) +
+      (t.refOnly ? '<i>참고용</i>' : '') + '</button>';
+  }).join('');
+}
+function moveLinksHTML() {
+  var sel = (S.moves || []).filter(function (m) { return MOVE_CHIPS.indexOf(m) >= 0; });
+  if (!sel.length) return '';
+  var h = '<div class="mvl-head">선택한 동작별 연관 테스트</div>';
+  sel.forEach(function (m) {
+    var info = MOVE_INFO[m];
+    if (!info) return;
+    var cond = (m === MOVE_COND);
+    h += '<div class="mvl' + (cond ? ' cond' : '') + '">' +
+      '<div class="mvl-t"><b>' + esc(m) + '</b><span class="mvl-k">' + (cond ? '조건' : '동작') + '</span></div>' +
+      '<p class="mvl-say"><span>고객 표현</span>“' + esc(info.say) + '”</p>' +
+      '<div class="mvl-subs">' + (info.subs || []).map(function (s) { return '<span>' + esc(s) + '</span>'; }).join('') + '</div>' +
+      '<div class="mvl-btns">' + moveLinkTests(info) + '</div>' +
+      '<p class="mvl-note">검사 버튼을 누르면 3단계에서 그 검사가 펼쳐져요 · <b>참고용</b>은 확인된 연령대 규범이 없어 기록으로 비교해요</p>' +
+      '</div>';
+  });
+  return h;
+}
+function renderMoveLinks() {
+  var box = $('moveLinks');
+  if (!box) return;
+  var html = moveLinksHTML();
+  box.innerHTML = html;
+  box.hidden = !html;
 }
 
 /* ===================================================================
@@ -5355,6 +5984,7 @@ function renderChips() {
   Array.prototype.forEach.call(document.querySelectorAll('[data-move]'), function (el) {
     el.classList.toggle('on', S.moves.indexOf(el.getAttribute('data-move')) >= 0);
   });
+  renderMoveLinks();
 }
 function updateFab() {
   var fab = $('fab'), btn = $('fabBtn');
@@ -6023,6 +6653,12 @@ function normalizeClinicState() {
     if (BODY_BY_ID[id] && body.indexOf(id) < 0) body.push(id);
   });
   S.body = body;
+  var mv = [];
+  (Array.isArray(S.moves) ? S.moves : []).forEach(function (raw) {
+    var m = migMove(raw); /* 옛 동작 이름(앉기·걷기·달리기·한발 서기·점프)은 새 범주로 옮긴다 */
+    if (m && mv.indexOf(m) < 0) mv.push(m);
+  });
+  S.moves = mv;
   if (!PAIN_LABEL[S.pain]) S.pain = '';
   if (!IRR_LABEL[S.irrit]) S.irrit = '';
   if (!HV_LABEL[S.hv]) S.hv = '';
@@ -6056,7 +6692,7 @@ function normalizeClinicState() {
 
 function demoState() {
   S.sex = 'F'; S.age = '45'; S.height = '162'; S.weight = '56';
-  S.parts = ['무릎', '발목', '고관절', '허리', '전신']; S.moves = ['앉기', '한발 서기', '걷기'];
+  S.parts = ['무릎', '발목', '고관절', '허리', '전신']; S.moves = ['앉고 일어서기', '균형·착지', '걷고 달리기'];
   S.hiEnd = false; S.variant = { pushup: 'std', ybal: 'tape' }; S.open = {};
   S.view = 'rec'; S.cat = ''; S.tend = false;
   /* 임상 문진 예시(접힌 채로 한 줄 요약만 보임) */
@@ -6294,13 +6930,19 @@ function init() {
       renderChips(); renderAll(); saveState(); return;
     }
     if (el.hasAttribute('data-move')) {
-      var m = el.getAttribute('data-move');
+      var m = migMove(el.getAttribute('data-move'));
+      if (!m) return;
       S.tend = false;
       var j = S.moves.indexOf(m);
       if (j >= 0) S.moves.splice(j, 1); else S.moves.push(m);
       renderChips(); renderAll(); saveState(); return;
     }
     var act = el.getAttribute('data-act');
+    if (act === 'movetest') {
+      /* 동작별 연관 테스트 → 3단계 해당 검사 카드로 (모바일은 단계 전환까지 openTestCard가 처리) */
+      openTestCard(el.getAttribute('data-id'));
+      return;
+    }
     if (act === 'guide') {
       /* 카드 제목 옆 `?` — 카드 접힘을 건드리지 않고 가이드만 여닫는다 */
       if (ev.preventDefault) ev.preventDefault();
@@ -7485,6 +8127,9 @@ function reportSectionHTML(d) {
 /* ---------- 노출 ---------- */
 G.APP = {
   S: S, recommend: recommend, evaluateAll: evaluateAll, evalTest: evalTest,
+  /* 동작·조건 12범주 */
+  MOVES: MOVES, MOVE_COND: MOVE_COND, MOVE_CHIPS: MOVE_CHIPS, MOVE_INFO: MOVE_INFO, MOVE_LEGACY: MOVE_LEGACY,
+  migMove: migMove, moveLinksHTML: moveLinksHTML, renderMoveLinks: renderMoveLinks,
   renderTestsHTML: renderTestsHTML, renderResultsHTML: renderResultsHTML,
   clientText: clientText, resultText: resultText, renderSourcesHTML: renderSourcesHTML,
   findNorm: findNorm, normStat: normStat, bandIndex: bandIndex, BANDS5: BANDS5,
