@@ -581,6 +581,19 @@ h2.sec::after{content:"";flex:1;height:1px;background:var(--line)}
 .repf textarea{line-height:1.5;resize:vertical;min-height:56px}
 .repf input:focus,.repf textarea:focus{border-color:var(--brand);background:var(--card)}
 .repf input::placeholder,.repf textarea::placeholder{color:var(--muted);opacity:.6}
+/* 담당자 한마디 — 번호별 칸 */
+.memoslots{display:flex;flex-direction:column;gap:8px}
+.memoslot{display:flex;align-items:flex-start;gap:8px;min-width:0}
+.memonum{flex:0 0 auto;width:23px;height:23px;margin-top:8px;border-radius:50%;background:var(--brand);color:#fff;font-size:11.5px;font-weight:800;line-height:1;display:flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
+[data-theme="dark"] .memonum{color:#06201c}
+.memoslot textarea.memoin{flex:1 1 auto;width:auto;min-width:0;resize:none;overflow:hidden;min-height:46px;padding:10px 12px;line-height:1.5}
+.memodel{flex:0 0 auto;width:31px;height:31px;margin-top:7px;border:1px solid var(--line);border-radius:50%;background:var(--chip);color:var(--muted);font:inherit;font-size:16px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.memodel:hover,.memodel:focus-visible{color:#b42318;border-color:color-mix(in srgb,#b42318 45%,var(--line));background:var(--card)}
+.memodel.is-idle{opacity:.45}
+.memoadd{display:inline-flex;align-items:center;gap:4px;margin:9px 0 0 31px;border:1px dashed var(--line);border-radius:10px;background:transparent;color:var(--brand-2);font:inherit;font-size:12.5px;font-weight:700;padding:7px 12px;cursor:pointer}
+.memoadd:hover,.memoadd:focus-visible{border-color:var(--brand);background:var(--chip)}
+@media (max-width:430px){.memoadd{margin-left:0}}
+@media print{.memofield,.memoslots,.memoadd{display:none!important}}
 .repbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
 .repbtns .btn{margin-top:0;font-size:13.5px;padding:10px 14px}
 .repprev{margin:14px 0 0;border:1px solid var(--line);border-radius:var(--r);background:var(--card);box-shadow:var(--shadow);padding:14px}
@@ -632,6 +645,9 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
 .pub-link{display:inline-flex;align-items:center;gap:5px;font-size:12.3px;font-weight:600;letter-spacing:-.01em;color:var(--brand-2);text-decoration:none;background:var(--card);border:1px solid color-mix(in srgb,var(--brand) 28%,var(--line));border-radius:99px;padding:6px 12px;white-space:nowrap;transition:background .15s}
 /* 오픈채팅 — 피드백 창구라 살짝 강조(테마 색만 써서 라이트·다크·인쇄 모두 안전) */
 .pub-link.pub-talk{background:var(--soft);border-color:color-mix(in srgb,var(--brand) 42%,var(--line));font-weight:700}
+/* 제보·개선 의견 구글 폼 — 오픈채팅 옆에서 같은 알약 모양, 점선 테두리로만 구분 */
+.pub-link.pub-form{border-style:dashed;border-color:color-mix(in srgb,var(--brand) 34%,var(--line))}
+.pub-link.pub-form:hover{background:var(--soft);border-style:solid}
 .pub-link:hover{background:var(--soft)}
 .pub-link:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 .pub-notes{margin:11px 0 0;padding:0;list-style:none;display:grid;gap:5px;font-size:12px;line-height:1.55;color:var(--muted)}
@@ -964,6 +980,7 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
           <a class="pub-link" href="https://blog.naver.com/pt-lsj" target="_blank" rel="noopener">블로그 · 물리치료사 이성재</a>
           <a class="pub-link" href="https://www.instagram.com/delight_s_jae/" target="_blank" rel="noopener">인스타 · @delight_s_jae</a>
           <a class="pub-link pub-talk" href="https://open.kakao.com/o/gzNdrMYi" target="_blank" rel="noopener">오픈채팅 · 피드백·소통</a>
+          <a class="pub-link pub-form" href="https://docs.google.com/forms/d/e/1FAIpQLSfi-pw8PiD__ac4vH2FRhzCnU1potP-Tqbdg-jUwznxffuqxw/viewform" target="_blank" rel="noopener">개선 의견 · 오류 제보</a>
         </div>
       </div>
       <ul class="pub-notes">
@@ -4173,11 +4190,11 @@ function clientText() {
   lines.push('');
   lines.push('숫자는 지금 위치를 알려 주는 지도예요. 낮게 보이는 항목은 출발점일 뿐이고, 같은 방법으로 다시 재면 변화가 그대로 보입니다. 다음 재평가 때 오늘 기록과 나란히 놓고 같이 확인해요.');
   if (memo) {
-    var mp = memoParas(memo);
-    if (!mp.length) mp = [memo];
+    var ml = memoLines(memo);
+    if (!ml.length) ml = [memo];
     lines.push('');
-    lines.push('담당자 한마디: ' + mp[0]);
-    for (var mi0 = 1; mi0 < mp.length; mi0++) lines.push(mp[mi0]);
+    lines.push('담당자 한마디: ' + ml[0]);
+    for (var mi0 = 1; mi0 < ml.length; mi0++) lines.push(ml[mi0]);
   }
   var homet = hometSegments();
   if (homet.length) {
@@ -4548,7 +4565,7 @@ function normalizeDB(o) {
       };
       var cl0 = cleanClinic(r.clinic);
       if (cl0) rec.clinic = cl0;
-      var rmm = cleanField(r.memo, 400);
+      var rmm = cleanField(r.memo, MEMO_MAX);
       if (rmm) rec.memo = rmm;
       var rhm = cleanField(r.homet, 400);
       if (rhm) rec.homet = rhm;
@@ -4596,7 +4613,7 @@ function upsertClientRecord(db, name, profile, values, date, savedAt, clinic, me
   var cln = cleanClinic(clinic);
   if (cln) rec.clinic = cln;
   /* 담당자 한마디·오늘의 관리·홈트 포인트는 회원 기록에만(센터명 pne_center에는 넣지 않는다) */
-  var mm = cleanField(memo, 400);
+  var mm = cleanField(memo, MEMO_MAX);
   if (mm) rec.memo = mm;
   var hm = cleanField(homet, 400);
   if (hm) rec.homet = hm;
@@ -5111,6 +5128,7 @@ function renderAll() {
   clearReportPreview();
   $('testList').innerHTML = renderTestsHTML();
   $('results').innerHTML = renderResultsHTML();
+  memoGrowAll();
   renderProfile();
   renderChips();
   renderPartPicker();
@@ -5125,6 +5143,7 @@ function renderResultsSoon() {
     tId = null;
     clearReportPreview();
     $('results').innerHTML = renderResultsHTML();
+    memoGrowAll();
     updateFab();
     syncReportHeader();
   }, 120);
@@ -5394,7 +5413,7 @@ function gsPutRecord(db, name, rec) {
   };
   var c = cleanClinic(rec.clinic);
   if (c) r.clinic = c;
-  var mm = cleanField(rec.memo, 400);
+  var mm = cleanField(rec.memo, MEMO_MAX);
   if (mm) r.memo = mm;
   var hm = cleanField(rec.homet, 400);
   if (hm) r.homet = hm;
@@ -6151,6 +6170,8 @@ function init() {
     }
     if (act === 'copy') { copyText(clientText()); return; }
     if (act === 'copy2') { copyText(resultText()); return; }
+    if (act === 'memo-add') { memoAddSlot(-1); return; }
+    if (act === 'memo-del') { memoDelSlot(parseInt(el.getAttribute('data-slot'), 10)); return; }
     if (act === 'rep-preview') { showReportPreview(); return; }
     if (act === 'rep-save') {
       if (!downloadReport()) alert('이 브라우저에서는 이미지 저장이 막혔어요. 미리보기를 길게 눌러 저장해 주세요.');
@@ -6187,6 +6208,29 @@ function init() {
       }
       renderResultsSoon();
       saveState();
+      return;
+    }
+    /* 담당자 한마디 — 번호별 칸. 칸 하나가 항목 하나이고 저장은 `S.memo` 문자열 하나 */
+    var msi = el.getAttribute('data-memo-slot');
+    if (msi !== null && msi !== undefined) {
+      var mi = parseInt(msi, 10);
+      if (!isFinite(mi) || mi < 0) mi = 0;
+      var arrM = memoSlotValues();
+      if (arrM === null) arrM = memoItems(S.memo);
+      while (arrM.length <= mi) arrM.push('');
+      var valM = String(el.value === undefined || el.value === null ? '' : el.value);
+      var partsM = valM.replace(/\r\n?/g, '\n').split('\n');
+      if (partsM.length > 1) { /* 여러 줄을 붙여 넣으면 줄마다 칸으로 나눈다 */
+        arrM[mi] = partsM[0];
+        for (var pj = 1; pj < partsM.length; pj++) arrM.splice(mi + pj, 0, partsM[pj]);
+        renderMemoSlots(arrM);
+        memoFocusSlot(mi + partsM.length - 1, true);
+      } else {
+        arrM[mi] = valM;
+        S.memo = memoJoin(arrM);
+        memoGrow(el);
+        memoAfterChange();
+      }
       return;
     }
     /* 레포트 머리글 입력 — 결과를 다시 그리지 않아 입력 초점을 빼앗지 않는다 */
@@ -6262,6 +6306,14 @@ function init() {
   /* 몸 그림 부위는 키보드(Enter·Space)로도 고를 수 있게 */
   document.addEventListener('keydown', function (ev) {
     var el = ev.target;
+    /* 담당자 한마디 칸 — Enter는 다음 칸, Shift+Enter는 칸 안 줄바꿈 */
+    var mk = (el && el.getAttribute) ? el.getAttribute('data-memo-slot') : null;
+    if (mk !== null && mk !== undefined) {
+      if (ev.key !== 'Enter' || ev.shiftKey || ev.ctrlKey || ev.altKey || ev.metaKey || ev.isComposing || ev.keyCode === 229) return;
+      if (ev.preventDefault) ev.preventDefault();
+      memoEnterSplit(mk, el);
+      return;
+    }
     if (!el || !el.hasAttribute || !el.hasAttribute('data-region')) return;
     if (ev.key !== 'Enter' && ev.key !== ' ' && ev.key !== 'Spacebar') return;
     if (ev.preventDefault) ev.preventDefault();
@@ -6383,6 +6435,47 @@ function memoParas(src) {
     });
   });
   return out;
+}
+/* ---------- 담당자 한마디 — 번호별 칸 ----------
+   화면에서는 항목마다 번호 배지가 붙은 칸으로 나눠 적고, 저장되는 `S.memo`는 그 항목들을
+   줄바꿈으로 이은 문자열 하나다(기존 기록·구글 시트와 같은 형식). */
+var MEMO_MAX = 1200; /* 한마디 저장 한도(칸 여러 개 합계) */
+/* 문단 맨 앞에 붙은 번호(`1)`, `1.`, `①`)를 떼어 낸다 — 칸이 이미 순서를 보여 주므로 중복을 막는다 */
+function memoStripNum(s) {
+  var t = String(s === undefined || s === null ? '' : s).replace(/^ +/, '');
+  var m = t.match(/^(?:(\d{1,2})\)|([①-⑳])|(\d{1,2})\.(?!\d))\s*/);
+  return m ? t.slice(m[0].length) : t;
+}
+/* 한마디 문자열 → 칸에 들어갈 항목 목록(번호 제거, 빈 항목 없음) */
+function memoItems(src) {
+  var out = [];
+  memoParas(src).forEach(function (p) {
+    var t = memoStripNum(p).replace(/^ +| +$/g, '');
+    if (t) out.push(t);
+  });
+  return out;
+}
+/* 칸 목록 → 저장 문자열. 항목은 줄바꿈으로 잇고, 칸 안에서 누른 Enter는 공백으로 눌러 한 항목으로 둔다. */
+function memoJoin(arr) {
+  var out = [];
+  (arr || []).forEach(function (v) {
+    var t = String(v === undefined || v === null ? '' : v).replace(/\r\n?/g, '\n')
+      .replace(/\s*\n\s*/g, ' ').replace(/[ \t]+/g, ' ').replace(/^ +| +$/g, '');
+    if (t) out.push(t);
+  });
+  return out.join('\n');
+}
+/* 레포트에 그릴 항목 — 두 항목 이상이면 `1.` `2.` 번호를 붙이고, 한 항목이면 번호 없이 자연스럽게 */
+function memoLines(src) {
+  var items = memoItems(src);
+  var num = items.length >= 2;
+  return items.map(function (t, i) { return (num ? (i + 1) + '. ' : '') + t; });
+}
+/* Canvas용 — 항목 본문과 번호를 따로 그려 번호 뒤로 줄을 맞춘다 */
+function memoNumbered(src) {
+  var items = memoItems(src);
+  var num = items.length >= 2;
+  return items.map(function (t, i) { return { n: num ? i + 1 : 0, t: t }; });
 }
 function hometSegments(src) {
   var raw = String(src === undefined || src === null ? hometText() : src).replace(/\r/g, '');
@@ -6727,28 +6820,31 @@ function planReport(d, measure) {
     y += cardH;
   });
 
-  /* 6) 담당자 한마디 — 줄바꿈·번호 항목마다 문단으로 나눠 그리고, 문단 사이는 띄운다 */
+  /* 6) 담당자 한마디 — 항목마다 번호를 달고 문단으로 나눠 그리고, 항목 사이는 띄운다 */
   if (d.memo) {
     y += 28;
     var mF = repFont(28, 500), mMax = CW - 60;
-    var mParas = memoParas(d.memo), mBlocks = [];
-    mParas.forEach(function (p) {
-      var ls = wrapText(measure, p, mF, mMax);
-      if (ls.length) mBlocks.push(ls);
+    var mItems = memoNumbered(d.memo), mBlocks = [];
+    var mNumW = (mItems.length >= 2) ? measure('00. ', mF) : 0;
+    mItems.forEach(function (it) {
+      var ls = wrapText(measure, it.t, mF, mMax - mNumW);
+      if (ls.length) mBlocks.push({ n: it.n, ls: ls });
     });
-    if (!mBlocks.length) mBlocks = [['']];
+    if (!mBlocks.length) mBlocks = [{ n: 0, ls: [''] }];
     var boxTop = y;
     var labBase = boxTop + 46;
     var mY = labBase + 46, mSeq = [];
-    mBlocks.forEach(function (ls, bi) {
-      if (bi > 0) mY += 14; /* 문단 사이 여백 */
-      for (var li = 0; li < ls.length; li++) { mSeq.push({ s: ls[li], y: mY }); mY += 40; }
+    mBlocks.forEach(function (b, bi) {
+      if (bi > 0) mY += 16; /* 항목 사이 여백 */
+      var startY = mY;
+      for (var li = 0; li < b.ls.length; li++) { mSeq.push({ s: b.ls[li], y: mY, x: PAD + 30 + mNumW, color: REP.ink }); mY += 40; }
+      if (b.n) mSeq.push({ s: b.n + '.', y: startY, x: PAD + 30 + mNumW - 10, color: REP.brand2, align: 'right' });
     });
     var boxH = (mY - 40 - boxTop) + 34;
     ops.push({ k: 'rrect', x: PAD, y: boxTop, w: CW, h: boxH, r: 24, fill: REP.soft });
     ops.push({ k: 'text', x: PAD + 30, y: labBase, s: '담당자 한마디', font: repFont(23, 700), color: REP.brand2 });
     for (var mi = 0; mi < mSeq.length; mi++) {
-      ops.push({ k: 'text', x: PAD + 30, y: mSeq[mi].y, s: mSeq[mi].s, font: mF, color: REP.ink });
+      ops.push({ k: 'text', x: mSeq[mi].x, y: mSeq[mi].y, s: mSeq[mi].s, font: mF, color: mSeq[mi].color, align: mSeq[mi].align });
     }
     y = boxTop + boxH;
   }
@@ -6945,8 +7041,8 @@ function syncReportHeader() {
   put('phName', memberTitle());
   put('phMeta', peopleText());
   var memo = String(S.memo === undefined || S.memo === null ? '' : S.memo).trim();
-  /* 한마디는 줄바꿈·번호 항목마다 문단으로 나눠 넣는다(문단 사이는 빈 줄 — CSS white-space:pre-line) */
-  put('phMemoText', memoParas(memo).join('\n\n'));
+  /* 한마디는 항목마다 번호를 달고 문단으로 나눠 넣는다(문단 사이는 빈 줄 — CSS white-space:pre-line) */
+  put('phMemoText', memoLines(memo).join('\n\n'));
   var pm = document.getElementById('phMemo');
   if (pm && pm.setAttribute) pm.setAttribute('data-on', memo ? '1' : '0');
   /* 오늘의 관리·홈트 포인트 — 입력했을 때만 인쇄 머리말에 */
@@ -6974,6 +7070,126 @@ function syncReportHeader() {
   rowOn('phcPlanRow', cr.plans.length > 0);
 }
 
+/* ---------- 담당자 한마디 — 번호별 칸 (화면) ---------- */
+function memoSlotBox() {
+  if (typeof document === 'undefined' || !document.getElementById) return null;
+  return document.getElementById('memoSlots');
+}
+/* 지금 화면에 있는 칸들의 값(위→아래). 칸이 없으면 null */
+function memoSlotValues() {
+  var box = memoSlotBox();
+  if (!box || !box.querySelectorAll) return null;
+  var els = box.querySelectorAll('[data-memo-slot]');
+  if (!els || !els.length) return null;
+  var out = [];
+  for (var i = 0; i < els.length; i++) out.push(els[i].value === undefined ? '' : String(els[i].value));
+  return out;
+}
+function memoSlotRowHTML(i, val) {
+  var n = i + 1, v = String(val === undefined || val === null ? '' : val);
+  var ph = i === 0 ? '예: 오른쪽 엉덩이 안정성 강화 4주' : '이어서 적기';
+  return '<div class="memoslot" data-memoslot="' + i + '">' +
+    '<span class="memonum" aria-hidden="true">' + n + '</span>' +
+    '<textarea class="memoin" data-rep="memo" data-memo-slot="' + i + '" rows="1" placeholder="' + esc(ph) +
+    '" aria-label="담당자 한마디 ' + n + '번" autocomplete="off">' + esc(v) + '</textarea>' +
+    '<button type="button" class="memodel' + (i === 0 && !v ? ' is-idle' : '') + '" data-act="memo-del" data-slot="' + i +
+    '" aria-label="담당자 한마디 ' + n + '번 칸 비우기" title="이 칸 비우기">×</button>' +
+    '</div>';
+}
+function memoSlotsHTML() {
+  var items = memoItems(S.memo);
+  if (!items.length) items = [''];
+  return items.map(function (v, i) { return memoSlotRowHTML(i, v); }).join('');
+}
+/* 칸 높이를 내용에 맞춘다 */
+function memoGrow(el) {
+  if (!el || !el.style || el.scrollHeight === undefined) return;
+  el.style.height = 'auto';
+  var h = el.scrollHeight;
+  if (!h) return;
+  el.style.height = Math.max(46, Math.min(h, 320)) + 'px';
+}
+function memoGrowAll() {
+  var box = memoSlotBox();
+  if (!box || !box.querySelectorAll) return;
+  var els = box.querySelectorAll('[data-memo-slot]');
+  for (var i = 0; els && i < els.length; i++) memoGrow(els[i]);
+}
+/* 칸을 다시 그리고(번호 배지·삭제 버튼 번호까지) 상태를 맞춘다 */
+function renderMemoSlots(arr) {
+  var list = (arr && arr.length) ? arr : [''];
+  S.memo = memoJoin(list);
+  var box = memoSlotBox();
+  if (box && box.innerHTML !== undefined) {
+    box.innerHTML = list.map(function (v, i) { return memoSlotRowHTML(i, v); }).join('');
+    memoGrowAll();
+  }
+  memoAfterChange();
+}
+function memoFocusSlot(i, atEnd) {
+  var box = memoSlotBox();
+  if (!box || !box.querySelectorAll) return;
+  var els = box.querySelectorAll('[data-memo-slot]');
+  var el = els && els[i];
+  if (!el) return;
+  if (el.focus) el.focus();
+  if (el.setSelectionRange) {
+    var p = atEnd ? String(el.value || '').length : 0;
+    try { el.setSelectionRange(p, p); } catch (e) {}
+  }
+}
+/* 한마디를 고친 뒤 인쇄 머리말·설명문·미리보기를 함께 맞춘다 */
+function memoAfterChange() {
+  syncReportHeader();
+  var ct = $('clientText');
+  if (ct && ct.textContent !== undefined) ct.textContent = clientText();
+  clearReportPreview();
+}
+function memoAddSlot(afterIndex, text) {
+  var arr = memoSlotValues();
+  if (arr === null) arr = memoItems(S.memo);
+  var i = (typeof afterIndex === 'number' && afterIndex >= 0) ? afterIndex + 1 : arr.length;
+  if (i > arr.length) i = arr.length;
+  arr.splice(i, 0, String(text === undefined || text === null ? '' : text));
+  renderMemoSlots(arr);
+  memoFocusSlot(i, true);
+}
+function memoDelSlot(i) {
+  var arr = memoSlotValues();
+  if (arr === null) arr = memoItems(S.memo);
+  if (!arr.length) arr = [''];
+  if (arr.length <= 1) arr = [''];  /* 마지막 한 칸은 지우지 않고 비운다 */
+  else arr.splice(Math.max(0, Math.min(i, arr.length - 1)), 1);
+  renderMemoSlots(arr);
+  memoFocusSlot(Math.min(i, arr.length - 1), true);
+}
+/* 칸 안에서 Enter — 커서 뒤 글은 다음 칸으로 넘기고, 끝에서 누르면 새 칸을 연다.
+   한글 조합 중(IME)의 Enter는 조합 확정이므로 건드리지 않는다. */
+function memoEnterSplit(idx, el) {
+  var i = parseInt(idx, 10);
+  if (!isFinite(i) || i < 0) i = 0;
+  var arr = memoSlotValues() || [String(el && el.value === undefined ? '' : (el && el.value) || '')];
+  while (arr.length <= i) arr.push('');
+  var val = String(el && el.value !== undefined && el.value !== null ? el.value : arr[i]);
+  var pos = (el && typeof el.selectionStart === 'number') ? el.selectionStart : val.length;
+  var before = val.slice(0, pos).replace(/ +$/, '');
+  var after = val.slice(pos).replace(/^ +/, '');
+  arr[i] = before;
+  if (after) {
+    arr.splice(i + 1, 0, after);
+    renderMemoSlots(arr);
+    memoFocusSlot(i + 1, false);
+  } else if (i + 1 < arr.length) {
+    S.memo = memoJoin(arr);
+    memoAfterChange();
+    memoFocusSlot(i + 1, true);
+  } else {
+    arr.push('');
+    renderMemoSlots(arr);
+    memoFocusSlot(i + 1, true);
+  }
+}
+
 /* 결과 영역 안의 '회원용 레포트 보내기' 블록 */
 function reportSectionHTML(d) {
   if (!d || !d.items.length) return '';
@@ -6986,7 +7202,9 @@ function reportSectionHTML(d) {
   h += '<label class="repf"><span>회원 이름</span><input type="text" data-rep="member" value="' + esc(S.member || '') + '" placeholder="예: 김OO" autocomplete="off"></label>';
   h += '<label class="repf"><span>센터 · 담당자명 <em>다음에도 유지</em></span><input type="text" data-rep="center" value="' + esc(S.center || '') + '" placeholder="예: 피지오스튜디오 · 이성재 선생님" autocomplete="off"></label>';
   h += '</div>';
-  h += '<label class="repf wide"><span>담당자 한마디 <em>선택 · Enter·1) 2) 번호마다 문단</em></span><textarea data-rep="memo" rows="2" placeholder="예: 1) 오른쪽 엉덩이 안정성 강화 4주  2) 러닝은 4km로 조정">' + esc(S.memo || '') + '</textarea></label>';
+  h += '<div class="repf wide memofield"><span>담당자 한마디 <em>선택 · 칸마다 한 문단</em></span>' +
+    '<div class="memoslots" id="memoSlots">' + memoSlotsHTML() + '</div>' +
+    '<button type="button" class="memoadd" data-act="memo-add">+ 항목 추가</button></div>';
   h += '<label class="repf wide"><span>오늘의 관리 · 홈트 포인트 <em>선택</em></span><textarea data-rep="homet" rows="3" placeholder="예: 1) 종아리 등척성 버티기 30초×3세트  2) 무릎 안쪽 모임 주의">' + esc(S.homet || '') + '</textarea></label>';
   h += '<div class="repbtns">';
   h += '<button class="btn" data-act="rep-preview">레포트 미리보기</button>';
@@ -7044,6 +7262,9 @@ G.APP = {
   changeSummary: changeSummary, changeHTML: changeHTML, changeLabel: changeLabel,
   hometText: hometText, hometSegments: hometSegments,
   memoParas: memoParas, splitNumberedLine: splitNumberedLine,
+  memoItems: memoItems, memoLines: memoLines, memoNumbered: memoNumbered, memoJoin: memoJoin,
+  memoStripNum: memoStripNum, MEMO_MAX: MEMO_MAX, memoSlotsHTML: memoSlotsHTML, memoSlotValues: memoSlotValues,
+  renderMemoSlots: renderMemoSlots, memoAddSlot: memoAddSlot, memoDelSlot: memoDelSlot, memoEnterSplit: memoEnterSplit,
   /* 루틴 세트 */
   BUILTIN_SETS: BUILTIN_SETS, presetList: presetList, findPreset: findPreset, routineTests: routineTests,
   applyRoutine: applyRoutine, clearRoutine: clearRoutine, routineBar: routineBar,
