@@ -927,8 +927,8 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
 .mvl{padding:8px 9px 9px;border:1px solid var(--line);border-radius:11px;background:var(--chip);margin:0 0 8px}
 .mvl:last-child{margin-bottom:0}
 .mvl.cond{background:var(--soft);border-color:color-mix(in srgb,var(--brand) 35%,var(--line))}
-.mvl-t{display:flex;align-items:center;gap:7px;margin:0 0 3px}
-.mvl-t b{font-size:13.5px;color:var(--ink)}
+.mvl-h{display:flex;align-items:center;gap:7px;margin:0 0 3px}
+.mvl-h b{font-size:13.5px;color:var(--ink)}
 .mvl-k{font-size:10px;font-weight:800;color:var(--brand-2);background:var(--card);border:1px solid color-mix(in srgb,var(--brand) 35%,var(--line));border-radius:999px;padding:1px 7px}
 .mvl-say{margin:0 0 6px;font-size:12.2px;color:var(--ink);line-height:1.45;word-break:keep-all}
 .mvl-say span{display:inline-block;font-size:10px;font-weight:800;color:var(--muted);background:var(--card);border-radius:5px;padding:1px 5px;margin-right:4px;vertical-align:1px}
@@ -5558,7 +5558,7 @@ function moveLinksHTML() {
     if (!info) return;
     var cond = (m === MOVE_COND);
     h += '<div class="mvl' + (cond ? ' cond' : '') + '">' +
-      '<div class="mvl-t"><b>' + esc(m) + '</b><span class="mvl-k">' + (cond ? '조건' : '동작') + '</span></div>' +
+      '<div class="mvl-h"><b>' + esc(m) + '</b><span class="mvl-k">' + (cond ? '조건' : '동작') + '</span></div>' +
       '<p class="mvl-say"><span>고객 표현</span>“' + esc(info.say) + '”</p>' +
       '<div class="mvl-subs">' + (info.subs || []).map(function (s) { return '<span>' + esc(s) + '</span>'; }).join('') + '</div>' +
       '<div class="mvl-btns">' + moveLinkTests(info) + '</div>' +
