@@ -3705,12 +3705,18 @@ function onSwipeMove(ev) {
   el.style.transform = 'translateX(' + px.toFixed(1) + 'px)';
   if (el.classList) el.classList.add('swiping');
 }
-function onSwipeEnd() {
+function onSwipeEnd(ev) {
   var st = SWI;
   SWI = null;
   if (!st) return;
+  /* 빠른 플릭은 중간 touchmove가 합쳐져 마지막 위치가 손을 뗀 자리와 다를 수 있다 */
+  if (ev && ev.changedTouches && ev.changedTouches.length === 1) {
+    var c = ev.changedTouches[0];
+    var ex = c.clientX - st.x, ey = c.clientY - st.y;
+    if (Math.abs(ex) >= Math.abs(st.dx || 0)) { st.dx = ex; st.dy = ey; }
+  }
   var el = st.el, dx = st.dx || 0, dy = st.dy || 0;
-  var far = st.lock && Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5;
+  var far = Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5;
   var to = !far ? 0 : (dx < 0 ? STEP + 1 : STEP - 1);
   if (to >= 1 && to <= STEP_MAX) {
     if (el && el.style) { el.style.transition = ''; el.style.transform = ''; }
