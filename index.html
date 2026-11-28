@@ -177,6 +177,17 @@ header.top p{margin:4px 0 0;color:var(--muted);font-size:13.5px}
 .painseg button.on,.irrseg button.on{background:var(--brand);color:#fff}
 [data-theme="dark"] .painseg button.on,[data-theme="dark"] .irrseg button.on{color:#06201c}
 .clinic-hint{margin:7px 0 0;font-size:11.2px;color:var(--muted);line-height:1.45;word-break:keep-all}
+/* 통증 시간·추세 · 특수 증상 컴팩트 칩(v28) — 줄마다 라벨 + 칩 */
+.cp-rows{display:flex;flex-direction:column;gap:5px}
+.cp-row{display:flex;align-items:flex-start;gap:6px}
+.cp-lbl{flex:0 0 42px;font-size:10.4px;font-weight:700;color:var(--muted);padding-top:6px;letter-spacing:-.01em}
+.cp-chips{display:flex;flex-wrap:wrap;gap:4px;flex:1 1 auto;min-width:0}
+.cpchip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 9px;font:inherit;font-size:11.4px;font-weight:600;cursor:pointer;line-height:1.2;min-height:27px}
+.cpchip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+[data-theme="dark"] .cpchip.on{color:#06201c}
+.cpchip:active{transform:scale(.98)}
+.cp-special{margin-top:1px}
+.clinic-hint#specialHint{color:var(--brand-2);font-weight:600}
 .clinic-more{margin:11px 0 0;border-top:1px dashed var(--line);padding-top:10px}
 .clinic-more summary{cursor:pointer;font-size:11.8px;font-weight:600;color:var(--muted);list-style:none;display:flex;align-items:center;gap:5px}
 .clinic-more summary::-webkit-details-marker{display:none}
@@ -1229,7 +1240,7 @@ html.umodal{overflow:hidden}
           <span class="cb-ic" aria-hidden="true">🩺</span>
           <span class="cb-t" id="clinicTitle">임상 문진 · 통증 양상</span>
           <span class="cb-ar" aria-hidden="true">▾</span>
-          <span class="cb-sum" id="clinicState">통증 타입·과민성·메모</span>
+          <span class="cb-sum" id="clinicState">통증 타입·과민성·시간/추세·특수 증상</span>
         </button>
         <div class="clinic-body" id="clinicPanel" hidden></div>
       </div>
@@ -3546,6 +3557,8 @@ var S = {
   routine: '', /* 지금 고른 루틴 세트(빈 값이면 일반 보기) */
   /* 임상 문진 · Body Chart(치료사 기록 — 회원 기록과 함께 저장) */
   body: [], pain: '', irrit: '',
+  /* 통증 양상(APPI 차트 차용, v28) — 지속성·24시간 패턴·경과 추세·특수 증상 */
+  cont: '', timePat: [], trend: '', special: [],
   /* 신경학적 선별(통증 타입이 신경병증성·혼합일 때만 화면에 보임) — 체크 = 이상 소견 */
   neuro: { sens: false, motor: false, reflex: false, tension: false, memo: '' },
   pqrst: { p: '', q: '', r: '', s: '', t: '' },
@@ -3683,13 +3696,28 @@ var PAIN_HINT = {
   neuropathic: '저림·화끈거림·방사통이 특징이에요. 신경학적 선별을 먼저 확인해요.',
   mixed: '여러 양상이 섞여 있어요. 부하 반응과 신경 증상을 함께 기록해요.'
 };
-var IRR_LABEL = { low: '낮음', moderate: '중간', high: '높음' };
+/* 과민성(Irritability) — 칩에 시간 기준을 함께 적는다(APPI 차트 차용, v28).
+   내부 값은 low/mid/high. 예전 기록의 'moderate'는 'mid'로 옮겨 읽는다(IRR_LEGACY). */
+var IRR_LABEL = { low: '낮음', mid: '중간', high: '높음' };
+var IRR_TIME = { low: '<1분', mid: '<5분', high: '10분+' };
+var IRR_LEGACY = { moderate: 'mid' };
+function normIrrit(v) { v = IRR_LEGACY[v] || v; return IRR_LABEL[v] ? v : ''; }
 var IRR_HINT = {
-  '': '증상이 가라앉는 시간과 일상 제한 정도로 판단해요.',
-  low: '가벼운 동작 후 24시간 안에 가라앉고, 일상 동작을 거의 제한하지 않아요.',
-  moderate: '증상이 몇 시간~하루 남고, 일부 동작을 피하게 돼요.',
-  high: '가벼운 동작에도 증상이 오래 남고, 일상이 크게 제한돼요.'
+  '': '괄호의 시간은 움직인 뒤 증상이 가라앉기까지 걸리는 시간이에요. 얼마나 빨리 가라앉고 일상이 얼마나 제한되는지로 판단해요.',
+  low: '1분 안에 가라앉고, 일상 동작을 거의 제한하지 않아요.',
+  mid: '5분 안에 가라앉고, 일부 동작을 피하게 돼요.',
+  high: '10분이 넘게 남거나 가벼운 동작에도 증상이 오래 지속돼요.'
 };
+/* 통증 시간·추세 — 지속성(택1) · 24시간 패턴(복수) · 경과 추세(택1) */
+var CONT_LABEL = { cont: '지속적', intermit: '간헐적' };
+var TIMEPAT_ITEMS = [['morning', '아침 강직'], ['day', '낮'], ['evening', '오후·저녁'], ['night', '야간통'], ['walk', '보행 시']];
+var TREND_LABEL = { better: '나아지는 중', same: '비슷함', worse: '심해지는 중' };
+/* 특수 증상 5종(복수 선택) — 잠김·힘빠짐은 반월판·불안정성, 야간통+지속적은 염증성 적신호 선별 참고 */
+var SPECIAL_ITEMS = [['lock', '잠김', 'Locking'], ['give', '힘빠짐', 'Giving way'], ['click', '딸깍 소리', ''], ['sharp', '찌르는 느낌', ''], ['full', '먹먹함', '']];
+var SPECIAL_LABEL = {};
+SPECIAL_ITEMS.forEach(function (x) { SPECIAL_LABEL[x[0]] = x[1]; });
+var PAT_KEYS = {};
+TIMEPAT_ITEMS.forEach(function (x) { PAT_KEYS[x[0]] = true; });
 /* 회원용 레포트에서는 어려운 영문·전문 용어를 쉬운 말로 바꾼다 */
 var PAIN_EASY = {
   nociceptive: '국소적이고 움직임·부하에 비례해 나타나는 통증이에요',
@@ -3697,8 +3725,8 @@ var PAIN_EASY = {
   mixed: '여러 양상이 섞여 있는 통증이에요'
 };
 var IRR_EASY = {
-  low: '낮음 — 하루 안에 가라앉고 일상 동작은 거의 그대로 해요',
-  moderate: '중간 — 몇 시간에서 하루 정도 남고, 일부 동작은 피하게 돼요',
+  low: '낮음 — 1분 안에 가라앉고 일상 동작은 거의 그대로 해요',
+  mid: '중간 — 5분 안에 가라앉고, 일부 동작은 피하게 돼요',
   high: '높음 — 무리한 점프보다 저부하 안정화 운동부터 시작해요'
 };
 /* 신경학적 선별 — 통증 타입이 Neuropathic·혼합·불명확일 때만 임상 문진 패널에 펼친다.
@@ -4285,6 +4313,7 @@ function loadCounts(list) {
 function clinicHasData() {
   if (!S) return false;
   if ((S.body || []).length || S.pain || S.irrit) return true;
+  if (S.cont || S.trend || (S.timePat || []).length || (S.special || []).length) return true;
   if (neuroHasData()) return true;
   if (cleanSymList(S.sym).length) return true;
   var i, keys = ['p', 'q', 'r', 's', 't'];
@@ -4314,6 +4343,7 @@ function clinicSummary() {
 function clinicState() {
   return {
     body: (S.body || []).slice(), pain: S.pain || '', irrit: S.irrit || '',
+    cont: S.cont || '', timePat: (S.timePat || []).slice(), trend: S.trend || '', special: (S.special || []).slice(),
     neuro: {
       sens: !!neuroOf().sens, motor: !!neuroOf().motor, reflex: !!neuroOf().reflex,
       tension: !!neuroOf().tension, memo: neuroOf().memo || ''
@@ -4333,6 +4363,13 @@ function cleanField(v, max) {
 /* 저장된·가져온 임상 기록의 부위 id를 지금 정의로 옮긴다(예전 '등'은 흉추로) */
 var BODY_ID_ALIAS = { back_upper: 'thorax' };
 function migBodyId(id) { return BODY_ID_ALIAS[id] || id; }
+/* 저장된 칩 선택을 지금 정의에 있는 값만 남긴다(복수 선택은 순서·중복 정리) */
+function cleanPick(v, map) { return (typeof v === 'string' && Object.prototype.hasOwnProperty.call(map, v)) ? v : ''; }
+function cleanKeyList(v, map) {
+  var out = [];
+  (Array.isArray(v) ? v : []).forEach(function (x) { if (typeof x === 'string' && Object.prototype.hasOwnProperty.call(map, x) && out.indexOf(x) < 0) out.push(x); });
+  return out;
+}
 /* 저장된·가져온 임상 기록을 걸러 낸다. 아무 내용도 없으면 null */
 function cleanClinic(o) {
   if (!o || typeof o !== 'object') return null;
@@ -4342,7 +4379,11 @@ function cleanClinic(o) {
     if (BODY_BY_ID[id] && body.indexOf(id) < 0) body.push(id);
   });
   var pain = (o.pain === 'nociceptive' || o.pain === 'neuropathic' || o.pain === 'mixed') ? o.pain : '';
-  var irrit = (o.irrit === 'low' || o.irrit === 'moderate' || o.irrit === 'high') ? o.irrit : '';
+  var irrit = normIrrit(o.irrit);
+  var cont = cleanPick(o.cont, CONT_LABEL);
+  var timePat = cleanKeyList(o.timePat, PAT_KEYS);
+  var trend = cleanPick(o.trend, TREND_LABEL);
+  var special = cleanKeyList(o.special, SPECIAL_LABEL);
   var pq = o.pqrst || {}, hy = o.hypo || {}, pl = o.plan || {}, ne = (o.neuro && typeof o.neuro === 'object') ? o.neuro : {};
   var hv = HV_LABEL[o.hv] ? o.hv : '';
   var hs = (o.hyStatus && typeof o.hyStatus === 'object') ? o.hyStatus : {};
@@ -4350,6 +4391,7 @@ function cleanClinic(o) {
   ['h1', 'h2', 'h3'].forEach(function (k) { hst[k] = HYSTAT_LABEL[hs[k]] ? hs[k] : ''; });
   var out = {
     body: body, pain: pain, irrit: irrit, hv: hv,
+    cont: cont, timePat: timePat, trend: trend, special: special,
     hyStatus: hst,
     neuro: {
       sens: !!ne.sens, motor: !!ne.motor, reflex: !!ne.reflex, tension: !!ne.tension,
@@ -4361,6 +4403,7 @@ function cleanClinic(o) {
     sym: cleanSymList(o.sym)
   };
   var any = out.body.length || out.pain || out.irrit || out.hv;
+  if (out.cont || out.trend || out.timePat.length || out.special.length) any = true;
   if (neuroHasData(out)) any = true;
   ['pqrst', 'hypo', 'plan'].forEach(function (k) {
     Object.keys(out[k]).forEach(function (x) { if (out[k][x]) any = true; });
@@ -4372,6 +4415,7 @@ function cleanClinic(o) {
 function emptyClinic() {
   return {
     body: [], pain: '', irrit: '', hv: '',
+    cont: '', timePat: [], trend: '', special: [],
     hyStatus: { h1: '', h2: '', h3: '' },
     neuro: { sens: false, motor: false, reflex: false, tension: false, memo: '' },
     pqrst: { p: '', q: '', r: '', s: '', t: '' }, hypo: { h1: '', h2: '', h3: '' }, plan: { p1: '', p2: '', p3: '' },
@@ -4383,6 +4427,7 @@ function applyClinic(cl) {
   var e = cleanClinic(cl) || emptyClinic();
   S.body = e.body.slice();
   S.pain = e.pain; S.irrit = e.irrit;
+  S.cont = e.cont || ''; S.timePat = (e.timePat || []).slice(); S.trend = e.trend || ''; S.special = (e.special || []).slice();
   S.hv = e.hv || '';
   S.hyStatus = { h1: e.hyStatus.h1 || '', h2: e.hyStatus.h2 || '', h3: e.hyStatus.h3 || '' };
   S.sym = (e.sym || []).map(function (r) { return { move: r.move, strat: r.strat.slice(), mwm: r.mwm, pre: r.pre, post: r.post }; });
@@ -6386,12 +6431,33 @@ function clinicPanelHTML() {
     '<button type="button" data-pain="neuropathic"><b>Neuropathic</b><em>신경병증성</em></button>' +
     '<button type="button" data-pain="mixed"><b>혼합</b><em>불명확</em></button></div>' +
     '<p class="clinic-hint" id="painHint">' + esc(PAIN_HINT['']) + '</p></div>';
-  h += '<div class="clinic-sec"><div class="csec-h"><b>과민성</b><span>Irritability</span></div>' +
+  h += '<div class="clinic-sec"><div class="csec-h"><b>과민성</b><span>Irritability · 괄호는 가라앉는 시간</span></div>' +
     '<div class="seg irrseg">' +
-    '<button type="button" data-irrit="low"><b>낮음</b><em>24시간 내 진정</em></button>' +
-    '<button type="button" data-irrit="moderate"><b>중간</b><em>수시간~하루</em></button>' +
-    '<button type="button" data-irrit="high"><b>높음</b><em>가벼운 동작에도 지속</em></button></div>' +
+    ['low', 'mid', 'high'].map(function (k) {
+      return '<button type="button" data-irrit="' + k + '"><b>' + esc(IRR_LABEL[k]) + '</b><em>(' + esc(IRR_TIME[k]) + ')</em></button>';
+    }).join('') + '</div>' +
     '<p class="clinic-hint" id="irrHint">' + esc(IRR_HINT['']) + '</p></div>';
+  /* 통증 시간·추세 — APPI 차트 차용(v28). 지속성·경과는 택1, 24시간 패턴은 복수 */
+  h += '<div class="clinic-sec" id="patSec"><div class="csec-h"><b>통증 시간·추세</b><span>지속성 · 24시간 · 경과</span></div>' +
+    '<div class="cp-rows">' +
+    '<div class="cp-row"><span class="cp-lbl">지속성</span><div class="cp-chips">' +
+    ['cont', 'intermit'].map(function (k) {
+      return '<button type="button" class="cpchip" data-cont="' + k + '" aria-pressed="false">' + esc(CONT_LABEL[k]) + '</button>';
+    }).join('') + '</div></div>' +
+    '<div class="cp-row"><span class="cp-lbl">24시간</span><div class="cp-chips">' +
+    TIMEPAT_ITEMS.map(function (x) {
+      return '<button type="button" class="cpchip" data-timepat="' + x[0] + '" aria-pressed="false">' + esc(x[1]) + '</button>';
+    }).join('') + '</div></div>' +
+    '<div class="cp-row"><span class="cp-lbl">경과</span><div class="cp-chips">' +
+    ['better', 'same', 'worse'].map(function (k) {
+      return '<button type="button" class="cpchip" data-trend="' + k + '" aria-pressed="false">' + esc(TREND_LABEL[k]) + '</button>';
+    }).join('') + '</div></div></div></div>';
+  /* 특수 증상 5종(복수 선택) — 잠김·힘빠짐은 반월판·불안정성 선별 참고 */
+  h += '<div class="clinic-sec" id="specSec"><div class="csec-h"><b>특수 증상</b><span>복수 선택</span></div>' +
+    '<div class="cp-chips cp-special">' + SPECIAL_ITEMS.map(function (x) {
+      return '<button type="button" class="cpchip" data-special="' + x[0] + '" aria-pressed="false">' + esc(x[1]) + (x[2] ? '(' + esc(x[2]) + ')' : '') + '</button>';
+    }).join('') + '</div>' +
+    '<p class="clinic-hint" id="specialHint" hidden></p></div>';
   /* 신경학적 선별 — 통증 타입이 신경병증성·혼합일 때만 보인다(치료사용, 레포트에는 넣지 않음) */
   h += '<div class="clinic-sec neurosec" id="neuroSec"' + (neuroPainOn() ? '' : ' hidden') + '>' +
     '<div class="csec-h"><b>신경학적 선별</b><span>이상 소견만 체크</span></div>' +
@@ -6583,6 +6649,10 @@ function clinicDetailCount() {
   var n = 0;
   if (S.pain) n++;
   if (S.irrit) n++;
+  if (S.cont) n++;
+  if ((S.timePat || []).length) n++;
+  if (S.trend) n++;
+  if ((S.special || []).length) n++;
   n += neuroFindings().length;
   if (cleanStr(neuroOf().memo)) n++;
   ['p', 'q', 'r', 's', 't'].forEach(function (k) { if (cleanStr((S.pqrst || {})[k])) n++; });
@@ -6592,7 +6662,7 @@ function clinicDetailCount() {
 }
 function clinicStateSummary() {
   var n = clinicDetailCount();
-  return n ? '기록 ' + n + '개' : '통증 타입·과민성·메모';
+  return n ? '기록 ' + n + '개' : '통증 타입·과민성·시간/추세·특수 증상';
 }
 function markSeg(attr, val) {
   Array.prototype.forEach.call(document.querySelectorAll('[data-' + attr + ']'), function (el) {
@@ -6600,6 +6670,26 @@ function markSeg(attr, val) {
     el.classList.toggle('on', on);
     if (el.setAttribute) el.setAttribute('aria-pressed', on ? 'true' : 'false');
   });
+}
+/* 복수 선택 칩(24시간 패턴·특수 증상) — 고른 값만 켜 짐 */
+function markList(attr, list) {
+  var arr = list || [];
+  Array.prototype.forEach.call(document.querySelectorAll('[data-' + attr + ']'), function (el) {
+    var on = arr.indexOf(el.getAttribute('data-' + attr)) >= 0;
+    el.classList.toggle('on', on);
+    if (el.setAttribute) el.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
+/* 특수 증상·시간 패턴이 겹칠 때 치료사용 짧은 안내(회원 레포트에는 나가지 않음) */
+function specialHints() {
+  var out = [], sp = S.special || [], tp = S.timePat || [];
+  if (sp.indexOf('lock') >= 0 || sp.indexOf('give') >= 0) {
+    out.push('잠김·힘빠짐 — 반월판·관절 내 걸림이나 불안정성 선별을 함께 봐요 (치료사용)');
+  }
+  if (tp.indexOf('night') >= 0 && S.cont === 'cont') {
+    out.push('야간통 + 지속적 — 비기계적·염증성 적신호 선별을 함께 봐요 (치료사용)');
+  }
+  return out;
 }
 function renderClinic() {
   if (typeof document === 'undefined' || !document.getElementById) return;
@@ -6614,9 +6704,15 @@ function renderClinic() {
   if (!open) return;
   markSeg('pain', S.pain);
   markSeg('irrit', S.irrit);
+  markSeg('cont', S.cont);
+  markSeg('trend', S.trend);
+  markList('timepat', S.timePat);
+  markList('special', S.special);
   renderHypoChips(); /* 고른 부위에 맞는 대표 가설 칩 */
   var ph = $('painHint'); if (ph) ph.textContent = PAIN_HINT[S.pain || ''] || PAIN_HINT[''];
   var ih = $('irrHint'); if (ih) ih.textContent = IRR_HINT[S.irrit || ''] || IRR_HINT[''];
+  var sh = $('specialHint');
+  if (sh) { var hs = specialHints(); sh.hidden = !hs.length; sh.textContent = hs.join(' · '); }
   /* 신경학적 선별은 통증 타입에 따라 보였다 숨겼다 한다(값은 그대로 둔다) */
   var ns = $('neuroSec');
   if (ns) ns.hidden = !neuroPainOn();
@@ -6665,6 +6761,19 @@ function setPain(v) {
 function setIrrit(v) {
   S.irrit = (S.irrit === v) ? '' : v;
 }
+function setCont(v) {
+  S.cont = (S.cont === v) ? '' : v;
+}
+function setTrend(v) {
+  S.trend = (S.trend === v) ? '' : v;
+}
+/* 복수 선택 칩 — 같은 값을 다시 누르면 빠진다 */
+function toggleFromList(key, v, map) {
+  if (!Object.prototype.hasOwnProperty.call(map, v)) return;
+  var arr = (S[key] || []).slice(), i = arr.indexOf(v);
+  if (i >= 0) arr.splice(i, 1); else arr.push(v);
+  S[key] = arr;
+}
 
 /* 1단계 평가 목적 칩 — 고른 값에 따라 2·3·4단계 안내와 목록 순서가 바뀐다 */
 function setGoal(v) {
@@ -6674,6 +6783,8 @@ function setGoal(v) {
   /* 무통증 모드에서는 부위를 안 골랐어도 '전신'으로 시작한다(부위 선택은 선택 사항) */
   if (g === 'perf' && !(S.parts || []).length && !(S.body || []).length) S.parts = ['전신'];
   S.tend = false;
+  /* 통증·재활로 돌아오면 문진 버튼 영역을 펼치고, 무통증 모드에서는 접어 둔다 */
+  S.clinicOpen = clinicDefaultOpen();
 }
 function renderGoal() {
   if (typeof document === 'undefined' || !document.getElementById) return;
@@ -6723,8 +6834,9 @@ function updateFab() {
   var fab = $('fab'), btn = $('fabBtn');
   if (!fab || !btn) return;
   var n = evaluateAll().items.length;
-  /* 모바일에서는 결과가 마지막 단계(4)에 있으므로 그 단계에서는 숨긴다 */
-  if (!n || S.clinicOpen || (stepsOn() && STEP >= STEP_MAX)) { fab.hidden = true; return; } /* 문진을 펼친 동안은 화면을 가리지 않는다 */
+  /* 모바일: 결과가 마지막 단계(4)에 있으니 그 단계에서는 숨긴다.
+     2단계에서 문진을 펼쳐 둔 동안은 칩을 가리지 않게 숨긴다(3단계부터는 다시 보인다). */
+  if (!n || (stepsOn() && (STEP >= STEP_MAX || (STEP === 2 && S.clinicOpen)))) { fab.hidden = true; return; }
   fab.hidden = false;
   btn.innerHTML = '결과 보기 <span>' + n + '개</span>';
 }
@@ -7641,7 +7753,8 @@ function loadState() {
       var o = JSON.parse(raw);
       if (o && typeof o === 'object') {
         ['sex', 'age', 'height', 'weight', 'goal', 'parts', 'moves', 'hiEnd', 'view', 'cat', 'tend', 'loadSel', 'values', 'prev', 'variant', 'open', 'routine',
-          'body', 'pain', 'irrit', 'hv', 'hyStatus', 'sym', 'neuro', 'pqrst', 'hypo', 'plan', 'guide', 'bcView', 'pclin'].forEach(function (k) {
+          'body', 'pain', 'irrit', 'hv', 'hyStatus', 'sym', 'neuro', 'pqrst', 'hypo', 'plan', 'guide', 'bcView', 'pclin',
+          'cont', 'timePat', 'trend', 'special'].forEach(function (k) {
           if (o[k] !== undefined && o[k] !== null) S[k] = o[k];
         });
       }
@@ -7669,7 +7782,11 @@ function normalizeClinicState() {
   S.moves = mv;
   S.goal = (S.goal === 'perf') ? 'perf' : 'pain';
   if (!PAIN_LABEL[S.pain]) S.pain = '';
-  if (!IRR_LABEL[S.irrit]) S.irrit = '';
+  S.irrit = normIrrit(S.irrit); /* 예전 기록의 'moderate'는 'mid'로 옮긴다 */
+  S.cont = cleanPick(S.cont, CONT_LABEL);
+  S.timePat = cleanKeyList(S.timePat, PAT_KEYS);
+  S.trend = cleanPick(S.trend, TREND_LABEL);
+  S.special = cleanKeyList(S.special, SPECIAL_LABEL);
   if (!HV_LABEL[S.hv]) S.hv = '';
   var gd = (S.guide && typeof S.guide === 'object') ? S.guide : {};
   var gdOut = {};
@@ -7706,7 +7823,8 @@ function demoState() {
   S.hiEnd = false; S.variant = { pushup: 'std', ybal: 'tape' }; S.open = {};
   S.view = 'rec'; S.cat = ''; S.tend = false; S.loadSel = '';
   /* 임상 문진 예시(접힌 채로 한 줄 요약만 보임) */
-  S.body = ['front_knee_R', 'back_lumbar_C']; S.pain = 'nociceptive'; S.irrit = 'moderate';
+  S.body = ['front_knee_R', 'back_lumbar_C']; S.pain = 'nociceptive'; S.irrit = 'mid';
+  S.cont = 'intermit'; S.timePat = ['morning', 'walk']; S.trend = 'better'; S.special = ['click'];
   S.bcView = 'front';
   S.pqrst = { p: '계단 내려갈 때 오른쪽 무릎 앞이 아프고, 앉아 쉬면 가라앉아요', q: '욱신거림', r: '무릎 앞쪽에 국소적', s: '4', t: '3주 전부터, 아침에 심해요' };
   S.hypo = { h1: '슬개건 부하 증가', h2: '둔근 조절 저하로 무릎 안쪽 붕괴', h3: '발목 가동 제한으로 계단 보상' };
@@ -7755,7 +7873,7 @@ function demoState() {
 function demo() {
   usageNewSession(); /* 예시로 채우기도 새 세션으로 본다 */
   demoState();
-  if (wideScreen()) S.clinicOpen = true; /* PC 2단에서는 오른쪽 문진 패널을 펼친 채로 보여 준다 */
+  S.clinicOpen = !goalPerf() || wideScreen(); /* 통증·재활 모드에서는 문진 버튼 영역을 펼친 채로 */
   ['age', 'height', 'weight'].forEach(function (k) { var el = $(k); if (el) el.value = S[k]; });
   if ($('hiEnd')) $('hiEnd').checked = !!S.hiEnd;
   syncHiEnd();
@@ -7773,7 +7891,7 @@ function resetState() {
   S.view = 'rec'; S.cat = ''; S.tend = false; S.loadSel = '';
   S.values = {}; S.prev = {}; S.variant = {}; S.open = {};
   S.member = ''; S.memo = ''; S.homet = ''; /* 센터·담당자명은 다음 회원에게도 그대로 */
-  applyClinic(null); S.bcView = 'front'; S.clinicOpen = false; S.pclin = {};
+  applyClinic(null); S.bcView = 'front'; S.clinicOpen = !goalPerf(); S.pclin = {};
   S.symOpen = false; S.symGuide = false; S.hyStatus = { h1: '', h2: '', h3: '' };
   S.recNotice = ''; S.rtNotice = ''; S.rtSaving = false; /* 저장된 회원 기록(pne_clients_v1)은 건드리지 않는다 */
   if (S.routine) { /* 고른 루틴 세트는 그대로 두고 그 검사만 펼쳐 둔다 */
@@ -7808,6 +7926,9 @@ function buildClinic() {
   if (wideScreen()) { var d = $('clinicMore'); if (d) d.open = true; }
   renderClinic();
 }
+/* 통증·재활 모드에서는 임상 문진 버튼 영역(통증 타입·과민성·시간/추세·특수 증상)을 처음부터 펼친다.
+   무통증·체력/퍼포먼스 모드에서는 통증 문진이 선택 사항이라 접힌 채로 둔다. */
+function clinicDefaultOpen() { return !goalPerf(); }
 function init() {
   loadState();
   CUSTOM_SETS = readCustomPresets();
@@ -7817,8 +7938,9 @@ function init() {
   if ($('weight')) $('weight').value = S.weight || '';
   if ($('hiEnd')) $('hiEnd').checked = !!S.hiEnd;
   syncHiEnd();
-  /* PC 넓은 화면에서는 임상 문진을 처음부터 펼쳐 둔다 — 오른쪽 2단 패널이 빈 채로 남지 않게 */
-  if (!S.clinicOpen && wideScreen()) S.clinicOpen = true;
+  /* 통증·재활 모드에서는 임상 문진 버튼 영역을 처음부터 펼쳐 둈다(모바일·PC 모두) —
+     무통증·체력 모드에서는 선택 사항이라 접힌 채로 시작한다 */
+  if (!S.clinicOpen && clinicDefaultOpen()) S.clinicOpen = true;
   buildChips(); buildClinic(); renderChips(); renderAll();
   /* 모바일 단계 전환 — 첫 화면은 1단계, 좌우 스와이프·상단 탭으로 넘어간다 */
   try {
@@ -7880,7 +8002,7 @@ function init() {
   });
 
   document.addEventListener('click', function (ev) {
-    var el = ev.target.closest ? ev.target.closest('[data-sex],[data-goal],[data-part],[data-move],[data-view],[data-cat],[data-load],[data-tend],[data-act],[data-routine],[data-region],[data-pain],[data-irrit],[data-bcview],[data-bcdel],[data-partdel],[data-test]') : null;
+    var el = ev.target.closest ? ev.target.closest('[data-sex],[data-goal],[data-part],[data-move],[data-view],[data-cat],[data-load],[data-tend],[data-act],[data-routine],[data-region],[data-pain],[data-irrit],[data-cont],[data-timepat],[data-trend],[data-special],[data-bcview],[data-bcdel],[data-partdel],[data-test]') : null;
     if (!el) return;
     /* 1단계 평가 목적 — 통증·재활 ↔ 무통증 체력/퍼포먼스 */
     if (el.hasAttribute('data-goal')) {
@@ -7915,6 +8037,19 @@ function init() {
     }
     if (el.hasAttribute('data-irrit')) {
       setIrrit(el.getAttribute('data-irrit')); renderAll(); saveState(); return;
+    }
+    /* 통증 시간·추세 · 특수 증상(APPI 차트 차용, v28) */
+    if (el.hasAttribute('data-cont')) {
+      setCont(el.getAttribute('data-cont')); renderClinic(); saveState(); return;
+    }
+    if (el.hasAttribute('data-trend')) {
+      setTrend(el.getAttribute('data-trend')); renderClinic(); saveState(); return;
+    }
+    if (el.hasAttribute('data-timepat')) {
+      toggleFromList('timePat', el.getAttribute('data-timepat'), PAT_KEYS); renderClinic(); saveState(); return;
+    }
+    if (el.hasAttribute('data-special')) {
+      toggleFromList('special', el.getAttribute('data-special'), SPECIAL_LABEL); renderClinic(); saveState(); return;
     }
     if (el.hasAttribute('data-sex')) { S.sex = el.getAttribute('data-sex'); renderAll(); saveState(); return; }
     if (el.hasAttribute('data-routine')) {
@@ -9186,6 +9321,10 @@ G.APP = {
   BODY_REGIONS: BODY_REGIONS, bodyRegionText: bodyRegionText, bodyChips: bodyChips, effParts: effParts,
   clinicSummary: clinicSummary, clinicState: clinicState, cleanClinic: cleanClinic, clinicHasData: clinicHasData,
   clinicReportData: clinicReportData, clinicClientLines: clinicClientLines, isHighLoad: isHighLoad, PAIN_LABEL: PAIN_LABEL, IRR_LABEL: IRR_LABEL,
+  /* 통증 양상 — 시간·추세·특수 증상(APPI 차트 차용, v28) */
+  IRR_TIME: IRR_TIME, IRR_LEGACY: IRR_LEGACY, normIrrit: normIrrit, CONT_LABEL: CONT_LABEL, TIMEPAT_ITEMS: TIMEPAT_ITEMS,
+  TREND_LABEL: TREND_LABEL, SPECIAL_ITEMS: SPECIAL_ITEMS, SPECIAL_LABEL: SPECIAL_LABEL, specialHints: specialHints,
+  setCont: setCont, setTrend: setTrend, toggleFromList: toggleFromList, clinicDefaultOpen: clinicDefaultOpen,
   refReason: refReason,
   loadOf: loadOf, loadRank: loadRank, isLowLoad: isLowLoad,
   LOAD_KO: LOAD_KO, LOAD_LEVELS: LOAD_LEVELS, loadBadgeHTML: loadBadgeHTML, loadListHTML: loadListHTML,
