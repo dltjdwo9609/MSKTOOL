@@ -518,7 +518,7 @@ details.test>summary .t-badge+.t-badge{margin-left:0}
 .srb-s{flex:1 1 100%;font-size:10.8px;color:var(--muted);line-height:1.45;word-break:keep-all}
 /* 글자로 적는 측정항목(SSMP 통증 유발 동작 등) */
 .irow.trow .lbl{min-width:64px}
-.irow input.v.txt{flex:1 1 100%;font-size:14px;font-weight:500}
+.irow input.v.txt{flex:1 1 100%;font-size:14px;font-weight:500;min-width:0}
 .pc-proto h5{color:var(--brand-2)}
 .pc-proto .pc-list li b{color:var(--brand-2)}
 /* ---------- 허리 0·1·2단계 패널 ---------- */
@@ -544,13 +544,15 @@ details.test>summary .t-badge+.t-badge{margin-left:0}
 .hychips-gh+.hychips-gr{margin-top:3px}
 .hychips-gr+.hychips-gh{margin-top:8px}
 .hychips-row .hygrp-t{color:var(--brand-2)}
-.calcwrap{display:inline-flex;align-items:baseline;gap:4px;flex:0 0 auto}
+.calcwrap{display:inline-flex;align-items:baseline;gap:4px;flex:1 1 auto;min-width:0}
 .irow.calcrow .pw{flex:0 0 auto;margin-left:auto;justify-content:flex-end}
 .calcval{font-size:17px;font-weight:800;color:var(--brand-2);letter-spacing:-.01em}
 .calchint{flex:1 1 auto;color:var(--brand-2);font-weight:600;line-height:1.35}
+/* 안내문(.calchint)은 .unit의 flex:none을 이기고 줄바꾼다 — 320px 카드에서도 넘치지 않게 */
+.irow .unit.calchint{flex:1 1 auto;min-width:0;white-space:normal}
 .warnbox{margin:10px 0 0;font-size:12.5px;color:var(--warn);background:rgba(180,83,10,.09);background:color-mix(in srgb,var(--warn) 9%,transparent);border-radius:11px;padding:9px 11px}
 
-.inputs{margin:14px 0 0;display:grid;gap:8px}
+.inputs{margin:14px 0 0;display:grid;gap:8px;grid-template-columns:minmax(0,1fr)}
 .irow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .irow .lbl{flex:0 0 auto;min-width:50px;white-space:nowrap;font-size:13.5px;color:var(--muted)}
 .irow input{border:1px solid var(--line);background:var(--chip);border-radius:11px;padding:9px 11px;font:inherit;font-size:16px;font-weight:600;color:var(--ink);outline:0}
@@ -563,6 +565,32 @@ details.test>summary .t-badge+.t-badge{margin-left:0}
 .variant{display:flex;gap:6px;margin:12px 0 0}
 .variant button{flex:1;border:1px solid var(--line);background:var(--card);color:var(--muted);font:inherit;font-size:13.5px;font-weight:600;padding:8px;border-radius:11px;cursor:pointer}
 .variant button.on{background:var(--soft);border-color:var(--brand);color:var(--brand-2)}
+
+/* ---------- 0/1 판정 원터치 버튼 (v30) — 음성/양성처럼 두 칸을 손끝으로 톡
+   숫자 키보드를 올리지 않고 바로 고르고, 같은 칸을 다시 누르면 해제된다. ---------- */
+.irow.togrow{gap:6px}
+.tog{display:flex;gap:5px;flex:1 1 auto;min-width:0}
+.tog .togbtn{flex:1 1 0;min-width:0;border:1px solid var(--line);background:var(--chip);color:var(--muted);font:inherit;font-size:13.5px;font-weight:700;line-height:1.2;padding:9px 6px;border-radius:10px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;touch-action:manipulation}
+.tog .togbtn.on{background:var(--soft);border-color:var(--brand);color:var(--brand-2);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--brand) 35%,transparent)}
+[data-theme="dark"] .tog .togbtn.on{background:color-mix(in srgb,var(--brand) 22%,var(--card));color:#eaf7f3}
+.tog .togbtn:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.tog .togbtn:active{transform:scale(.98)}
+/* 이전 값은 한 줄 안에 작게 — 버튼 줄이 두 줄로 늘어나지 않게(좁은 화면 규칙보다 뒤에 둔다) */
+@media screen{.irow.togrow .pw{flex:0 0 auto;margin-left:auto;gap:4px}
+  .irow.togrow input.prev{width:52px;padding:8px 6px}
+  .irow.togrow .prevlbl{font-size:10.6px}}
+@media (max-width:359.98px){.tog .togbtn{font-size:12.4px;padding:8px 4px}
+  .irow.togrow input.prev{width:44px}
+  .irow.togrow .prevlbl{display:none}}
+
+/* ---------- 🎯 오늘 우선 추천 — 3단계 맨 위에 핵심 검사만 따로 (v30) ---------- */
+h2.pick-h{display:flex;align-items:center;gap:7px;margin:18px 2px 5px;font-size:13px;font-weight:800;color:var(--ink);letter-spacing:-.01em;word-break:keep-all}
+h2.pick-h b{font-size:13px;font-weight:800;color:var(--brand-2)}
+h2.pick-h em{font-style:normal;font-size:11.3px;font-weight:600;color:var(--muted)}
+h2.pick-h::after{content:"";flex:1;height:1px;background:var(--line);min-width:12px}
+.pick-note{margin:0 2px 10px}
+.t-badge.pick{background:color-mix(in srgb,var(--brand) 13%,var(--card));color:var(--brand-2);font-weight:800;border:1px solid color-mix(in srgb,var(--brand) 26%,var(--line))}
+details.test[data-pick="1"]{border-color:color-mix(in srgb,var(--brand) 28%,var(--line))}
 
 h2.sec{font-size:13px;font-weight:700;color:var(--muted);text-transform:none;margin:22px 2px 10px;display:flex;align-items:center;gap:8px}
 h2.sec::after{content:"";flex:1;height:1px;background:var(--line)}
@@ -853,7 +881,7 @@ footer details[open] summary{border-bottom:1px solid var(--line)}
   #testSection{grid-column:1/-1;grid-row:5;margin:26px 0 0}
   #testList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px;row-gap:10px;align-items:start}
   #testList>details.test{margin:0}
-  #testList>:is(.clinic-warn,.rfwarn,.pclin,details.sym,.routine,.browse,.hint,.bnote,h2.sec,.empty,details.heldgrp,p.loadgrp){grid-column:1/-1}
+  #testList>:is(.clinic-warn,.rfwarn,.pclin,details.sym,.routine,.browse,.hint,.bnote,h2.sec,h2.pick-h,.empty,details.heldgrp,p.loadgrp){grid-column:1/-1}
   .browse .viewseg{max-width:560px}
   /* 관절 증상 수정 — 전체 폭 안에서 동작 기록 두 줄을 나란히 */
   #testList>details.sym .sym-body{display:grid;grid-template-columns:1fr 1fr;column-gap:14px;align-items:start}
@@ -1356,49 +1384,49 @@ const MOVE_INFO = {
     point: '일어서는 순간 팔 짚기·앞으로 숙이기 같은 보상이 나오는지, 통증이 앉기/일어서기 어디에 몰리는지 봅니다. 30초·1분 일어서기 횟수와 SRT 점수로 하체 힘과 바닥 전이를 함께 확인하세요.',
     train: '의자에서 3초 앉기 → 3초 일어서기로 등척성·원심성부터 올리고, 발목·고관절 가동성과 둔근 조절을 함께 넣습니다.',
     subs: ['의자', '쪼그려 앉기', '바닥 전이(침대 포함)'],
-    tests: ['chair30', 'sts5', 'sts1', 'srt', 'slsts', 'deepsquat', 'squat1rm', 'kbgoblet', 'burpee3m', 'slwallsit', 'sijcluster']
+    tests: ['chair30', 'sts5', 'sts1', 'srt', 'slsts', 'deepsquat', 'squat1rm', 'kbgoblet', 'burpee3m', 'slwallsit', 'sijcluster', 'scour', 'mcmurray']
   },
   '오르내리기': {
     say: '계단을 오르내릴 때, 언덕·턱을 넘을 때',
     point: '내려갈 때 무릎이 안쪽으로 무너지는지(스텝다운), 오르기 시간이 늘었는지, 통증이 오르기·내리기 중 어디에 몰리는지 봅니다.',
     train: '낮은 박스 스텝다운으로 원심성 조절(무릎 정렬·골반)부터, 발목 배측굴곡 가동성과 중둔근 조절을 함께 올립니다.',
     subs: ['오르기', '내리기', '경사'],
-    tests: ['stepdown', 'stairclimb', 'step2', 'ymcastep', 'sijcluster']
+    tests: ['stepdown', 'stairclimb', 'step2', 'ymcastep', 'sijcluster', 'mcmurray']
   },
   '걷고 달리기': {
     say: '걸을 때, 오래 걸을 때, 뛸 때, 방향을 바꿀 때',
     point: '보행속도와 6분·2분 걷기 거리, 방향 전환에서 무너지는지 봅니다. 걸을 때 통증이 늘고 쉬면 주는지(간헐적 파행)도 함께 확인하세요.',
     train: '보행속도를 기준선으로 뒤꿈치 들기·한발 서기로 발목·둔근 지구력을 올리고, 통증이 3점 이하면 방향 전환·달리기로 진행합니다.',
     subs: ['보행', '달리기', '방향전환'],
-    tests: ['gaitspeed', 'tug', 'walk6', 'walk2', 'walk1mile', 'heelraise', 'ttest', 'sidestep20', 'run15', 'run20m', 'run10m', 'eight', 'cod505']
+    tests: ['gaitspeed', 'tug', 'walk6', 'walk2', 'walk1mile', 'heelraise', 'ttest', 'sidestep20', 'run15', 'run20m', 'run10m', 'eight', 'cod505', 'scour', 'mcmurray', 'anklesq']
   },
   '균형·착지': {
     say: '한 발로 설 때 흔들려요, 발목이 삐끗해요, 점프하고 착지할 때',
     point: '한발 서기 유지 시간과 좌우 차이, 착지에서 무릎 안쪽 무너짐(LESS)을 봅니다. 발목을 접질린 뒤라면 삐끗하는 방향과 불안감을 함께 기록하세요.',
     train: '정적 균형(한발 서기) → 동적 균형(Y-밸런스) → 3홉·착지 순서로 올리고, 발목·둔근 안정화를 먼저 넣습니다.',
     subs: ['한 발 서기', '점프', '착지'],
-    tests: ['sls', 'ybalance', 'vjump', 'broadjump', 'hoptest', 'less', 'hop', 'forceplate']
+    tests: ['sls', 'ybalance', 'vjump', 'broadjump', 'hoptest', 'less', 'hop', 'forceplate', 'anklesq']
   },
   '숙이고 들어올리기': {
     say: '허리를 굽힐 때, 바닥 물건을 들 때, 세수할 때',
     point: '굽힐 때 허리만 굽고 엉덩이를 뒤로 빼지 못하는지(힙 힌지), 통증이 굽히는 끝 범위에 몰리는지, 체간 지구력이 버티는지 봅니다.',
     train: '힙 힌지 패턴을 다시 익히고(등척성 → 원심성), 체간 지구력(Sørensen·사이드 브리지)과 고관절·흉추 가동성을 함께 올립니다.',
     subs: ['굽히기', '바닥에서 들기', '펴기'],
-    tests: ['sorensen', 'trunkflex', 'sidebridge', 'plank', 'ffd', 'sitreach', 'situp', 'floorlift', 'deadlift1rm', 'kbgoblet', 'paivm']
+    tests: ['sorensen', 'trunkflex', 'sidebridge', 'plank', 'ffd', 'sitreach', 'situp', 'floorlift', 'deadlift1rm', 'kbgoblet', 'paivm', 'kemp']
   },
   '팔 올리고 뻗기': {
     say: '머리 위 물건을 꺼낼 때, 뒤로 손을 뻗을 때',
     point: '올릴 때 견갑골이 먼저 들리는지, 어느 각도에서 통증이 시작되는지, 등 뒤로 손이 닿는 범위(Hand Behind Back)를 봅니다.',
     train: '견갑 안정(하부 승모·전거근)과 어깨 가동성부터, 통증 없는 범위의 등척성 → 원심성 순서로 부하를 올립니다.',
     subs: ['거상', '뒤로 뻗기'],
-    tests: ['shrom', 'hbb', 'ckcuest', 'ssmp', 'shotput', 'pset', 'ohpress1rm']
+    tests: ['shrom', 'hbb', 'ckcuest', 'ssmp', 'shotput', 'pset', 'ohpress1rm', 'accomp']
   },
   '밀기': {
     say: '문을 밀 때, 푸시업할 때',
     point: '푸시업 자세에서 견갑·몸통이 무너지지 않는지, 팔꿈치·어깨 앞쪽 통증이 어느 각도에서 나는지 봅니다.',
     train: '벽·무릎 푸시업으로 등척성 → 원심성부터 시작해 표준 푸시업으로 올리고, 견갑 안정과 흉추 신전을 함께 봅니다.',
     subs: ['수평 밀기', '위로 밀기'],
-    tests: ['pushup', 'proneiyt', 'bench1rm', 'ohpress1rm', 'burpee3m']
+    tests: ['pushup', 'proneiyt', 'bench1rm', 'ohpress1rm', 'burpee3m', 'accomp']
   },
   '당기기·매달리기': {
     say: '문을 당길 때, 매달릴 때',
@@ -1419,14 +1447,14 @@ const MOVE_INFO = {
     point: '서서 좌우로 돌아보는 범위와 차이, 흉추 회전이 막혀 허리·골반으로 보상하는지 봅니다. 앉아서 재는 흉추 회전은 기존 흉추 가동성 검사로 봐요.',
     train: '흉추 회전 가동성(오픈북)과 체간 회전 조절(anti-rotation)을 먼저, 필요하면 둔근·골반 안정화를 더합니다.',
     subs: ['체간 회전', '비틀기'],
-    tests: ['trunkrot', 'openbook', 'fmsrot', 'thorrom', 'kbtgu', 'mbrotthrow', 'paivm']
+    tests: ['trunkrot', 'openbook', 'fmsrot', 'thorrom', 'kbtgu', 'mbrotthrow', 'paivm', 'kemp']
   },
   '목 움직임': {
     say: '고개를 돌릴 때, 젖힐 때, 숙일 때',
     point: '5Ds & 3Ns가 없는지 먼저 확인하고, 회전·굴곡·신전 각도와 증상이 시작되는 방향을 봅니다.',
     train: '심부 목 굴곡근 지구력과 흉추 가동성부터, 통증 없는 범위의 등척성 → 가동 범위 운동 순서로 올립니다.',
     subs: ['회전', '굴곡', '신전'],
-    tests: ['cervrom', 'dnfe', 'paivm']
+    tests: ['cervrom', 'dnfe', 'paivm', 'spurling']
   },
   '자세 지속': {
     say: '오래 앉으면, 오래 서 있으면',
@@ -2124,9 +2152,12 @@ const TESTS = [
     { k: 'nrs', dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '통증 NRS' }
   ]
 },
-/* ===== 부위별 대표 관절 압박·유발 검사 6종 — v29(2026-11-28)
+/* ===== 부위별 대표 관절 압박·유발 검사 6종 — v29(2026-11-28) · 원터치 버튼 v30(2026-11-28)
    성재님이 요청한 부위별 대표 압박·유발 검사. 모두 성별×연령 규범이 확인되지 않아
    refOnly(참고용)·저부하(low)이며, 부위를 골랐을 때만 맞춤 추천에 오른다(clin).
+   v30: 0/1 판정 항목은 `toggle: [0의 이름, 1의 이름]`으로 두어 카드에서 숫자 입력 대신
+        원터치 버튼(음성/양성 등)으로 고른다(app.js `inputRow`). 저장값은 예전과 같은 '0'/'1'이라
+        회원 기록·구글 시트·재평가 변화 비교가 그대로 호환된다. 다시 누르면 값이 비워진다.
    양성은 “평소 증상이 그대로 재현됨”만 1로 세고, 진단 확정이 아니라 좌우 비교·증상 재현·
    이전 기록 비교용 단서로만 쓴다(백분위·연령대 중앙값을 만들지 않는다). */
 {
@@ -2141,9 +2172,9 @@ const TESTS = [
   tip: '방사통이 심한 회원에게는 측굴·압박을 세게 하지 말고 견인 검사만 먼저 하세요. 양성이어도 영상·신경 소견 없이 진단을 확정하지 않습니다.',
   note: '※ 규범 없음 — 스펄링(Spurling)은 특이도가 높지만 민감도가 낮아, 음성이라고 신경근 압박을 배제하지 않습니다. 견인(Distraction)에서 증상이 줄면 같은 단서로 함께 기록하세요.',
   measures: [
-    { k: 'pos', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: '스펄링 양성(1)/음성(0)' },
+    { k: 'pos', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: '스펄링 양성 재현', toggle: ['음성', '양성'] },
     { k: 'nrs', sides: true, dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '재현 시 통증 NRS' },
-    { k: 'dist', sides: true, dir: 1, rng: [0, 1], unit: '점', fmt: 'int', label: '견인 시 완화(1)/변화 없음(0)' },
+    { k: 'dist', sides: true, dir: 1, rng: [0, 1], unit: '점', fmt: 'int', label: '견인 시 완화', toggle: ['변화 없음', '완화'] },
     { k: 'memo', inputOnly: true, txt: true, noPrev: true, unit: '', label: '재현 부위·소견', ph: '예: 좌 견갑 내측→전완 후면, 견인 시 5→2점' }
   ]
 },
@@ -2159,7 +2190,7 @@ const TESTS = [
   tip: '한 번에 20~30초를 넘기지 말고 통증이 늘면 바로 풀어 주세요. 영상·신경 소견과 함께 볼 때만 의미가 있습니다.',
   note: '※ 규범 없음 — 요추 사분면(Kemp) 검사는 특이도가 높지 않아 단독으로 원인을 정하지 않습니다. 같은 방향·같은 세기로 잰 이전 기록과 비교하세요.',
   measures: [
-    { k: 'pos', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: '사분면 양성(1)/음성(0)' },
+    { k: 'pos', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: '사분면 양성 재현', toggle: ['음성', '양성'] },
     { k: 'nrs', sides: true, dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '재현 시 통증 NRS' },
     { k: 'memo', inputOnly: true, txt: true, noPrev: true, unit: '', label: '재현 부위·소견', ph: '예: 우 허리→우 둔부, 신전+우측굴에서 재현' }
   ]
@@ -2176,8 +2207,8 @@ const TESTS = [
   tip: '두 검사 모두 어깨·견갑 기능과 함께 봐야 합니다. AC 관절 압박에서 통증이 재현되면 팔을 머리 위로 올리는 동작도 함께 확인하세요.',
   note: '※ 규범 없음 — AC 관절 압박·O’Brien 검사는 민감도·특이도가 중간 정도라 단독 진단에 쓰지 않습니다. 좌우와 같은 방법으로 잰 이전 기록으로 비교하세요.',
   measures: [
-    { k: 'cb', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: 'Cross-body 압박 양성(1)/음성(0)' },
-    { k: 'ob', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: 'O’Brien 양성(1)/음성(0)' },
+    { k: 'cb', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: 'Cross-body 압박 통증', toggle: ['음성', '양성'] },
+    { k: 'ob', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: 'O’Brien 통증', toggle: ['음성', '양성'] },
     { k: 'nrs', sides: true, dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '재현 시 통증 NRS' },
     { k: 'memo', inputOnly: true, txt: true, noPrev: true, unit: '', label: '아픈 위치·소견', ph: '예: 우 AC 앞, 엄지 아래 6점·위 2점' }
   ]
@@ -2194,8 +2225,8 @@ const TESTS = [
   tip: '통증이 큰 회원은 굽히는 각도를 줄이고 압박을 약하게 하세요. 걸림이 있으면 무릎을 돌린 방향을 함께 적어 두세요.',
   note: '※ 규범 없음 — 스카우어는 관절 안 문제에 민감하지만 특이도가 낮아 단독으로 원인을 정하지 않습니다. 같은 각도·같은 세기로 잰 이전 기록과 비교하세요.',
   measures: [
-    { k: 'pos', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: '서혜부 통증 재현(1)/없음(0)' },
-    { k: 'click', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: '걸림·딸깍(1)/없음(0)' },
+    { k: 'pos', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: '서혜부 통증 재현', toggle: ['음성', '양성'] },
+    { k: 'click', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: '걸림·딸깍', toggle: ['없음', '있음'] },
     { k: 'nrs', sides: true, dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '재현 시 통증 NRS' },
     { k: 'memo', inputOnly: true, txt: true, noPrev: true, unit: '', label: '재현 부위·소견', ph: '예: 좌 서혜부 앞, 내회전에서 걸림' }
   ]
@@ -2212,8 +2243,8 @@ const TESTS = [
   tip: '급성으로 무릎이 붓거나 잠김(locking)이 있으면 검사를 미루고 의료 확인을 먼저 하세요. 한 번의 음성으로 반월판 손상을 배제하지 않습니다.',
   note: '※ 규범 없음 — McMurray는 특이도가 비교적 높지만 민감도가 낮고, Clarke 검사는 재현성이 낮습니다. 관절선 압통·관절 낭 소견과 함께 보고, 같은 손·같은 각도로 잰 이전 기록과 비교하세요.',
   measures: [
-    { k: 'mm', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: 'McMurray 클릭·통증(1)/없음(0)' },
-    { k: 'clarke', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: 'Clarke 슬개골 압박 통증(1)/없음(0)' },
+    { k: 'mm', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: 'McMurray 클릭·통증', toggle: ['음성', '양성'] },
+    { k: 'clarke', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: 'Clarke 슬개골 압박 통증', toggle: ['음성', '양성'] },
     { k: 'nrs', sides: true, dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '재현 시 통증 NRS' },
     { k: 'memo', inputOnly: true, txt: true, noPrev: true, unit: '', label: '재현 부위·소견', ph: '예: 우 안쪽 관절선 굴곡 90°에서 딸깍' }
   ]
@@ -2230,8 +2261,8 @@ const TESTS = [
   tip: '부기·발적이 심하면 가쪽 인대와 경비인대 손상을 구분하기 어려우니, 의료 확인 전에는 체중부하 검사를 미루세요.',
   note: '※ 규범 없음 — 경비골 압박(Squeeze) 검사는 특이도가 높지만 민감도가 낮아, 음성이라고 경비인대 손상을 배제하지 않습니다. 같은 부위·같은 세기로 잰 이전 기록과 비교하세요.',
   measures: [
-    { k: 'mid', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: '중간부 압박 통증(1)/없음(0)' },
-    { k: 'dist', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: '원위부 압박 통증(1)/없음(0)' },
+    { k: 'mid', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: '중간부 압박 통증', toggle: ['없음', '있음'] },
+    { k: 'dist', sides: true, dir: -1, rng: [0, 1], unit: '점', fmt: 'int', label: '원위부 압박 통증', toggle: ['없음', '있음'] },
     { k: 'nrs', sides: true, dir: -1, rng: [0, 10], unit: '점', fmt: 'int', label: '재현 시 통증 NRS' },
     { k: 'memo', inputOnly: true, txt: true, noPrev: true, unit: '', label: '재현 부위·소견', ph: '예: 우 원위부 압박에서 발목 앞 통증, 계단 내려가기 아픔' }
   ]
@@ -4284,7 +4315,9 @@ function evalMeasure(t, m) {
     }
   }
   if (m.sides) {
-    var pb = Math.max(parseNum(S.prev[vkey(t.id, m.k, 'L')]) || -1e9, parseNum(S.prev[vkey(t.id, m.k, 'R')]) || -1e9);
+    /* 이전 값 0(음성·통증 0점)도 진짜 값으로 살린다 — 0을 `||`로 지우면 재평가 변화가 사라진다 */
+    var pL = parseNum(S.prev[vkey(t.id, m.k, 'L')]), pR = parseNum(S.prev[vkey(t.id, m.k, 'R')]);
+    var pb = Math.max(pL === null ? -1e9 : pL, pR === null ? -1e9 : pR);
     out.prev = pb < -1e8 ? null : pb;
   } else if (!m.derived) {
     out.prev = parseNum(S.prev[vkey(t.id, m.k, '')]);
@@ -5200,6 +5233,58 @@ function tendPartPicked(t) {
   for (var i = 0; i < t.parts.length; i++) if (parts.indexOf(t.parts[i]) >= 0) return true;
   return false;
 }
+/* 추천 점수 — 고른 부위마다 2점, 고른 동작마다 2점(동작 개수는 따로 센다).
+   recommend()와 🎯 오늘 우선 추천(topPickList)이 같은 점수를 본다. */
+function testScore(t) {
+  var parts = effParts(), s = 0, mv = 0, i;
+  for (i = 0; i < (t.parts || []).length; i++) if (parts.indexOf(t.parts[i]) >= 0) s += 2;
+  for (i = 0; i < (t.moves || []).length; i++) if (S.moves.indexOf(t.moves[i]) >= 0) { s += 2; mv += 1; }
+  return { score: s, mv: mv };
+}
+/* ---------- 🎯 오늘 우선 추천 (v30) ----------
+   부위·동작을 골랐을 때, 지금 조건에서 추천 점수가 가장 높은 핵심 검사 3~5개를 3단계 맨 위에 따로 모은다.
+   아래 부하별 묶음에는 이 검사를 빼고 나머지만 놓아 같은 카드가 두 번 나오지 않는다.
+   우선 추천은 지금 보이는 목록(부하 칩·분류 칩·과민성 높음 제외까지 적용된 r.main+r.ref)에서만 고르므로
+   위아래가 늘 같은 필터를 본다. 세트·건병증·전체 검사 보기에서는 추천이 아니라 목록 자체를 보는 화면이라 끄다. */
+var TOPPICK_MAX = 5;
+var TOPPICK_MIN_POOL = 6;   /* 볼 검사가 이보다 적으면 이미 짧은 목록이라 우선 추천을 만들지 않는다 */
+var TOPPICK_MIN_REST = 3;   /* 아래 부하 묶음에 최소 세 개는 남긴다 */
+function topPickList(r) {
+  if (!r) return [];
+  if (routineTests() || S.tend || S.view === 'all') return [];
+  if (!effParts().length && !S.moves.length) return [];
+  var pool = (r.main || []).concat(r.ref || []);
+  if (pool.length < TOPPICK_MIN_POOL) return [];
+  var order = {};
+  pool.forEach(function (t, i) { order[t.id] = i; });
+  var scored = pool.map(function (t) {
+    var sc = testScore(t);
+    return { t: t, score: sc.score, mv: sc.mv, i: order[t.id] };
+  }).filter(function (x) { return x.score > 0; });
+  scored.sort(function (a, b) {
+    if (a.score !== b.score) return b.score - a.score;      /* 추천 점수가 높은 검사부터 */
+    var la = loadRank(a.t), lb = loadRank(b.t);
+    if (la !== lb) return (goalPerf() ? -1 : 1) * (la - lb); /* 통증·재활은 저부하, 무통증 체력은 고부하 먼저 */
+    return a.i - b.i;                                        /* 그다음은 지금 목록 순서 그대로 */
+  });
+  /* 동작을 골랐으면 다섯 개(동작에 맞는 검사가 실제로 여럿 있다), 부위만 골랐으면 세 개만.
+     아래 목록에 최소 세 개가 남도록 줄이고, 세 개도 못 채우면 우선 추천을 만들지 않는다. */
+  var want = Math.min(S.moves.length ? TOPPICK_MAX : 3, scored.length - TOPPICK_MIN_REST);
+  if (want < 3) return [];
+  return scored.slice(0, want).map(function (x) { return x.t; });
+}
+var PICK_NOTE = '추천 점수가 가장 높은 핵심 검사예요. 아래 부하별 목록에는 이 검사를 빼고 나머지만 보여요.';
+function pickSectionHTML(picks) {
+  if (!picks || !picks.length) return '';
+  var age = parseNum(S.age);
+  var h = '<h2 class="pick-h"><span aria-hidden="true">🎯</span>오늘 우선 추천 <b>' + picks.length + '</b>' +
+    (S.loadSel ? '<em>' + esc((LOAD_KO[S.loadSel] || {}).badge || '') + ' 안에서</em>' : '<em>추천 점수 높은 순</em>') + '</h2>';
+  h += '<p class="bnote pick-note">' + esc(PICK_NOTE) + '</p>';
+  picks.forEach(function (t) {
+    h += renderTest(t, usableTest(t, age) ? 'main' : 'ref', { pick: true });
+  });
+  return h;
+}
 function recommend() {
   var age = parseNum(S.age);
   var parts = effParts();
@@ -5210,9 +5295,7 @@ function recommend() {
     if (!testFitsAge(t, age)) return; /* 연령대가 맞지 않는 검사는 맞춤 추천에서 뺀다(전체 보기에서는 보임) */
     if (t.tend && !tendPartPicked(t)) return; /* 건병증 검사는 해당 부위를 골랐을 때만 */
     if (t.clin && !tendPartPicked(t)) return; /* 부위별 임상 검사도 그 부위를 골랐을 때만 */
-    var score = 0, mv = 0, i;
-    for (i = 0; i < t.parts.length; i++) if (parts.indexOf(t.parts[i]) >= 0) score += 2;
-    for (i = 0; i < t.moves.length; i++) if (S.moves.indexOf(t.moves[i]) >= 0) { score += 2; mv += 1; }
+    var sc0 = testScore(t), score = sc0.score, mv = sc0.mv;
     if (sel.length === 0) { if (!t.core) return; score = 1; }
     if (t.always) score = Math.max(score, 1);
     if (score <= 0) return;
@@ -5341,6 +5424,24 @@ function inputRow(t, m, side, label, unit) {
   var p = S.prev[k] === undefined ? '' : S.prev[k];
   var ph = m.ph || (m.fmt === 'time' ? '12:30' : '');
   var an = (m.label ? m.label + ' ' : '') + (label ? label + ' ' : '') + '측정값';
+  /* 0/1 판정 항목 — 숫자를 직접 치지 않고 원터치 버튼(음성/양성 · 변화 없음/완화)으로 고른다(v30).
+     누른 값을 다시 누르면 해제되고, 저장값은 예전과 같은 '0'/'1' 그대로다. */
+  if (m.toggle) {
+    var tv = String(v === 0 ? '0' : v);
+    var hi = (m.label ? m.label + ' ' : '') + (label ? label + ' ' : '') + '선택';
+    var prevTog = m.noPrev ? '' : '<span class="pw"><span class="prevlbl">이전</span>' +
+      '<input class="prev" aria-label="' + esc(hi + ' 이전 값') + '" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1"' +
+      ' data-k="p" data-t="' + t.id + '" data-m="' + m.k + '" data-s="' + (side || '') + '" value="' + esc(p) + '" placeholder="—"></span>';
+    return '<div class="irow togrow">' +
+      (label ? '<span class="lbl">' + esc(label) + '</span>' : '') +
+      '<div class="tog" role="group" aria-label="' + esc(hi) + '">' +
+      m.toggle.map(function (lab, i) {
+        var on = tv === String(i);
+        return '<button type="button" class="togbtn' + (on ? ' on' : '') + '" data-act="tog"' +
+          ' data-t="' + t.id + '" data-m="' + esc(m.k) + '" data-s="' + (side || '') + '" data-val="' + i + '"' +
+          ' aria-pressed="' + (on ? 'true' : 'false') + '">' + esc(lab) + '</button>';
+      }).join('') + '</div>' + prevTog + '</div>';
+  }
   /* 글자로 적는 항목(예: SSMP 통증 유발 동작) */
   if (m.txt) {
     return '<div class="irow trow">' +
@@ -5416,7 +5517,8 @@ function refreshCalc() {
   });
 }
 
-function renderTest(t, mode) {
+function renderTest(t, mode, opt) {
+  opt = opt || {};
   var fits = testFitsAge(t, parseNum(S.age));
   var gd = t.guide || null;
   var gOpen = !!(gd && S.guide && S.guide[t.id]);
@@ -5482,6 +5584,7 @@ function renderTest(t, mode) {
   if (!fits) badge = '<span class="t-badge fit">권장 ' + esc(ageFitText(t.ageFit)) + '</span>' + badge;
   /* 부하(난이도) 배지는 늘 맨 앞 — 카드마다 같은 자리에 와서 눈으로 훑을 수 있다 */
   var badges = loadBadgeHTML(t);
+  if (opt.pick) badges = '<span class="t-badge pick" title="오늘 먼저 볼 핵심 검사">🎯 우선 추천</span>' + badges;
   if (S.irrit === 'high' && isHighLoad(t)) badges += '<span class="t-badge load" title="과민성 높음 — 오늘은 저부하부터">고부하 주의</span>';
   badges += badge;
   /* 고른 동작·조건과 맞는 검사 — 왜 이 검사가 추천됐는지 카드에서 바로 보이게 */
@@ -5492,7 +5595,7 @@ function renderTest(t, mode) {
       (mvCond ? '조건 매칭: ' : '동작 매칭: ') + esc(mvHit.join('·')) + '</span>' + badges;
   }
   var open = S.open[t.id] ? ' open' : '';
-  return '<details class="test" data-id="' + t.id + '" data-lvl="' + loadOf(t) + '"' + open + '>' +
+  return '<details class="test" data-id="' + t.id + '" data-lvl="' + loadOf(t) + '"' + (opt.pick ? ' data-pick="1"' : '') + open + '>' +
     '<summary><span class="t-name">' + esc(t.name) + '</span>' +
     (gd ? '<button type="button" class="t-guide' + (gOpen ? ' on' : '') + '" data-act="guide" data-gid="' + esc(t.id) + '"' +
       ' aria-expanded="' + (gOpen ? 'true' : 'false') + '" aria-controls="gd-' + esc(t.id) + '"' +
@@ -5530,6 +5633,11 @@ function renderTestsHTML() {
   var r = visibleTests();
   var set = routineTests();
   var setName = set ? (findPreset(S.routine) || {}).name : '';
+  /* 🎯 오늘 우선 추천 — 위에 따로 모은 검사는 아래 부하 묶음에서 빼서 두 번 나오지 않게 한다 */
+  var picks = topPickList(r);
+  var picked = {};
+  picks.forEach(function (t) { picked[t.id] = 1; });
+  var rest = function (list) { return (list || []).filter(function (t) { return !picked[t.id]; }); };
   var h = clinicBannersHTML() + redFlagHTML() + partClinHTML() + symPanelHTML() + routineBar() + browseBar(!!set, r.counts);
   if (set) {
     h += '<div class="hint rt-hint">' + (set.length
@@ -5561,11 +5669,12 @@ function renderTestsHTML() {
   }
   /* 무통증 체력·퍼포먼스 — 고부하 근력·체력 검사부터, 규범 여부와 섞어 한 목록으로 */
   if (goalPerf() && !set) {
-    var merged = perfOrder(r.main.concat(r.ref));
+    var merged = perfOrder(rest(r.main.concat(r.ref)));
     h += '<div class="perfhint" role="status"><b>무통증 체력·퍼포먼스 평가</b><span>' + esc(PERF_HINT) + '</span></div>';
+    h += pickSectionHTML(picks);
     h += '<h2 class="sec">추천 검사 <b style="color:var(--brand-2)">' + merged.length + '</b></h2>';
     h += merged.length ? loadListHTML(merged, 'auto')
-      : '<div class="empty">' + (S.moves.length ? PERF_EMPTY_MOVE : PERF_EMPTY) + '</div>';
+      : (picks.length ? '' : '<div class="empty">' + (S.moves.length ? PERF_EMPTY_MOVE : PERF_EMPTY) + '</div>');
     if (r.held && r.held.length) {
       var ageHeld2 = parseNum(S.age);
       h += '<details class="heldgrp" data-held="1"><summary>고부하 검사 (과민성 높음으로 제외됨) <em>' + r.held.length + '종</em></summary>' +
@@ -5574,19 +5683,22 @@ function renderTestsHTML() {
     }
     return h;
   }
-  h += '<h2 class="sec">' + esc(set ? '‘' + setName + '’ 세트 검사' : '연령대 비교가 가능한 검사') + ' <b style="color:var(--brand-2)">' + (set ? r.total : r.main.length) + '</b></h2>';
+  h += pickSectionHTML(picks);
+  h += '<h2 class="sec">' + esc(set ? '‘' + setName + '’ 세트 검사' : '연령대 비교가 가능한 검사') + ' <b style="color:var(--brand-2)">' + (set ? r.total : rest(r.main).length) + '</b></h2>';
   if (set) { /* 세트는 세트에 담은 순서 그대로, 카드 배지만 규범 유무에 따라 */
     var ageNow = parseNum(S.age);
     h += r.ordered.map(function (t) { return renderTest(t, usableTest(t, ageNow) ? 'main' : 'ref'); }).join('');
     return h;
   }
+  var mainRest = rest(r.main), refRest = rest(r.ref);
   var emptyMsg = (parseNum(S.age) === null) ? NOTE_AGE
     : (S.loadSel ? '이 부하 단계에는 연령대 비교 검사가 없어요. 부하 칩에서 ‘전체’를 눌러 보세요.'
       : '이 연령대에서 비교 기준이 확인된 검사가 없어요.');
-  h += r.main.length ? loadListHTML(r.main, 'main') : '<div class="empty">' + emptyMsg + '</div>';
-  if (r.ref.length) {
+  if (mainRest.length) h += loadListHTML(mainRest, 'main');
+  else if (!picks.length) h += '<div class="empty">' + emptyMsg + '</div>';
+  if (refRest.length) {
     h += '<h2 class="sec">참고용 (연령대 기준 없음)</h2>' +
-      loadListHTML(r.ref, 'ref');
+      loadListHTML(refRest, 'ref');
   }
   /* 과민성 높음 — 고부하 검사는 기본 목록에서 빼서 접힌 목록에 (고부하 주의 배지는 그대로) */
   if (r.held && r.held.length) {
@@ -6594,7 +6706,7 @@ function clinicPanelHTML() {
     }).join('') + '</div>' +
     '<label class="cq nmemo"><span>메모</span><input type="text" data-neuro="memo" placeholder="예: 발등 감각 저하, SLR 40°에서 저림" autocomplete="off" aria-label="신경학적 선별 메모"></label>' +
     '</div>';
-  h += '<details class="clinic-more" id="clinicMore"><summary>PQRST · 가설·중재 메모 <em>선택</em><span class="cmc" id="clinicMoreCount"></span></summary>' +
+  h += '<details class="clinic-more" id="clinicMore"><summary>PQRST · 중재 메모 <em>선택</em><span class="cmc" id="clinicMoreCount"></span></summary>' +
     '<div class="cqgrid">' +
     pqField('p', 'P 유발·완화', '계단 내려갈 때 아프고, 앉으면 가라앉아요') +
     pqField('q', 'Q 양상', '욱신거림 · 저림 · 찌르는 느낌') +
@@ -8393,6 +8505,25 @@ function init() {
       S.variant[el.getAttribute('data-var')] = el.getAttribute('data-val');
       renderAll(); saveState(); return;
     }
+    /* 0/1 판정 원터치 버튼(v30) — 누르면 그 값, 다시 누르면 해제. 화면을 다시 그리지 않아 펼친 카드·초점이 그대로 남는다 */
+    if (act === 'tog') {
+      var tgT = el.getAttribute('data-t'), tgM = el.getAttribute('data-m'),
+        tgS = el.getAttribute('data-s') || '', tgV = el.getAttribute('data-val');
+      var tgK = vkey(tgT, tgM, tgS);
+      var tgCur = (S.values[tgK] === undefined || S.values[tgK] === null) ? '' : String(S.values[tgK]);
+      S.values[tgK] = (tgCur === tgV) ? '' : tgV;
+      var tgGrp = el.parentNode;
+      if (tgGrp && tgGrp.querySelectorAll) {
+        var nowV = S.values[tgK] === undefined ? '' : String(S.values[tgK]);
+        Array.prototype.forEach.call(tgGrp.querySelectorAll('[data-act="tog"]'), function (b) {
+          var onb = nowV === b.getAttribute('data-val');
+          b.className = 'togbtn' + (onb ? ' on' : '');
+          b.setAttribute('aria-pressed', onb ? 'true' : 'false');
+        });
+      }
+      renderResultsSoon(); saveState();
+      return;
+    }
   });
 
   document.addEventListener('input', function (ev) {
@@ -9456,6 +9587,8 @@ G.APP = {
   loadOf: loadOf, loadRank: loadRank, isLowLoad: isLowLoad,
   LOAD_KO: LOAD_KO, LOAD_LEVELS: LOAD_LEVELS, loadBadgeHTML: loadBadgeHTML, loadListHTML: loadListHTML,
   loadCounts: loadCounts, loadChipsHTML: loadChipsHTML, loadHeadHTML: loadHeadHTML,
+  /* 🎯 오늘 우선 추천 (v30) */
+  testScore: testScore, topPickList: topPickList, pickSectionHTML: pickSectionHTML, TOPPICK_MAX: TOPPICK_MAX, PICK_NOTE: PICK_NOTE,
   NEURO_ITEMS: NEURO_ITEMS, neuroPainOn: neuroPainOn, neuroFindings: neuroFindings, neuroHasData: neuroHasData,
   PAIN_EASY: PAIN_EASY, IRR_EASY: IRR_EASY, clinicBannersHTML: clinicBannersHTML, clinicPanelHTML: clinicPanelHTML,
   bodySVG: bodySVG, renderClinic: renderClinic, normalizeClinicState: normalizeClinicState, applyClinic: applyClinic,
